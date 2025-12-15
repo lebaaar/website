@@ -31,6 +31,15 @@ main {
 	}
 }
 
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 @keyframes scaleIn {
 	from {
 		opacity: 0;
@@ -53,11 +62,16 @@ main {
 	text-decoration: none;
 	border-radius: 8px;
 	transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .btn:hover {
-	background: #222;
+	background: #252526;
 	color: #fff;
+	transform: translateY(-4px);
+}
+
+.btn:active {
 	transform: translateY(-2px);
 }
 

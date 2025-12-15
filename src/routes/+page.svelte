@@ -62,17 +62,17 @@
 	}
 
 	.profile.visible .links a:nth-child(1) {
-		animation: fadeInUp 0.5s ease 0.5s forwards;
+		animation: fadeIn 0.5s ease 0.5s forwards;
 		opacity: 0;
 	}
 
 	.profile.visible .links a:nth-child(2) {
-		animation: fadeInUp 0.5s ease 0.6s forwards;
+		animation: fadeIn 0.5s ease 0.6s forwards;
 		opacity: 0;
 	}
 
 	.profile.visible .links a:nth-child(3) {
-		animation: fadeInUp 0.5s ease 0.7s forwards;
+		animation: fadeIn 0.5s ease 0.7s forwards;
 		opacity: 0;
 	}
 
