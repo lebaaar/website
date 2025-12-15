@@ -1,0 +1,67 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+body {
+	background: #0a0a0b;
+	font-family: 'Segoe UI', sans-serif;
+	color: #fff;
+}
+
+/* Main container */
+main {
+	height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-bottom: 10vh;
+}
+
+/* Shared animations */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* Button/link styles */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.25rem;
+	background: #1a1a1b;
+	color: #ccc;
+	text-decoration: none;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.btn:hover {
+	background: #222;
+	color: #fff;
+	transform: translateY(-2px);
+}
+
+.btn svg {
+	width: 20px;
+	height: 20px;
+}
