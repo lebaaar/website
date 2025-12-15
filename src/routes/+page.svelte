@@ -39,13 +39,13 @@
 	}
 
 	main {
-		height: 85vh;
+		height: 90vh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background: #0a0a0b;
 		font-family: 'Segoe UI', sans-serif;
-		padding-bottom: 15vh;
+		padding-bottom: 10vh;
 	}
 
 	.profile {
