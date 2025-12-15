@@ -152,7 +152,6 @@
 	}
 
 	#loftware:hover {
-		color: #fff;
 		text-decoration: underline;
 	}
 
