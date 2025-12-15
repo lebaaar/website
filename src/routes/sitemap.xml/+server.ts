@@ -11,7 +11,6 @@ export function GET() {
             .map(
                 (page) => `<url>
                 <loc>${site}${page ? `/${page}` : ''}</loc>
-                <changefreq>monthly</changefreq>
                 <priority>${page === '' ? '1.0' : '0.8'}</priority>
             </url>`
             ).join('\n')}
