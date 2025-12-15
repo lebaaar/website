@@ -100,11 +100,24 @@
 	#loftware {
 		color: #888;
 		text-decoration: none;
-		transition: color 0.2s ease;
+		position: relative;
+		transition: color 0.3s ease;
 	}
 
-	#loftware:hover {
-		text-decoration: underline;
+	#loftware::after {
+		content: '';
+		position: absolute;
+		bottom: -2px;
+		left: 50%;
+		width: 0;
+		height: 1px;
+		background: #888;
+		transition: all 0.3s ease;
+		transform: translateX(-50%);
+	}
+
+	#loftware:hover::after {
+		width: 100%;
 	}
 
 	.links {
