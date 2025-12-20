@@ -1,11 +1,17 @@
 # [lan.si](https://lan.si/)
-My personal website. Built with [SvelteKit](https://svelte.dev/).
+My personal website, built with [SvelteKit](https://svelte.dev/).
 
 
 ## Development
 ```sh
 npm install
-npm run dev # development server
-npm run build # production build
-npm run preview # preview production build
+
+# run development server
+npm run dev 
+
+# production build
+npm run build
+
+# preview production build
+npm run preview 
 ```
