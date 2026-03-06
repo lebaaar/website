@@ -1,5 +1,5 @@
 <script lang="ts">
-	import profileImg from '$lib/assets/favicon.svg';
+	import profileImg from '$lib/assets/me.jpeg';
 	import { onMount } from 'svelte';
 
 	let visible = $state(false);
@@ -80,8 +80,8 @@
 	}
 
 	.avatar {
-		width: 150px;
-		height: 150px;
+		width: 200px;
+		height: 200px;
 		border-radius: 50%;
 		object-fit: cover;
 		margin-bottom: 1.5rem;
