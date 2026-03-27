@@ -81,11 +81,11 @@
 
 <style>
 	.hero-intro {
-		animation: hero-fade-up 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
+		animation: hero-fade-up 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
 	.avatar-intro {
-		animation: avatar-pop 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+		animation: avatar-pop 1200ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	@keyframes hero-fade-up {
@@ -101,7 +101,7 @@
 
 	@keyframes avatar-pop {
 		from {
-			opacity: 0.5;
+			opacity: 0;
 			transform: scale(0.9);
 		}
 		to {
