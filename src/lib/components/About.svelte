@@ -26,7 +26,7 @@
 </script>
 
 <section id="about"
-	class={`relative z-10 w-full px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
+	class={`relative z-10 w-full px-6 py-0 sm:py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
 >
 	<div class="mx-auto max-w-7xl">
 		<div class="grid items-start gap-12 lg:grid-cols-[1.5fr_1fr]">

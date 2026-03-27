@@ -21,12 +21,12 @@
 </script>
 
 <div class="relative h-screen overflow-y-auto scroll-smooth">
-	<main class="relative flex min-h-screen items-center justify-center px-6 pb-24 pt-10 sm:px-8">
+	<main class="relative flex min-h-screen items-center justify-center px-6 pb-20 pt-10 sm:px-8">
 		<div class={`mx-auto flex w-full max-w-3xl flex-col items-center text-center transition-all duration-700 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
 			<img
 				src="/me.jpeg"
 				alt="Lan Lebar"
-				class={`mb-6 h-46 w-46 rounded-full object-cover transition-all duration-700 sm:h-50 sm:w-50 ${visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+				class={`mb-6 h-50 w-50 rounded-full object-cover transition-all duration-700 ${visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
 			/>
 			<h1 class="mb-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
 			<p class="mb-6 text-base text-zinc-400 sm:text-lg">
@@ -75,7 +75,7 @@
 		<button
 			onclick={scrollToProjects}
 			aria-label="Scroll to about section"
-			class={`absolute bottom-4 mx-auto flex h-10 w-10 sm:h-12 sm:w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 ${visible ? 'animate-bounce' : 'opacity-0'}`}		>
+			class={`absolute bottom-4 mx-auto hidden sm:flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 ${visible ? 'animate-bounce' : 'opacity-0'}`}		>
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 				<polyline points="18 9 12 15 6 9"></polyline>
 			</svg>
