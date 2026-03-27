@@ -66,7 +66,7 @@
 								{#if index < experiences.length}
 									<div class="absolute left-[9px] top-7 h-[calc(100%-0.25rem)] w-px bg-gradient-to-b from-indigo-400/70 to-transparent"></div>
 								{/if}
-								<div class="relative mt-1 h-5 w-5 shrink-0 rounded-full bg-gradient-to-br from-purple-600 to-blue-500"></div>
+								<div class="relative mt-1 h-5 w-5 shrink-0 rounded-full bg-gradient-to-br from-purple-500 to-blue-500"></div>
 								<div class="flex-1">
 									<div class="mb-2 flex flex-wrap items-baseline justify-between gap-2">
 										<h4 class="text-xl font-semibold text-white">{exp.role}</h4>

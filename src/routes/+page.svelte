@@ -75,7 +75,7 @@
 		<button
 			onclick={scrollToProjects}
 			aria-label="Scroll to about section"
-			class={`absolute bottom-4 mx-auto hidden sm:flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 ${visible ? 'animate-bounce' : 'opacity-0'}`}		>
+			class={`absolute bottom-4 mx-auto flex h-10 w-10 sm:h-12 sm:w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 ${visible ? 'animate-bounce' : 'opacity-0'}`}		>
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 				<polyline points="18 9 12 15 6 9"></polyline>
 			</svg>
