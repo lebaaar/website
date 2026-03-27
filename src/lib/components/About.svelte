@@ -31,7 +31,7 @@
 	<div class="mx-auto max-w-7xl">
 		<div class="grid items-start gap-12 lg:grid-cols-[1.5fr_1fr]">
 			<div>
-				<h2 class="mb-8 bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl">About Me</h2>
+				<h2 class="mb-8 text-white text-4xl font-bold sm:text-5xl">About Me</h2>
 				<div class="space-y-5 text-base leading-8 text-zinc-300 sm:text-lg">
 					<p>
 						I am a Software Developer and a Computer Science student from Kranj, Slovenia.
@@ -97,11 +97,11 @@
 
 				<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
-						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold text-transparent">3+</div>
+						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold">3+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Years Experience</div>
 					</div>
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
-						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold text-transparent">5+</div>
+						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold">5+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Projects Built</div>
 					</div>
 				</div>

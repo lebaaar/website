@@ -71,7 +71,7 @@
 
 <section class={`mx-auto w-full max-w-7xl px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
 	<div class="mb-12 text-center sm:mb-16">
-		<h2 class="mb-2 pb-2 bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl">Featured Projects</h2>
+		<h2 class="mb-2 pb-2 text-white text-4xl font-bold sm:text-5xl">Featured Projects</h2>
 	</div>
 
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3">
