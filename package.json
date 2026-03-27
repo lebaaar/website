@@ -8,6 +8,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
+		"lint": "eslint .",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
@@ -20,6 +21,11 @@
 		"svelte-check": "^4.3.4",
 		"tailwindcss": "^4.2.2",
 		"typescript": "^5.9.3",
-		"vite": "^7.2.6"
+		"vite": "^7.2.6",
+		"typescript-eslint": "^8.53.1",
+		"eslint": "^9.39.2",
+		"eslint-plugin-svelte": "^3.14.0",
+		"@eslint/compat": "^2.0.1",
+		"@eslint/js": "^9.39.2"
 	}
 }
