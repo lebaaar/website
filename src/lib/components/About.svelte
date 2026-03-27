@@ -39,20 +39,17 @@
 					</p>
 					<p>
 						I'm currently working as a software developer at
-						<a href="https://www.loftware.com" target="_blank" rel="noopener noreferrer"
-							class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
-						>
+						<a href="https://www.loftware.com" target="_blank" rel="noopener noreferrer" class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200">
 							Loftware
-						</a> , where I contribute to building enterprise-grade cloud labeling solutions. I'm also
-						while pursuing my degree at
-						<a href="https://fri.uni-lj.si/" target="_blank" rel="noopener noreferrer"
-							class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
-						>
+						</a>,
+						where I contribute to building enterprise-grade cloud labeling solutions.
+						I'm also pursuing my degree at
+						<a href="https://fri.uni-lj.si/" target="_blank" rel="noopener noreferrer" class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200">
 							FRI
 						</a>.
 					</p>
 					<p>
-						When I'm not coding, you'll find me at the gym, hiking or spending time with girlfriend,
+						When I'm not coding, you'll find me at the gym, hiking or spending time with my girlfriend,
 						friends and family. I'm passionate about learning new technologies and continuously
 						improving my skills.
 					</p>
