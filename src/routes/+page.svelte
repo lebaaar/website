@@ -83,5 +83,5 @@
 	</main>
 
 	<About />
-	<!-- <Projects /> -->
+	<Projects />
 </div>

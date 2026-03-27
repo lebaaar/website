@@ -7,7 +7,6 @@
 		technologies: string[];
 		link?: string;
 		github?: string;
-		featured?: boolean;
 		gradientClass?: string;
 		icon?: string;
 		stats?: {
@@ -27,86 +26,76 @@
 
 	const projects: Project[] = [
 		{
-			title: 'Project One',
-			description: 'A groundbreaking application that revolutionizes the way developers interact with modern web technologies. Built with performance and user experience in mind.',
-			technologies: ['TypeScript', 'Svelte 5', 'Vite', 'TailwindCSS'],
-			github: 'https://github.com/lebaaar/project-one',
-			link: 'https://project-one.com',
-			featured: true,
-			gradientClass: 'from-violet-500 to-fuchsia-500',
+			title: 'potegni.me',
+			description: 'Web-based torrent search platform, that allows users to access content from multiple sources. Get movies, books, audio and more for free!',
+			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL', 'Docker'],
+			github: 'https://github.com/potegnime',
+			link: 'https://potegni.me',
+			gradientClass: 'from-indigo-500 to-purple-500',
 			icon: '🚀',
 			stats: [
-				{ label: 'Stars', value: '2.5k' },
-				{ label: 'Users', value: '10k+' }
+				{ label: 'Users', value: '20+' },
+				{ label: 'Uptime', value: '99.99%' }
 			]
 		},
 		{
-			title: 'Project Two',
-			description: 'An enterprise-grade solution for managing complex data workflows. Implements cutting-edge algorithms for optimal performance and scalability.',
-			technologies: ['Python', 'Django', 'PostgreSQL', 'Redis', 'Docker'],
-			github: 'https://github.com/lebaaar/project-two',
-			gradientClass: 'from-purple-500 to-fuchsia-500',
-			icon: '⚡',
+			title: 'domacahrana.si',
+			description: 'Marketplace that connect local food producers with buyers, enabling people to enjoy fresh, homemade food while supporting local businesses.',
+			technologies: ['SvelteKit', 'TypeScript', 'Vite', 'TailwindCSS', 'Cloudflare Workers'],
+			link: 'https://domacahrana.si',
+			gradientClass: 'from-indigo-500 to-purple-500',
+			icon: '🍎',
 			stats: [
-				{ label: 'Performance', value: '99.9%' },
-				{ label: 'Speed', value: '<100ms' }
+				{ label: 'Users', value: '10+' },
+				{ label: 'Uptime', value: '99.99%' }
 			]
 		},
 		{
-			title: 'Project Three',
-			description: 'A real-time collaborative platform that enables teams to work together seamlessly. Features live updates, intelligent caching, and beautiful animations.',
-			technologies: ['React', 'Node.js', 'MongoDB', 'WebSockets', 'AWS'],
-			link: 'https://project-three.com',
-			github: 'https://github.com/lebaaar/project-three',
-			gradientClass: 'from-violet-400 to-purple-600',
-			icon: '🎨',
+			title: 'Period Tracker',
+			description: 'Period tracking mobile app I built for my girlfriend. She needed a simple app to track her period without all the annoying ads and premium subscription offers.',
+			technologies: ['Flutter', 'Dart', 'Google Play Store', 'SQLite'],
+			link: 'https://play.google.com/store/apps/details?id=com.lebaaar.period_tracker',
+			github: 'https://github.com/lebaaar/period_tracker',
+			gradientClass: 'from-indigo-500 to-purple-500',
+			icon: '📅',
 			stats: [
-				{ label: 'Uptime', value: '99.99%' },
-				{ label: 'Teams', value: '500+' }
+				{ label: 'Rating', value: '4.8/5' },
+				{ label: 'Downloads', value: '150+' }
 			]
 		}
 	];
 
 	const projectButtonClass =
-		'inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:-translate-y-0.5 hover:border-violet-500/70 hover:text-white';
+		'inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:-translate-y-0.5 hover:border-zinc-500 hover:text-white';
 </script>
 
 <section class={`mx-auto w-full max-w-7xl px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
 	<div class="mb-12 text-center sm:mb-16">
-		<h2 class="mb-4 bg-gradient-to-r from-white to-purple-300 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl">Featured Projects</h2>
-		<p class="text-base italic text-zinc-500 sm:text-lg">Building the future, one commit at a time</p>
+		<h2 class="mb-2 pb-2 bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl">Featured Projects</h2>
 	</div>
 
 	<div class="grid grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3">
 		{#each projects as project, i (project.title)}
 			<div
-				class={`group relative flex flex-col overflow-hidden rounded-2xl border bg-zinc-900/80 p-7 shadow-xl shadow-black/20 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-violet-500/60 hover:shadow-2xl hover:shadow-black/30 ${project.featured ? 'border-zinc-600' : 'border-zinc-800'} ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} ${i === 0 ? 'delay-100' : i === 1 ? 'delay-200' : 'delay-300'} ${hoveredCard === i ? 'ring-1 ring-violet-500/60' : ''}`}
+				class={`group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900/80 p-7 shadow-xl shadow-black/20 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-zinc-500 hover:shadow-2xl hover:shadow-black/30 ${visible ? 'opacity-100' : ' opacity-0'} ${i === 0 ? 'delay-100' : i === 1 ? 'delay-100' : 'delay-100'} ${hoveredCard === i ? 'ring-1 ring-zinc-500/60' : ''}`}
 				onmouseenter={() => (hoveredCard = i)}
 				onmouseleave={() => (hoveredCard = null)}
 				role="article"
 			>
 				<div class={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-0 transition group-hover:opacity-100 ${project.gradientClass}`}></div>
 
-				<div class="mb-6 flex items-start gap-3">
+				<div class="mb-6 flex  gap-3 items-center">
 					{#if project.icon}
-						<div class="text-4xl leading-none">{project.icon}</div>
+						<div class="text-2xl leading-none mb-2">{project.icon}</div>
 					{/if}
 					<div class="flex-1">
 						<h3 class="mb-2 text-2xl font-bold tracking-tight text-white">{project.title}</h3>
-						{#if project.featured}
-							<span class="inline-flex items-center gap-1 rounded-full bg-violet-300 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-violet-950">
-								<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-									<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-								</svg>
-								Featured
-							</span>
-						{/if}
 					</div>
 				</div>
 
 				<p class="mb-6 flex-1 leading-7 text-zinc-300">{project.description}</p>
 
-				{#if project.stats}
+				<!-- {#if project.stats}
 					<div class="mb-6 grid grid-cols-2 gap-3 rounded-xl border border-zinc-800 bg-zinc-950/70 p-4">
 						{#each project.stats as stat (stat.label)}
 							<div class="text-center">
@@ -115,11 +104,11 @@
 							</div>
 						{/each}
 					</div>
-				{/if}
+				{/if} -->
 
 				<div class="mb-7 flex flex-wrap gap-2">
 					{#each project.technologies as tech (tech)}
-						<span class="rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-xs font-medium text-zinc-300 transition group-hover:border-violet-500/60">
+						<span class="rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-xs font-medium text-zinc-300 transition group-hover:border-zinc-500/70 hover:border-zinc-600 hover:text-white hover:-translate-y-0.5 cursor-default">
 							{tech}
 						</span>
 					{/each}
@@ -130,7 +119,7 @@
 						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 						<a href={project.github} target="_blank" rel="noopener noreferrer" class={`${projectButtonClass} hover:bg-zinc-800`}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-							View Code
+							Source Code
 						</a>
 					{/if}
 					{#if project.link}
@@ -138,10 +127,10 @@
 						<a href={project.link}
 							target="_blank"
 							rel="noopener noreferrer"
-							class={`${projectButtonClass} border-violet-500/50 bg-gradient-to-r ${project.gradientClass} text-white`}
+							class={`${projectButtonClass} border-zinc-600 bg-zinc-900 text-zinc-100 hover:border-zinc-400 hover:bg-zinc-800`}
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-							Live Demo
+							View Project
 						</a>
 					{/if}
 				</div>

@@ -100,11 +100,11 @@
 
 				<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
-						<div class="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-3xl font-bold text-transparent">3+</div>
+						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold text-transparent">3+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Years Experience</div>
 					</div>
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
-						<div class="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-3xl font-bold text-transparent">5+</div>
+						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold text-transparent">5+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Projects Built</div>
 					</div>
 				</div>
