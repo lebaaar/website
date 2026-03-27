@@ -1,5 +1,4 @@
 <script lang="ts">
-	import profileImg from '$lib/assets/me.jpeg';
 	// import About from '$lib/components/About.svelte';
 	// import Projects from '$lib/components/Projects.svelte';
 	import { onMount } from 'svelte';
@@ -25,7 +24,7 @@
 	<main class="relative flex min-h-screen items-center justify-center px-6 pb-24 pt-10 sm:px-8">
 		<div class={`mx-auto flex w-full max-w-3xl flex-col items-center text-center transition-all duration-700 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
 			<img
-				src={profileImg}
+				src="/me.jpeg"
 				alt="Lan Lebar"
 				class={`mb-6 h-46 w-46 rounded-full object-cover transition-all duration-700 sm:h-50 sm:w-50 ${visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
 			/>
