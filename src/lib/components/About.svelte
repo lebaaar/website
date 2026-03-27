@@ -60,7 +60,7 @@
 					<div class="space-y-1">
 						{#each experiences as exp, index (index)}
 							<div class="relative flex gap-4 pb-10 last:pb-0">
-								{#if index <= experiences.length}
+								{#if index <= experiences.length || true}
 									<div class="absolute left-[9px] top-7 h-[calc(100%-0.25rem)] w-px bg-gradient-to-b from-indigo-400/70 to-transparent"></div>
 								{/if}
 								<div class="relative mt-1 h-5 w-5 shrink-0 rounded-full bg-gradient-to-br from-purple-500 to-blue-500"></div>
