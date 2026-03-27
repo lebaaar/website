@@ -32,7 +32,7 @@
 			github: 'https://github.com/potegnime',
 			link: 'https://potegni.me',
 			gradientClass: 'from-indigo-500 to-purple-500',
-			icon: '🚀',
+			icon: '🟣',
 			stats: [
 				{ label: 'Users', value: '20+' },
 				{ label: 'Uptime', value: '99.99%' }
