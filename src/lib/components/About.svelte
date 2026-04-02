@@ -10,9 +10,9 @@
 	});
 
 	const skills = [
-		{ name: 'Frontend & Mobile', items: ['TypeScript', 'Angular', 'SvelteKit', 'Tailwind', 'Flutter'] },
-		{ name: 'Backend', items: ['C#', 'Node.js', 'Python', 'Java', 'PostgreSQL'] },
-		{ name: 'Tools & Platforms', items: ['Docker', 'Cloudflare', 'Linux', 'Firebase', 'Azure'] }
+		{ name: 'Web & Mobile', items: ['TypeScript', 'Angular', 'SvelteKit', 'Tailwind CSS', 'Flutter'] },
+		{ name: 'Backend & Database', items: ['.NET', 'Python', 'Java', 'Express.js', 'PostgreSQL'] },
+		{ name: 'Tools & Platforms', items: ['Docker', 'Cloudflare', 'Azure', 'Linux', 'Firebase'] },
 	];
 
 	const experiences = [
@@ -43,7 +43,7 @@
 							Loftware
 						</a>,
 						where I contribute to building enterprise-grade cloud labeling solutions.
-						I'm also pursuing my degree at
+						I'm also pursuing my bachelor's degree in Computer Science at
 						<a href="https://fri.uni-lj.si/" target="_blank" rel="noopener noreferrer" class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200">
 							FRI
 						</a>.
@@ -97,11 +97,11 @@
 
 				<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
-						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold">3+</div>
+						<div class="text-3xl font-bold">3+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Years Experience</div>
 					</div>
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
-						<div class="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-3xl font-bold">5+</div>
+						<div class="text-3xl font-bold">5+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Projects Built</div>
 					</div>
 				</div>
