@@ -1,8 +1,8 @@
 {
   "baseLocale": "en",
   "locales": [
-    "sl",
-    "en"
+    "en",
+    "sl"
   ],
   "modules": [
     "https://cdn.jsdelivr.net/npm/@inlang/plugin-message-format@4/dist/index.js",
