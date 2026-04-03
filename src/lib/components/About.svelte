@@ -3,11 +3,20 @@
 	import * as m from '$paraglide/messages';
 
 	let visible = $state(false);
+	let sectionEl = $state<HTMLElement | null>(null);
 
 	onMount(() => {
-		setTimeout(() => {
-			visible = true;
-		}, 600);
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					visible = true;
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+		if (sectionEl) observer.observe(sectionEl);
+		return () => observer.disconnect();
 	});
 
 	const skills = [
@@ -21,12 +30,14 @@
 			role: m.exp_role(),
 			company: 'Loftware',
 			period: m.exp_period(),
-			description: m.exp_description()
+			description: m.exp_description(),
+			tech_stack: m.exp_tech_stack()
 		}
 	];
 </script>
 
 <section id="about"
+	bind:this={sectionEl}
 	class={`relative z-10 w-full px-6 py-0 sm:py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
 >
 	<div class="mx-auto max-w-7xl">
@@ -63,6 +74,7 @@
 									</div>
 									<p class="mb-2 font-medium text-zinc-300">{exp.company}</p>
 									<p class="leading-7 text-zinc-400">{exp.description}</p>
+									<p class="text-sm text-zinc-500">{exp.tech_stack}</p>
 								</div>
 							</div>
 						{/each}

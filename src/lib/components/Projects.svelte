@@ -21,11 +21,20 @@
 
 	let visible = $state(false);
 	let hoveredCard = $state<number | null>(null);
+	let sectionEl = $state<HTMLElement | null>(null);
 
 	onMount(() => {
-		setTimeout(() => {
-			visible = true;
-		}, 600);
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					visible = true;
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+		if (sectionEl) observer.observe(sectionEl);
+		return () => observer.disconnect();
 	});
 
 	const projects: Project[] = [
@@ -73,7 +82,7 @@
 		'inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:-translate-y-0.5 hover:border-zinc-500 hover:text-white';
 </script>
 
-<section class={`mx-auto w-full max-w-7xl px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+<section bind:this={sectionEl} class={`mx-auto w-full max-w-7xl px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
 	<div class="mb-12 text-center sm:mb-16">
 		<h2 class="mb-2 pb-2 text-white text-4xl font-bold sm:text-5xl">{m.projects_title()}</h2>
 	</div>
