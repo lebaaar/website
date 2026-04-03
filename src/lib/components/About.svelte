@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import * as m from '$paraglide/messages';
 
 	let visible = $state(false);
 
@@ -10,17 +11,17 @@
 	});
 
 	const skills = [
-		{ name: 'Web & Mobile', items: ['TypeScript', 'Angular', 'SvelteKit', 'Tailwind CSS', 'Flutter'] },
-		{ name: 'Backend & Database', items: ['.NET', 'Python', 'Java', 'Express.js', 'PostgreSQL'] },
-		{ name: 'Tools & Platforms', items: ['Docker', 'Cloudflare', 'Azure', 'Linux', 'Firebase'] },
+		{ name: m.skill_web_mobile(), items: ['TypeScript', 'Angular', 'SvelteKit', 'Tailwind CSS', 'Flutter'] },
+		{ name: m.skill_backend_db(), items: ['.NET', 'Python', 'Java', 'Express.js', 'PostgreSQL'] },
+		{ name: m.skill_tools_platforms(), items: ['Docker', 'Cloudflare', 'Azure', 'Linux', 'Firebase'] },
 	];
 
 	const experiences = [
 		{
-			role: 'Junior Software Developer',
+			role: m.exp_role(),
 			company: 'Loftware',
-			period: '2022 - Present',
-			description: 'Started with an internship and continued as a part-time student. Working within a scrum development team, building enterprise-grade cloud labeling solutions.'
+			period: m.exp_period(),
+			description: m.exp_description()
 		}
 	];
 </script>
@@ -31,32 +32,23 @@
 	<div class="mx-auto max-w-7xl">
 		<div class="grid items-start gap-12 lg:grid-cols-[1.5fr_1fr]">
 			<div>
-				<h2 class="mb-8 text-white text-4xl font-bold sm:text-5xl">About Me</h2>
+				<h2 class="mb-8 text-white text-4xl font-bold sm:text-5xl">{m.about_title()}</h2>
 				<div class="space-y-5 text-base leading-8 text-zinc-300 sm:text-lg">
+					<p>{m.about_para1()}</p>
 					<p>
-						I am a Software Developer and a Computer Science student from Kranj, Slovenia.
-						I specialize in building full-stack modern web applications.
-					</p>
-					<p>
-						I'm currently working as a software developer at
+						{m.about_para2_prefix()}
 						<a href="https://www.loftware.com" target="_blank" rel="noopener noreferrer" class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200">
 							Loftware
-						</a>,
-						where I contribute to building enterprise-grade cloud labeling solutions.
-						I'm also pursuing my bachelor's degree in Computer Science at
+						</a>{m.about_para2_middle()}
 						<a href="https://fri.uni-lj.si/" target="_blank" rel="noopener noreferrer" class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200">
 							FRI
-						</a>.
+						</a>{m.about_para2_suffix()}
 					</p>
-					<p>
-						When I'm not coding, you'll find me at the gym, hiking or spending time with my girlfriend,
-						friends and family. I'm passionate about learning new technologies and continuously
-						improving my skills.
-					</p>
+					<p>{m.about_para3()}</p>
 				</div>
 
 				<div class="mt-12 border-t border-zinc-800 pt-12">
-					<h3 class="mb-8 text-2xl font-semibold text-white">Experience</h3>
+					<h3 class="mb-8 text-2xl font-semibold text-white">{m.experience_title()}</h3>
 					<div class="space-y-1">
 						{#each experiences as exp, index (index)}
 							<div class="relative flex gap-4 pb-10 last:pb-0">
@@ -79,7 +71,7 @@
 			</div>
 
 			<div class="lg:sticky lg:top-8">
-				<h3 class="mb-6 text-2xl font-semibold text-white">Skills & Technologies</h3>
+				<h3 class="mb-6 text-2xl font-semibold text-white">{m.skills_title()}</h3>
 				<div class="space-y-6">
 					{#each skills as skillGroup (skillGroup.name)}
 						<div class="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-lg shadow-black/20 transition hover:border-zinc-600">
@@ -98,11 +90,11 @@
 				<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
 						<div class="text-3xl font-bold">3+</div>
-						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Years Experience</div>
+						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">{m.stat_years_experience()}</div>
 					</div>
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
 						<div class="text-3xl font-bold">5+</div>
-						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">Projects Built</div>
+						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">{m.stat_projects_built()}</div>
 					</div>
 				</div>
 			</div>

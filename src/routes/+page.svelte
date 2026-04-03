@@ -1,6 +1,8 @@
 <script lang="ts">
 	import About from '$lib/components/About.svelte';
+	import LanguagePicker from '$lib/components/LanguagePicker.svelte';
 	import Projects from '$lib/components/Projects.svelte';
+	import * as m from '$paraglide/messages';
 
 	function scrollToProjects() {
 		document.getElementById('about')?.scrollIntoView({
@@ -15,6 +17,9 @@
 
 <div class="relative h-screen overflow-y-auto scroll-smooth">
 	<main class="relative flex min-h-screen items-center justify-center px-6 pb-20 pt-10 sm:px-8">
+		<div class="absolute right-4 top-4 z-50 sm:right-8 sm:top-8">
+			<LanguagePicker />
+		</div>
 		<div class="hero-intro mx-auto flex w-full max-w-3xl flex-col items-center text-center">
 			<img
 				src="/me.jpeg"
@@ -23,7 +28,7 @@
 			/>
 			<h1 class="mb-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
 			<p class="mb-6 text-base text-zinc-400 sm:text-lg">
-				Developer @
+				{m.hero_developer_at()}
 				<a
 					href="https://www.loftware.com"
 					target="_blank"
@@ -32,7 +37,7 @@
 				>
 					Loftware
 				</a>
-				&& Student @
+				{m.hero_student_at()}
 				<a
 					href="https://fri.uni-lj.si/"
 					target="_blank"
@@ -67,7 +72,7 @@
 
 		<button
 			onclick={scrollToProjects}
-			aria-label="Scroll to about section"
+			aria-label={m.hero_scroll_label()}
 			class="absolute bottom-4 mx-auto hidden h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition-colors hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 sm:flex animate-bounce">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 				<polyline points="18 9 12 15 6 9"></polyline>
