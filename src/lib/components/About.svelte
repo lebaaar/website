@@ -30,8 +30,7 @@
 			role: m.exp_role(),
 			company: 'Loftware',
 			period: m.exp_period(),
-			description: m.exp_description(),
-			tech_stack: m.exp_tech_stack()
+			description: m.exp_description()
 		}
 	];
 </script>
@@ -74,7 +73,6 @@
 									</div>
 									<p class="mb-2 font-medium text-zinc-300">{exp.company}</p>
 									<p class="leading-7 text-zinc-400">{exp.description}</p>
-									<p class="text-sm text-zinc-500">{exp.tech_stack}</p>
 								</div>
 							</div>
 						{/each}
