@@ -17,7 +17,7 @@
 
 <div class="relative h-screen overflow-y-auto scroll-smooth">
 	<main class="relative flex min-h-screen items-center justify-center px-6 pb-20 pt-10 sm:px-8">
-		<div class="absolute right-4 top-4 z-50 sm:right-8 sm:top-8">
+		<div class="absolute right-4 top-4 z-50 sm:right-6 sm:top-6">
 			<LanguagePicker />
 		</div>
 		<div class="hero-intro mx-auto flex w-full max-w-3xl flex-col items-center text-center">
