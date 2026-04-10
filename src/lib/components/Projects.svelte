@@ -54,7 +54,7 @@
 		{
 			title: 'Domača Hrana',
 			description: m.project_domacahrana_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'TailwindCSS', 'Cloudflare Workers'],
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
 			link: 'https://domacahrana.si',
 			gradientClass: 'from-indigo-500 to-purple-500',
 			iconImage: domacahrana,

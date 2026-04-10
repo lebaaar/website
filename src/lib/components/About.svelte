@@ -21,7 +21,7 @@
 
 	const skills = [
 		{ name: m.skill_web_mobile(), items: ['TypeScript', 'Angular', 'SvelteKit', 'Tailwind CSS', 'Flutter'] },
-		{ name: m.skill_backend_db(), items: ['.NET', 'Python', 'Java', 'Express.js', 'PostgreSQL'] },
+		{ name: m.skill_backend_db(), items: ['.NET', 'Python', 'Java', 'Express.js', 'PostgreSQL', 'MongoDB'] },
 		{ name: m.skill_tools_platforms(), items: ['Docker', 'Cloudflare', 'Azure', 'Linux', 'Firebase'] },
 	];
 
