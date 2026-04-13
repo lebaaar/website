@@ -11,7 +11,6 @@
 		technologies: string[];
 		link?: string;
 		github?: string;
-		gradientClass?: string;
 		iconImage?: string;
 		stats?: {
 			label: string;
@@ -44,7 +43,6 @@
 			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL', 'Docker'],
 			github: 'https://github.com/potegnime',
 			link: 'https://potegni.me',
-			gradientClass: 'from-indigo-500 to-purple-500',
 			iconImage: potegnime,
 			stats: [
 				{ label: 'Users', value: '20+' },
@@ -56,7 +54,6 @@
 			description: m.project_domacahrana_desc(),
 			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
 			link: 'https://domacahrana.si',
-			gradientClass: 'from-indigo-500 to-purple-500',
 			iconImage: domacahrana,
 			stats: [
 				{ label: 'Users', value: '10+' },
@@ -69,7 +66,6 @@
 			technologies: ['Flutter', 'Dart', 'SQLite', 'Google Play Store'],
 			link: 'https://play.google.com/store/apps/details?id=com.lebaaar.period_tracker',
 			github: 'https://github.com/lebaaar/period_tracker',
-			gradientClass: 'from-indigo-500 to-purple-500',
 			iconImage: periodTracker,
 			stats: [
 				{ label: 'Rating', value: '4.8/5' },
@@ -95,7 +91,7 @@
 				onmouseleave={() => (hoveredCard = null)}
 				role="article"
 			>
-				<div class={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-0 transition group-hover:opacity-100 ${project.gradientClass}`}></div>
+				<div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-0 transition group-hover:opacity-100"></div>
 
 				<div class="mb-6 flex gap-3 items-center">
 					<div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
