@@ -26,7 +26,7 @@
 				alt="Lan Lebar"
 				class="avatar-intro mb-6 h-50 w-50 rounded-full object-cover"
 			/>
-			<h1 class="mb-2 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
+			<h1 class="mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
 			<p class="mb-6 text-base text-zinc-400 sm:text-lg">
 				{m.hero_developer_at()}
 				<a
