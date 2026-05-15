@@ -83,7 +83,7 @@
 		<h2 class="mb-2 pb-2 text-white text-4xl font-bold sm:text-5xl">{m.projects_title()}</h2>
 	</div>
 
-	<div class="grid grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3">
+	<div class="flex flex-wrap justify-center gap-8">
 		{#each projects as project, i (project.title)}
 			<div
 				class={`group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900/80 p-7 shadow-xl shadow-black/20 backdrop-blur transition-all duration-300 hover:border-zinc-500 hover:shadow-2xl hover:shadow-black/30
