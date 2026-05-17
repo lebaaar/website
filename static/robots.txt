@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /cenko/
 
 Sitemap: https://lan.si/sitemap.xml
