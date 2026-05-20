@@ -9,15 +9,27 @@ export type LegalDocument = {
 	sections: LegalSection[];
 };
 
+export type LegalUi = {
+	heading: string;
+	lastUpdated: string;
+	questions: string;
+};
+
 export type LegalData = {
 	lastEdited: string;
 	contactEmail: string;
 	documents: LegalDocument[];
+	ui: LegalUi;
 };
 
 export const legalDataEn: LegalData = {
 	lastEdited: '2026-05-17',
 	contactEmail: 'lanlebar6@gmail.com',
+	ui: {
+		heading: 'Cenko Legal Information',
+		lastUpdated: 'Last updated:',
+		questions: 'Questions?'
+	},
 	documents: [
 		{
 			id: 'legal',
@@ -135,6 +147,11 @@ export const legalDataEn: LegalData = {
 export const legalDataSl: LegalData = {
 	lastEdited: '2026-05-17',
 	contactEmail: 'lanlebar6@gmail.com',
+	ui: {
+		heading: 'Cenko Pravne informacije',
+		lastUpdated: 'Zadnja posodobitev:',
+		questions: 'Vprašanja?'
+	},
 	documents: [
 		{
 			id: 'legal',

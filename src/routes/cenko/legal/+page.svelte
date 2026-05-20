@@ -1,5 +1,8 @@
 <script lang="ts">
-	let { data } = $props();
+	import { legalDataEn, legalDataSl } from '$lib/cenko/constants';
+
+	let lang = $state<'en' | 'sl'>('en');
+	let data = $derived(lang === 'en' ? legalDataEn : legalDataSl);
 </script>
 
 <svelte:head>
@@ -7,8 +10,28 @@
 </svelte:head>
 
 <main class="mx-auto max-w-2xl px-6 py-16">
-	<h1 class="mb-2 text-3xl font-bold">Cenko Legal Information</h1>
-	<p class="mb-12 text-sm text-zinc-400">Last updated: {data.lastEdited}</p>
+	<div class="mb-2 flex items-start justify-between gap-4">
+		<h1 class="text-3xl font-bold">{data.ui.heading}</h1>
+		<div class="flex shrink-0 gap-1 pt-1">
+			<button
+				onclick={() => (lang = 'en')}
+				class="rounded px-2 py-0.5 text-xs font-medium cursor-pointer transition-colors {lang === 'en'
+					? 'bg-zinc-200 text-zinc-900'
+					: 'text-zinc-400 hover:text-zinc-200'}"
+			>
+				EN
+			</button>
+			<button
+				onclick={() => (lang = 'sl')}
+				class="rounded px-2 py-0.5 text-xs font-medium cursor-pointer transition-colors {lang === 'sl'
+					? 'bg-zinc-200 text-zinc-900'
+					: 'text-zinc-400 hover:text-zinc-200'}"
+			>
+				SL
+			</button>
+		</div>
+	</div>
+	<p class="mb-12 text-sm text-zinc-400">{data.ui.lastUpdated} {data.lastEdited}</p>
 
 	{#each data.documents as doc (doc.title)}
 		{#each doc.sections as section (section.title)}
@@ -26,7 +49,7 @@
 		{/each}
 	{/each}
 
-	<h2 class="mb-2 text-lg font-semibold">Questions?</h2>
+	<h2 class="mb-2 text-lg font-semibold">{data.ui.questions}</h2>
 	<a href="mailto:{data.contactEmail}" class="text-sm text-zinc-300 underline underline-offset-2">
 		{data.contactEmail}
 	</a>
