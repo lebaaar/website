@@ -15,7 +15,7 @@ export type LegalData = {
 	documents: LegalDocument[];
 };
 
-export const legalData: LegalData = {
+export const legalDataEn: LegalData = {
 	lastEdited: '2026-05-17',
 	contactEmail: 'lanlebar6@gmail.com',
 	documents: [
@@ -35,7 +35,7 @@ export const legalData: LegalData = {
 					title: 'Information we handle',
 					bullets: [
 						'Account details such as your email address and profile information.',
-						'Content you add to the app, including shopping lists, receipts, favorites, and similar records.',
+						'Content you add to the app, including shopping lists, receipts and other records.',
 						'Technical information such as app version, device details, and diagnostic data when needed to keep the app working.',
 						'Usage and analytics data such as screen views and feature interactions, collected via Firebase Analytics to understand how the app is used.',
 						'Crash reports and performance metrics collected via Firebase Crashlytics and Firebase Performance Monitoring to diagnose issues and improve stability.'
@@ -61,16 +61,15 @@ export const legalData: LegalData = {
 				{
 					title: 'Legal basis for processing (GDPR Article 6)',
 					bullets: [
-						'Account data (email address, profile information, app content): processed on the legal basis of performance of a contract (GDPR Article 6(1)(b)) — necessary to provide the service you have signed up for.',
+						'Account data (email address, profile information, app content): processed on the legal basis of performance of a contract (GDPR Article 6(1)(b)) — necessary to provide the service.',
 						'Diagnostic and technical data (crash reports, performance metrics, device details): processed on the legal basis of legitimate interests (GDPR Article 6(1)(f)) — to maintain, secure, and improve the app.',
-						'Marketing communications and promotional notifications: processed on the legal basis of your consent (GDPR Article 6(1)(a)). You may withdraw consent at any time via app settings or by contacting us.'
+						'Marketing communications and promotional notifications: processed on the legal basis of your consent (GDPR Article 6(1)(a)). You may withdraw consent at any time by contacting us.'
 					]
 				},
 				{
 					title: 'Data retention',
 					bullets: [
-						'We keep personal information only for as long as needed to provide the app, fulfill the purposes described here, or meet legal and operational requirements.',
-						'When you delete your account, we remove all associated data immediately.',
+						'We keep personal information only for as long as your account exists. When you delete your account, we delete associated data.',
 						'Some records may remain in backups or logs for a limited time before they are overwritten or deleted.'
 					]
 				},
@@ -126,6 +125,123 @@ export const legalData: LegalData = {
 					bullets: [
 						'We may update this page at any time, and a revised version becomes effective immediately when it is posted unless stated otherwise.',
 						'The date above shows when this page was last changed.'
+					]
+				}
+			]
+		}
+	]
+};
+
+export const legalDataSl: LegalData = {
+	lastEdited: '2026-05-17',
+	contactEmail: 'lanlebar6@gmail.com',
+	documents: [
+		{
+			id: 'legal',
+			title: 'Pravne informacije',
+			sections: [
+				{
+					title: 'Uporaba aplikacije Cenko',
+					bullets: [
+						'Dovoljena je zgolj uporaba aplikacije na zakonit način. Spoštujte pravice tretjih oseb in podjetij.',
+						'Ne poskušajte posegati v delovanje aplikacije, izvajati obratnega inženiringa ali uporabljati aplikacije na način, ki bi lahko škodoval storitvi ali drugim uporabnikom.',
+						'Ob ustvarjanju računa, prevzemate odgovornost za varovanje dostopa do računa in dejavnosti, ki potekajo prek njega.'
+					]
+				},
+				{
+					title: 'Podatki, ki jih obdelujemo',
+					bullets: [
+						'Podatki računa, kot so vaš e-poštni naslov in podatki profila.',
+						'Vsebina, ki jo dodate v aplikacijo, vključno z nakupovalnimi seznami, računi in ostalimi zapisi.',
+						'Tehnični podatki, kot so verzija aplikacije, podatki o napravi in diagnostični podatki, kadar so potrebni za delovanje aplikacije.',
+						'Podatki o uporabi in analitiki, kot so ogledi zaslonov in interakcije s funkcijami, zbrani prek Firebase Analytics za razumevanje uporabe aplikacije.',
+						'Poročila o napakah in meritve zmogljivosti, zbrane prek Firebase Crashlytics in Firebase Performance Monitoring za diagnosticiranje težav in izboljšanje stabilnosti.'
+					]
+				},
+				{
+					title: 'Vaše pravice',
+					bullets: [
+						'Zahtevate lahko dostop do svojih osebnih podatkov, njihov popravek ali izbris.',
+						'Lahko ugovarjate določenim vrstam obdelave ali zahtevate omejitev obdelave, kjer je to primerno.',
+						'Svoj račun in z njim povezane podatke lahko kadar koli izbrišete.',
+						'Če imate vprašanja glede svojih pravic zasebnosti ali načinov obdelave podatkov, nas lahko kontaktirate.'
+					]
+				},
+				{
+					title: 'Kako uporabljamo podatke',
+					bullets: [
+						'Za zagotavljanje ključnih funkcij, kot so prijava, nakupovalni seznami, iskanje akcij, skeniranje računov in podpora.',
+						'Za vzdrževanje, zaščito, odpravljanje težav in izboljšanje aplikacije.',
+						'Za izpolnjevanje zakonskih, regulativnih in operativnih zahtev.'
+					]
+				},
+				{
+					title: 'Pravna podlaga za obdelavo (GDPR člen 6)',
+					bullets: [
+						'Podatki računa (e-poštni naslov, podatki profila, vsebina aplikacije): obdelujejo se na pravni podlagi izvajanja pogodbe (GDPR člen 6(1)(b)) — potrebno za zagotavljanje storitve',
+						'Diagnostični in tehnični podatki (poročila o napakah, meritve zmogljivosti, podatki o napravi): obdelujejo se na pravni podlagi zakonitih interesov (GDPR člen 6(1)(f)) — za vzdrževanje, zaščito in izboljšanje aplikacije.',
+						'Trženjska sporočila in promocijska obvestila: obdelujejo se na podlagi vaše privolitve (GDPR člen 6(1)(a)). Privolitev lahko kadar koli prekličete tako, da nas kontaktirate.'
+					]
+				},
+				{
+					title: 'Hramba podatkov',
+					bullets: [
+						'Osebne podatke hranimo le dokler obstaja vaš uporabniški račun. Ob izbrisu uporabniškega računa vse uporabniške podatke izbrišemo.',
+						'Nekateri zapisi lahko za omejen čas ostanejo v varnostnih kopijah ali dnevnikih, preden so prepisani ali izbrisani.'
+					]
+				},
+				{
+					title: 'Deljenje in prenosi podatkov',
+					bullets: [
+						'Podatke lahko delimo s ponudniki storitev, ki nam pomagajo upravljati aplikacijo in zagotavljati njene funkcije.',
+						'Podatke lahko razkrijemo, kadar to zahteva zakon, za zaščito pravic in varnosti ali v povezavi z združitvijo, prevzemom ali podobno poslovno transakcijo.',
+						'Če se odločite povezati druge storitve ali oddati vsebino prek integrirane funkcije, lahko te podatke obdeluje ustrezni ponudnik kot del uporabljene funkcije.',
+						'Firebase in druge Googlove storitve, uporabljene v tej aplikaciji, lahko prenašajo vaše osebne podatke na strežnike v Združenih državah Amerike. Takšni mednarodni prenosi so urejeni z Googlovimi Standardnimi pogodbenimi klavzulami (SCC), ki jih je odobrila Evropska komisija in zagotavljajo ustrezno raven varstva podatkov.'
+					]
+				},
+				{
+					title: 'Otroci',
+					bullets: [
+						'Aplikacija ni namenjena otrokom, mlajšim od minimalne starosti, zahtevane po veljavni zakonodaji njihove države. Zavestno ne zbiramo njihovih osebnih podatkov.',
+						'Če menite, da je otrok posredoval osebne podatke, nas kontaktirajte, da to preverimo in ustrezno ukrepamo.'
+					]
+				},
+				{
+					title: 'Storitve tretjih oseb',
+					bullets: [
+						'Aplikacija uporablja Google Sign-In in Firebase Authentication za prijavo in dostop do računa.',
+						'Aplikacija uporablja Firebase Firestore, Firebase Functions, Firebase Storage, Firebase App Check in Firebase AI za shranjevanje podatkov, izvajanje strežniških funkcij, zaščito storitve in podporo funkcijam z umetno inteligenco.',
+						'Aplikacija uporablja Google ML Kit Text Recognition, Camera, Mobile Scanner in Image Picker za funkcije, povezane z računi in črtnimi kodami.',
+						'Aplikacija uporablja Connectivity Plus, Device Info Plus, Package Info Plus, In-App Update in URL Launcher za preverjanje povezljivosti, diagnostiko naprave, preverjanje različice aplikacije, posodobitve in odpiranje zunanjih povezav.'
+					]
+				},
+				{
+					title: 'Odgovornost in garancija',
+					bullets: [
+						'Aplikacija je na voljo po načelu »takšna kot je« in »kot je na voljo«, brez kakršnih koli jamstev.',
+						'Ne zagotavljamo neprekinjene razpoložljivosti, točnosti ali brezhibnega delovanja vseh funkcij.',
+						'V največjem obsegu, ki ga dovoljuje zakon, ne odgovarjamo za posredno, naključno ali posledično škodo, ki izhaja iz uporabe aplikacije.'
+					]
+				},
+				{
+					title: 'Obveščanje o kršitvah varstva podatkov',
+					bullets: [
+						'V primeru kršitve varstva osebnih podatkov bomo pristojni nadzorni organ obvestili čim prej po zaznavi kršitve, kadar to zahteva GDPR člen 33.',
+						'Če bi kršitev lahko povzročila veliko tveganje za vaše pravice in svoboščine, vas bomo brez nepotrebnega odlašanja neposredno obvestili, kot to zahteva GDPR člen 34.'
+					]
+				},
+				{
+					title: 'Veljavna zakonodaja',
+					bullets: [
+						'To besedilo in naše prakse obdelave podatkov urejajo zakoni Republike Slovenije in veljavni predpisi Evropske unije, vključno s Splošno uredbo o varstvu podatkov (GDPR — Uredba (EU) 2016/679).',
+						'Če menite, da se vaši osebni podatki obdelujejo nezakonito, imate pravico vložiti pritožbo pri Informacijskem pooblaščencu Republike Slovenije (Informacijski pooblaščenec, www.ip-rs.si).'
+					]
+				},
+				{
+					title: 'Posodobitve te strani',
+					bullets: [
+						'To stran lahko kadar koli posodobimo, pri čemer spremenjena različica začne veljati takoj po objavi, razen če ni navedeno drugače.',
+						'Zgornji datum prikazuje, kdaj je bila ta stran nazadnje spremenjena.'
 					]
 				}
 			]
