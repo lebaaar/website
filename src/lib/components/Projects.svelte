@@ -4,6 +4,9 @@
 	import domacahrana from '$lib/assets/domacahrana.png';
 	import potegnime from '$lib/assets/potegnime.webp';
 	import periodTracker from '$lib/assets/period_tracker.webp';
+	// import librelock from '$lib/assets/librelock.svg';
+	import cenko from '$lib/assets/cenko.png';
+	import globalShapers from '$lib/assets/globalshapers.png';
 
 	interface Project {
 		title: string;
@@ -11,6 +14,7 @@
 		technologies: string[];
 		link?: string;
 		github?: string;
+		radius?: string;
 		iconImage?: string;
 		stats?: {
 			label: string;
@@ -38,35 +42,57 @@
 
 	const projects: Project[] = [
 		{
+			title: 'Domača Hrana',
+			description: m.project_domacahrana_desc(),
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+			link: 'https://domacahrana.si',
+			iconImage: domacahrana,
+			radius: 'rounded-full',
+		},
+		{
+			title: 'Cenko',
+			description: m.project_cenko_desc(),
+			technologies: ['Flutter', 'Dart', 'Firebase', 'Play Store'],
+			// link: 'https://play.google.com/store/apps/details?id=com.lebaaar.cenko',
+			github: 'https://github.com/lebaaar/cenko',
+			iconImage: cenko,
+		},
+		{
 			title: 'potegni.me',
 			description: m.project_potegnime_desc(),
 			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL', 'Docker'],
 			github: 'https://github.com/potegnime',
 			link: 'https://potegni.me',
 			iconImage: potegnime,
+			radius: 'rounded-full',
 			stats: [
 				{ label: 'Users', value: '20+' },
 				{ label: 'Uptime', value: '99.99%' }
 			]
 		},
+		// {
+		// 	title: 'LibreLock',
+		// 	description: m.project_librelock_desc(),
+		// 	technologies: ['Vue', 'Go', 'PostgreSQL', 'Docker'],
+		// 	github: 'https://github.com/LibreLock',
+		// 	iconImage: librelock
+		// },
 		{
-			title: 'Domača Hrana',
-			description: m.project_domacahrana_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
-			link: 'https://domacahrana.si',
-			iconImage: domacahrana,
-			stats: [
-				{ label: 'Users', value: '10+' },
-				{ label: 'Uptime', value: '99.99%' }
-			]
+			title: 'Shapers Academy',
+			description: m.project_globalshapers_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare Pages'],
+			link: 'https://academy.globalshapers.si',
+			github: 'https://github.com/GlobalShapersSlovenia/globalshapers-si',
+			iconImage: globalShapers,
 		},
 		{
 			title: 'Period Tracker',
 			description: m.project_period_tracker_desc(),
-			technologies: ['Flutter', 'Dart', 'SQLite', 'Google Play Store'],
+			technologies: ['Flutter', 'Dart', 'SQLite', 'Play Store'],
 			link: 'https://play.google.com/store/apps/details?id=com.lebaaar.period_tracker',
 			github: 'https://github.com/lebaaar/period_tracker',
 			iconImage: periodTracker,
+			radius: 'rounded-full',
 			stats: [
 				{ label: 'Rating', value: '4.8/5' },
 				{ label: 'Downloads', value: '150+' }
