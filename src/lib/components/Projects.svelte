@@ -53,7 +53,7 @@
 			title: 'Cenko',
 			description: m.project_cenko_desc(),
 			technologies: ['Flutter', 'Dart', 'Firebase', 'Play Store'],
-			// link: 'https://play.google.com/store/apps/details?id=com.lebaaar.cenko',
+			link: 'https://cenko.lan.si',
 			github: 'https://github.com/lebaaar/cenko',
 			iconImage: cenko,
 		},
