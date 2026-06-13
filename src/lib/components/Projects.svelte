@@ -4,7 +4,7 @@
 	import domacahrana from '$lib/assets/domacahrana.png';
 	import potegnime from '$lib/assets/potegnime.webp';
 	import periodTracker from '$lib/assets/period_tracker.webp';
-	// import librelock from '$lib/assets/librelock.svg';
+	import librelock from '$lib/assets/librelock.svg';
 	import cenko from '$lib/assets/cenko.png';
 	import globalShapers from '$lib/assets/globalshapers.png';
 
@@ -70,13 +70,13 @@
 				{ label: 'Uptime', value: '99.99%' }
 			]
 		},
-		// {
-		// 	title: 'LibreLock',
-		// 	description: m.project_librelock_desc(),
-		// 	technologies: ['Vue', 'Go', 'PostgreSQL', 'Docker'],
-		// 	github: 'https://github.com/LibreLock',
-		// 	iconImage: librelock
-		// },
+		{
+			title: 'LibreLock',
+			description: m.project_librelock_desc(),
+			technologies: ['Vue', 'Go', 'PostgreSQL', 'Docker'],
+			github: 'https://github.com/LibreLock',
+			iconImage: librelock
+		},
 		{
 			title: 'Shapers Academy',
 			description: m.project_globalshapers_desc(),
