@@ -113,6 +113,15 @@
 </div>
 
 <style>
+	.scroll-container {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+
+	.scroll-container::-webkit-scrollbar {
+		display: none;
+	}
+
 	.hero-intro {
 		animation: hero-fade-up 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
