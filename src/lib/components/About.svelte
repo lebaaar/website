@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import * as m from '$paraglide/messages';
+	import loftwareLogo from '$lib/assets/loftware.png';
 
 	let visible = $state(false);
 	let sectionEl = $state<HTMLElement | null>(null);
@@ -29,6 +30,7 @@
 		{
 			role: m.exp_role(),
 			company: 'Loftware',
+			companyLink: 'https://www.loftware.com',
 			period: m.exp_period(),
 			description: m.exp_description(),
 			tech_stack: m.exp_tech_stack()
@@ -63,16 +65,20 @@
 					<div class="space-y-1">
 						{#each experiences as exp, index (index)}
 							<div class="relative flex gap-4 pb-10 last:pb-0">
-								{#if index <= experiences.length || true}
-									<div class="absolute left-2.25 top-7 h-[calc(100%-0.25rem)] w-px bg-linear-to-b from-indigo-400/70 to-transparent"></div>
-								{/if}
-								<div class="relative mt-1 h-5 w-5 shrink-0 rounded-full bg-linear-to-br from-purple-500 to-blue-500"></div>
+								<div class="relative mt-1 h-10 w-10 shrink-0 overflow-hidden">
+									<img src={loftwareLogo} alt={exp.company} class="h-full w-full object-cover" />
+								</div>
 								<div class="flex-1">
 									<div class="mb-2 flex flex-wrap items-baseline justify-between gap-2">
 										<h4 class="text-xl font-semibold text-white">{exp.role}</h4>
 										<span class="text-sm font-medium text-zinc-500">{exp.period}</span>
 									</div>
-									<p class="mb-2 font-medium text-zinc-300">{exp.company}</p>
+									<p class="mb-2 font-medium text-zinc-300">
+										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+										<a href={exp.companyLink} target="_blank" rel="noopener noreferrer" class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200">
+											{exp.company}
+										</a>
+									</p>
 									<p class="leading-7 text-zinc-400">{exp.description}</p>
 									<p class="mt-2 text-sm font-medium text-zinc-500">{exp.tech_stack} C#, ASP.NET, Angular, TypeScript, MSSQL, PostgreSQL, Python, Azure</p>
 								</div>
