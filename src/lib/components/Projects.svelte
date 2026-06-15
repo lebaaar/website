@@ -82,7 +82,6 @@
 			description: m.project_globalshapers_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare Pages'],
 			link: 'https://academy.globalshapers.si',
-			github: 'https://github.com/GlobalShapersSlovenia/globalshapers-si',
 			iconImage: globalShapers,
 		},
 		{
