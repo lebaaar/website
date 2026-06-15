@@ -11,11 +11,39 @@
 		});
 	}
 
+	const interactiveTags = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.code !== 'Space') return;
+
+		const target = event.target as HTMLElement;
+		if (interactiveTags.includes(target.tagName) || target.isContentEditable) return;
+
+		const container = document.querySelector<HTMLElement>('.scroll-container');
+		if (!container) return;
+
+		const sections = Array.from(container.querySelectorAll<HTMLElement>('main, section'));
+		const containerTop = container.getBoundingClientRect().top;
+		const scrollTop = container.scrollTop;
+
+		const next = sections.find((section) => {
+			const offsetTop = section.getBoundingClientRect().top - containerTop + scrollTop;
+			return offsetTop > scrollTop + 10;
+		});
+
+		if (!next) return;
+
+		event.preventDefault();
+		next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
 	const socialLinkClass =
 		'inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-5 py-3 text-sm font-medium text-zinc-200 shadow-sm transition-transform transition-colors hover:-translate-y-1 hover:border-zinc-500 hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
 </script>
 
-<div class="relative h-screen overflow-y-auto scroll-smooth">
+<svelte:window onkeydown={handleKeydown} />
+
+<div class="scroll-container relative h-screen overflow-y-auto scroll-smooth">
 	<main class="relative flex min-h-screen items-center justify-center px-6 pb-20 pt-10 sm:px-8">
 		<div class="absolute right-4 top-4 z-50 sm:right-6 sm:top-6">
 			<LanguagePicker />
