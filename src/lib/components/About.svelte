@@ -80,7 +80,7 @@
 										</a>
 									</p>
 									<p class="leading-7 text-zinc-400">{exp.description}</p>
-									<p class="mt-2 text-sm font-medium text-zinc-500">{exp.tech_stack} C#, ASP.NET, Angular, TypeScript, MSSQL, PostgreSQL, Python, Azure</p>
+									<p class="mt-2 text-sm font-medium text-zinc-500">{exp.tech_stack} C#, ASP.NET, Angular, TypeScript, MSSQL, PostgreSQL, Python, AWS, Azure</p>
 								</div>
 							</div>
 						{/each}
