@@ -7,11 +7,17 @@
 	import librelock from '$lib/assets/librelock.svg';
 	import cenko from '$lib/assets/cenko.png';
 	import globalShapers from '$lib/assets/globalshapers.png';
+	import kavarna from '$lib/assets/kavarna.webp';
+	import companies from '$lib/assets/companies.webp';
+	import amadejvidner from '$lib/assets/amadejvidner.webp';
+
+	type ProjectCategory = 'mobile' | 'webapp' | 'website';
 
 	interface Project {
 		title: string;
 		description: string;
 		technologies: string[];
+		category: ProjectCategory;
 		link?: string;
 		github?: string;
 		radius?: string;
@@ -25,6 +31,9 @@
 	let visible = $state(false);
 	let hoveredCard = $state<number | null>(null);
 	let sectionEl = $state<HTMLElement | null>(null);
+	let activeFilter = $state<'all' | ProjectCategory>('all');
+	let tabEls = $state<HTMLButtonElement[]>([]);
+	let indicator = $state({ x: 0, y: 0, width: 0, height: 0, ready: false });
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -45,6 +54,7 @@
 			title: 'Domača Hrana',
 			description: m.project_domacahrana_desc(),
 			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+			category: 'webapp',
 			link: 'https://domacahrana.si',
 			iconImage: domacahrana,
 			radius: 'rounded-full',
@@ -53,6 +63,7 @@
 			title: 'Cenko',
 			description: m.project_cenko_desc(),
 			technologies: ['Flutter', 'Dart', 'Supabase', 'Play Store'],
+			category: 'mobile',
 			link: 'https://cenko.app',
 			iconImage: cenko,
 		},
@@ -60,6 +71,7 @@
 			title: 'potegni.me',
 			description: m.project_potegnime_desc(),
 			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL', 'Docker'],
+			category: 'webapp',
 			github: 'https://github.com/potegnime',
 			link: 'https://potegni.me',
 			iconImage: potegnime,
@@ -73,20 +85,16 @@
 			title: 'LibreLock',
 			description: m.project_librelock_desc(),
 			technologies: ['Vue', 'Go', 'PostgreSQL', 'Docker'],
+			category: 'webapp',
 			github: 'https://github.com/LibreLock',
 			iconImage: librelock
 		},
-		{
-			title: 'Shapers Academy',
-			description: m.project_globalshapers_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare Pages'],
-			link: 'https://academy.globalshapers.si',
-			iconImage: globalShapers,
-		},
+
 		{
 			title: 'Period Tracker',
 			description: m.project_period_tracker_desc(),
 			technologies: ['Flutter', 'Dart', 'SQLite', 'Play Store'],
+			category: 'mobile',
 			link: 'https://play.google.com/store/apps/details?id=com.lebaaar.period_tracker',
 			github: 'https://github.com/lebaaar/period_tracker',
 			iconImage: periodTracker,
@@ -95,20 +103,114 @@
 				{ label: 'Rating', value: '4.8/5' },
 				{ label: 'Downloads', value: '150+' }
 			]
-		}
+		},
+		{
+			title: 'companies.si',
+			description: m.project_companies_desc(),
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+			category: 'webapp',
+			link: 'https://companies.si',
+			radius: 'rounded-lg',
+			iconImage: companies
+		},
+		{
+			title: 'Amadej Vidner',
+			description: m.project_amadejvidner_desc(),
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+			category: 'website',
+			link: 'https://amadejvidner.com',
+			radius: 'rounded-sm',
+			iconImage: amadejvidner
+		},
+		{
+			title: 'Kavarna & Cukrarija',
+			description: m.project_kavarna_cukrarija_desc(),
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Pages'],
+			category: 'website',
+			link: 'https://torta-bo.si',
+			radius: 'rounded-full',
+			iconImage: kavarna
+		},
+		{
+			title: 'Shapers Academy',
+			description: m.project_globalshapers_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare Pages'],
+			category: 'website',
+			link: 'https://academy.globalshapers.si',
+			iconImage: globalShapers,
+		},
 	];
+
+	const filters: { value: 'all' | ProjectCategory; label: () => string }[] = [
+		{ value: 'all', label: m.projects_filter_all },
+		{ value: 'webapp', label: m.projects_filter_webapp },
+		{ value: 'mobile', label: m.projects_filter_mobile },
+		{ value: 'website', label: m.projects_filter_website }
+	];
+
+	const filteredProjects = $derived(
+		activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)
+	);
+
+	function moveIndicator() {
+		const el = tabEls[filters.findIndex((f) => f.value === activeFilter)];
+		if (!el) return;
+		indicator = {
+			x: el.offsetLeft,
+			y: el.offsetTop,
+			width: el.offsetWidth,
+			height: el.offsetHeight,
+			ready: true
+		};
+	}
+
+	$effect(() => {
+		void activeFilter;
+		moveIndicator();
+	});
+
+	onMount(() => {
+		const resizeObserver = new ResizeObserver(() => moveIndicator());
+		if (tabEls[0]?.parentElement) resizeObserver.observe(tabEls[0].parentElement);
+		return () => resizeObserver.disconnect();
+	});
 
 	const projectButtonClass =
 		'inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:-translate-y-0.5 hover:border-zinc-500 hover:text-white';
 </script>
 
 <section id="projects" bind:this={sectionEl} class={`mx-auto w-full max-w-7xl px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-	<div class="mb-12 text-center sm:mb-16">
+	<div class="mb-8 text-center sm:mb-10">
 		<h2 class="mb-2 pb-2 text-white text-4xl font-bold sm:text-5xl">{m.projects_title()}</h2>
 	</div>
 
+	<div class="mb-10 flex justify-center sm:mb-14" role="tablist" aria-label={m.projects_title()}>
+		<div class="relative flex flex-wrap justify-center gap-1.5 rounded-2xl border border-zinc-700 bg-zinc-900/80 p-1.5 backdrop-blur">
+			<div
+				class="absolute left-0 top-0 rounded-xl bg-zinc-100 shadow transition-[transform,width,height] duration-300 ease-out"
+				style={`transform: translate(${indicator.x}px, ${indicator.y}px); width: ${indicator.width}px; height: ${indicator.height}px; opacity: ${indicator.ready ? 1 : 0};`}
+				aria-hidden="true"
+			></div>
+			{#each filters as filter, i (filter.value)}
+				<button
+					type="button"
+					role="tab"
+					aria-selected={activeFilter === filter.value}
+					bind:this={tabEls[i]}
+					class={`relative z-10 rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-300 cursor-pointer
+					${activeFilter === filter.value
+						? 'text-zinc-900'
+						: 'text-zinc-400 hover:text-white'}`}
+					onclick={() => (activeFilter = filter.value)}
+				>
+					{filter.label()}
+				</button>
+			{/each}
+		</div>
+	</div>
+
 	<div class="flex flex-wrap justify-center gap-8">
-		{#each projects as project, i (project.title)}
+		{#each filteredProjects as project, i (project.title)}
 			<div
 				class={`group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900/80 p-7 shadow-xl shadow-black/20 backdrop-blur transition-all duration-300 hover:border-zinc-500 hover:shadow-2xl hover:shadow-black/30
 				${visible ? 'opacity-100' : ' opacity-0'}
