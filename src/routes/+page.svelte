@@ -60,6 +60,29 @@
 		next.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
+	// 3D tilt on the hero avatar: rotate towards the pointer, reset on leave.
+	const maxTiltDeg = 12;
+	let tiltX = $state(0);
+	let tiltY = $state(0);
+	let hovering = $state(false);
+
+	function handleAvatarMove(event: PointerEvent) {
+		if (event.pointerType !== 'mouse') return;
+		const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+		// -0.5..0.5 offset from the center of the image
+		const px = (event.clientX - rect.left) / rect.width - 0.5;
+		const py = (event.clientY - rect.top) / rect.height - 0.5;
+		tiltX = -py * 2 * maxTiltDeg;
+		tiltY = px * 2 * maxTiltDeg;
+		hovering = true;
+	}
+
+	function resetAvatarTilt() {
+		tiltX = 0;
+		tiltY = 0;
+		hovering = false;
+	}
+
 	const socialLinkClass =
 		'inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-5 py-3 text-sm font-medium text-zinc-200 shadow-sm transition-transform transition-colors hover:-translate-y-1 hover:border-zinc-500 hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
 </script>
@@ -77,11 +100,20 @@
 			<LanguagePicker />
 		</div>
 		<div class="hero-intro mx-auto flex w-full max-w-3xl flex-col items-center text-center">
-			<img
-				src="/me.jpeg"
-				alt="Lan Lebar"
-				class="avatar-intro mb-6 h-50 w-50 rounded-full object-cover"
-			/>
+			<div
+				class="avatar-intro avatar-stage mb-6"
+				onpointermove={handleAvatarMove}
+				onpointerleave={resetAvatarTilt}
+			>
+				<img
+					src="/me.jpeg"
+					alt="Lan Lebar"
+					class="avatar-tilt h-50 w-50 rounded-full object-cover"
+					style="--tilt-x: {tiltX}deg; --tilt-y: {tiltY}deg; --tilt-scale: {hovering
+						? 1.08
+						: 1}; --tilt-shadow-alpha: {hovering ? 0.14 : 0};"
+				/>
+			</div>
 			<h1 class="mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
 			{#key i18n.locale}
 				<p class="mb-6 text-base text-zinc-400 sm:text-lg">
@@ -162,6 +194,26 @@
 		animation: avatar-pop 1200ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
+	/* Perspective lives on the wrapper so the pop animation and the tilt
+	   don't fight over the same transform. */
+	.avatar-stage {
+		perspective: 700px;
+	}
+
+	.avatar-tilt {
+		transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg))
+			scale(var(--tilt-scale, 1));
+		transform-style: preserve-3d;
+		/* Light glow, not a dark shadow — the hero sits on a near-black background. */
+		box-shadow:
+			0 0 24px -4px rgb(244 244 245 / var(--tilt-shadow-alpha, 0)),
+			0 0 50px 2px rgb(244 244 245 / calc(var(--tilt-shadow-alpha, 0) * 0.4));
+		transition:
+			transform 150ms ease-out,
+			box-shadow 250ms ease-out;
+		will-change: transform;
+	}
+
 	@keyframes hero-fade-up {
 		from {
 			opacity: 0.5;
@@ -188,6 +240,11 @@
 		.hero-intro,
 		.avatar-intro {
 			animation: none;
+		}
+
+		.avatar-tilt {
+			transform: none;
+			transition: none;
 		}
 	}
 </style>
