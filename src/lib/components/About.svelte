@@ -3,14 +3,19 @@
 	import * as m from '$paraglide/messages';
 	import loftwareLogo from '$lib/assets/loftware.png';
 
-	let visible = $state(false);
+	// Module-scoped so a language switch (which remounts this section) doesn't
+	// replay the entrance fade — only the first view animates.
+	let seen = false;
+	let visible = $state(seen);
 	let sectionEl = $state<HTMLElement | null>(null);
 
 	onMount(() => {
+		if (seen) return;
 		const observer = new IntersectionObserver(
 			([entry]) => {
 				if (entry.isIntersecting) {
 					visible = true;
+					seen = true;
 					observer.disconnect();
 				}
 			},
@@ -108,11 +113,11 @@
 				<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
 						<div class="text-3xl font-bold">3+</div>
-						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">{m.stat_years_experience()}</div>
+						<div class="mt-1 text-xs font-medium uppercase tracking-widest text-zinc-500">{m.stat_years_experience()}</div>
 					</div>
 					<div class="rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
-						<div class="text-3xl font-bold">5+</div>
-						<div class="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-zinc-500">{m.stat_projects_built()}</div>
+						<div class="text-3xl font-bold">10+</div>
+						<div class="mt-1 text-xs font-medium uppercase tracking-widest text-zinc-500">{m.stat_projects_built()}</div>
 					</div>
 				</div>
 			</div>

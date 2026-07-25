@@ -1,78 +1,42 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { getLocale, setLocale, locales } from '$paraglide/runtime';
+	import { i18n, supportedLocales, switchLocale } from '$lib/i18n.svelte';
 
-	type Locale = Parameters<typeof setLocale>[0];
+	let btnEls = $state<HTMLButtonElement[]>([]);
+	let indicator = $state({ x: 0, width: 0, ready: false });
 
-	const locale = $derived(getLocale());
-	const supportedLocales = locales as readonly Locale[];
-
-	let open = $state(false);
-	let menuRoot: HTMLDivElement | null = null;
-
-	function selectLocale(lang: Locale) {
-		setLocale(lang);
-		open = false;
+	function moveIndicator() {
+		const el = btnEls[supportedLocales.findIndex((l) => l === i18n.locale)];
+		if (!el) return;
+		indicator = { x: el.offsetLeft, width: el.offsetWidth, ready: true };
 	}
 
-	onMount(() => {
-		const handleDocumentClick = (event: MouseEvent) => {
-			if (menuRoot && !menuRoot.contains(event.target as Node)) {
-				open = false;
-			}
-		};
-
-		const handleKeydown = (event: KeyboardEvent) => {
-			if (event.key === 'Escape') {
-				open = false;
-			}
-		};
-
-		document.addEventListener('click', handleDocumentClick);
-		document.addEventListener('keydown', handleKeydown);
-
-		return () => {
-			document.removeEventListener('click', handleDocumentClick);
-			document.removeEventListener('keydown', handleKeydown);
-		};
+	$effect(() => {
+		void i18n.locale;
+		moveIndicator();
 	});
 </script>
 
-<div bind:this={menuRoot} class="relative">
-	<button
-		onclick={() => (open = !open)}
-		aria-label={`Change language, current ${locale.toUpperCase()}`}
-		aria-haspopup="menu"
-		aria-expanded={open}
-		class="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/80 text-zinc-300 shadow-sm backdrop-blur transition-colors hover:border-zinc-500 hover:bg-zinc-800 hover:text-white cursor-pointer"
-	>
-		<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-			<circle cx="12" cy="12" r="10"></circle>
-			<path d="M2 12h20"></path>
-			<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-		</svg>
-	</button>
-
-	{#if open}
-		<div
-			role="menu"
-			class="absolute right-0 mt-2 flex w-32 flex-col gap-1 overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-950/95 p-1 shadow-2xl shadow-black/40 backdrop-blur"
+<div
+	role="radiogroup"
+	aria-label="Language"
+	class="relative flex items-center gap-0.5 rounded-full border border-zinc-700 bg-zinc-900/70 p-1 shadow-sm backdrop-blur"
+>
+	<div
+		class="absolute left-0 top-1 h-[calc(100%-0.5rem)] rounded-full bg-zinc-100 shadow transition-[transform,width] duration-300 ease-out"
+		style={`transform: translateX(${indicator.x}px); width: ${indicator.width}px; opacity: ${indicator.ready ? 1 : 0};`}
+		aria-hidden="true"
+	></div>
+	{#each supportedLocales as lang, i (lang)}
+		<button
+			bind:this={btnEls[i]}
+			onclick={() => switchLocale(lang)}
+			role="radio"
+			aria-checked={i18n.locale === lang}
+			class={`relative z-10 rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
+				i18n.locale === lang ? 'text-zinc-900' : 'text-zinc-400 hover:text-white'
+			}`}
 		>
-			{#each supportedLocales as lang (lang)}
-				<button
-					onclick={() => selectLocale(lang)}
-					role="menuitemradio"
-					aria-checked={locale === lang}
-					class={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm font-semibold uppercase tracking-widest transition-colors cursor-pointer ${
-						locale === lang
-							? 'bg-zinc-800 text-white'
-							: 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100'
-					}
-					`}
-				>
-					<span>{lang}</span>
-				</button>
-			{/each}
-		</div>
-	{/if}
+			{lang}
+		</button>
+	{/each}
 </div>

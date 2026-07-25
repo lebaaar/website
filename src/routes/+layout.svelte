@@ -1,12 +1,11 @@
 <script lang="ts">
 	import '$lib/styles/global.css';
-	import { getLocale } from '$paraglide/runtime';
+	import { i18n } from '$lib/i18n.svelte';
 
 	let { children } = $props();
-	const locale = $derived(getLocale());
 
 	$effect(() => {
-		document.documentElement.lang = locale;
+		document.documentElement.lang = i18n.locale;
 	});
 </script>
 
