@@ -1,7 +1,16 @@
 const site = 'https://lan.si';
 
 const pages = [
-	''
+	'',
+	'projects/domacahrana',
+	'projects/cenko',
+	'projects/potegnime',
+	'projects/librelock',
+	'projects/periodtracker',
+	'projects/companies',
+	'projects/amadejvidner',
+	'projects/kavarna',
+	'projects/shapers'
 ];
 
 export function GET() {

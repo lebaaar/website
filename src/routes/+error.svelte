@@ -17,6 +17,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{page.status} | Lan Lebar</title>
+</svelte:head>
+
 <main>
 	<div class={`mx-auto flex min-h-[95vh] max-w-xl flex-col items-center justify-center px-6 text-center transition-all duration-700 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}>
 		<h1 class="mb-3 text-7xl font-semibold tracking-tight text-white sm:text-8xl">{page.status}</h1>

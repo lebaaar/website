@@ -1,8 +1,31 @@
 <script lang="ts">
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import About from '$lib/components/About.svelte';
 	import LanguagePicker from '$lib/components/LanguagePicker.svelte';
 	import Projects from '$lib/components/Projects.svelte';
+	import { i18n } from '$lib/i18n.svelte';
 	import * as m from '$paraglide/messages';
+
+	// The page scrolls inside .scroll-container, so SvelteKit's window scroll
+	// restoration does nothing, so save/restore the container's position manually.
+	beforeNavigate(() => {
+		const container = document.querySelector<HTMLElement>('.scroll-container');
+		if (container) sessionStorage.setItem('home-scroll', String(container.scrollTop));
+	});
+
+	afterNavigate((nav) => {
+		if (!nav.from?.url.pathname.startsWith('/projects')) return;
+		const saved = sessionStorage.getItem('home-scroll');
+		if (!saved) return;
+		// Restore after the restored tab has re-filtered the grid and laid out,
+		// so the saved offset lands on the same content.
+		const restore = () => {
+			const container = document.querySelector<HTMLElement>('.scroll-container');
+			if (container) container.scrollTo({ top: Number(saved), behavior: 'instant' });
+		};
+		restore();
+		requestAnimationFrame(restore);
+	});
 
 	function scrollToProjects() {
 		document.getElementById('about')?.scrollIntoView({
@@ -41,6 +64,11 @@
 		'inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-5 py-3 text-sm font-medium text-zinc-200 shadow-sm transition-transform transition-colors hover:-translate-y-1 hover:border-zinc-500 hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
 </script>
 
+<svelte:head>
+	<title>Lan Lebar</title>
+	<meta name="description" content="Lan Lebar - Software Developer" />
+</svelte:head>
+
 <svelte:window onkeydown={handleKeydown} />
 
 <div class="scroll-container relative h-screen overflow-y-auto scroll-smooth">
@@ -55,26 +83,28 @@
 				class="avatar-intro mb-6 h-50 w-50 rounded-full object-cover"
 			/>
 			<h1 class="mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
-			<p class="mb-6 text-base text-zinc-400 sm:text-lg">
-				{m.hero_developer_at()}
-				<a
-					href="https://www.loftware.com"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
-				>
-					Loftware
-				</a>
-				{m.hero_student_at()}
-				<a
-					href="https://fri.uni-lj.si/"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
-				>
-					FRI
-				</a>
-			</p>
+			{#key i18n.locale}
+				<p class="mb-6 text-base text-zinc-400 sm:text-lg">
+					{m.hero_developer_at()}
+					<a
+						href="https://www.loftware.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
+					>
+						Loftware
+					</a>
+					{m.hero_student_at()}
+					<a
+						href="https://fri.uni-lj.si/"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
+					>
+						FRI
+					</a>
+				</p>
+			{/key}
 
 			<div class="flex w-xs flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap" id="links-container">
 				<a href="https://github.com/lebaaar" target="_blank" rel="noopener noreferrer" class={socialLinkClass}>
@@ -108,8 +138,10 @@
 		</button>
 	</main>
 
-	<About />
-	<Projects />
+	{#key i18n.locale}
+		<About />
+		<Projects />
+	{/key}
 </div>
 
 <style>
