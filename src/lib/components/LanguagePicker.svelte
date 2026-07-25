@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { i18n, supportedLocales, switchLocale } from '$lib/i18n.svelte';
+	import { shine } from '$lib/actions/shine';
 
 	let btnEls = $state<HTMLButtonElement[]>([]);
 	let indicator = $state({ x: 0, width: 0, ready: false });
@@ -28,12 +29,13 @@
 	></div>
 	{#each supportedLocales as lang, i (lang)}
 		<button
+			use:shine
 			bind:this={btnEls[i]}
 			onclick={() => switchLocale(lang)}
 			role="radio"
 			aria-checked={i18n.locale === lang}
 			class={`relative z-10 rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors duration-300 cursor-pointer ${
-				i18n.locale === lang ? 'text-zinc-900' : 'text-zinc-400 hover:text-white'
+				i18n.locale === lang ? 'text-zinc-900' : 'btn-shine pill-shine text-zinc-400 hover:text-white'
 			}`}
 		>
 			{lang}
