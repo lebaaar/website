@@ -207,7 +207,7 @@
 
 <section id="projects" bind:this={sectionEl} class={`mx-auto w-full max-w-7xl px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
 	<div class="mb-8 text-center sm:mb-10">
-		<h2 use:shine class="title-shimmer mb-2 pb-2 text-white text-4xl font-bold sm:text-5xl">{m.projects_title()}</h2>
+		<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-2 pb-2 text-white text-4xl font-bold sm:text-5xl">{m.projects_title()}</h2>
 	</div>
 
 	<div class="mb-10 flex justify-center sm:mb-14" role="tablist" aria-label={m.projects_title()}>

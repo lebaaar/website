@@ -86,7 +86,7 @@
 					<img src={icon} alt={title} class="h-full w-full object-cover" />
 				</div>
 				<div>
-					<h1 use:shine class="title-shimmer text-4xl font-bold tracking-tight text-white sm:text-5xl">{title}</h1>
+					<h1 use:shine={{ hitTest: true }} class="title-shimmer text-4xl font-bold tracking-tight text-white sm:text-5xl">{title}</h1>
 					<p class="mt-2 flex flex-wrap items-center gap-2 text-sm text-zinc-400">
 						{type}
 						{#if badge}
@@ -137,7 +137,7 @@
 		</header>
 
 		<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 100ms">
-			<h2 use:shine class="title-shimmer mb-5 text-2xl font-bold text-white">{m.project_page_overview()}</h2>
+			<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-5 text-2xl font-bold text-white">{m.project_page_overview()}</h2>
 			<div class="space-y-4 leading-8 text-zinc-300">
 				{#each overview as paragraph (paragraph)}
 					<p>{paragraph}</p>
@@ -146,13 +146,13 @@
 		</section>
 
 		<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 200ms">
-			<h2 use:shine class="title-shimmer mb-6 text-2xl font-bold text-white">{m.project_page_features()}</h2>
+			<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-6 text-2xl font-bold text-white">{m.project_page_features()}</h2>
 			<ul class="space-y-6">
 				{#each features as feature (feature.title)}
 					<li class="flex gap-4">
 						<svg class="mt-1 h-5 w-5 shrink-0 text-zinc-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
 						<div>
-							<h3 class="text-lg font-semibold text-white">{feature.title}</h3>
+							<h3 use:shine={{ hitTest: true }} class="title-shimmer text-lg font-semibold text-white">{feature.title}</h3>
 							<p class="mt-1 leading-7 text-zinc-400">{feature.description}</p>
 						</div>
 					</li>

@@ -47,6 +47,12 @@
 	--shine: 0;
 	--shine-base: currentColor;
 	--shine-hot: color-mix(in oklab, #fff calc(var(--shine) * 100%), currentColor);
+	background-image: linear-gradient(
+		100deg,
+		var(--shine-base) calc(var(--shine-x) - 2rem),
+		var(--shine-hot) var(--shine-x),
+		var(--shine-base) calc(var(--shine-x) + 2rem)
+	);
 }
 
 .btn-shine {
@@ -159,10 +165,12 @@
 	transition: --shine-x 120ms linear;
 }
 
-.title-shimmer:hover,
 .link-shine:hover,
 .btn-shine:hover {
 	--shine: 1;
+}
+.shine-inherit {
+	--shine: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {

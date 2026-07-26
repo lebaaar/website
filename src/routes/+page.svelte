@@ -81,7 +81,7 @@
 			<div class="avatar-intro mb-6">
 				<img src="/me.jpeg" alt="Lan Lebar" class="h-50 w-50 rounded-full object-cover" />
 			</div>
-			<h1 use:shine class="title-shimmer mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
+			<h1 use:shine={{ hitTest: true }} class="title-shimmer mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
 			{#key i18n.locale}
 				<p class="mb-6 text-base text-zinc-400 sm:text-lg">
 					{m.hero_developer_at()}
@@ -130,9 +130,10 @@
 		</div>
 
 		<button
+			use:shine
 			onclick={scrollToProjects}
 			aria-label={m.hero_scroll_label()}
-			class="absolute bottom-4 mx-auto hidden h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition-colors hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 sm:flex animate-bounce">
+			class="btn-shine pill-shine absolute! bottom-4 mx-auto hidden h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition-colors hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 sm:flex animate-bounce">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 				<polyline points="18 9 12 15 6 9"></polyline>
 			</svg>

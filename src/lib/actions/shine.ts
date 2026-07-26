@@ -15,7 +15,7 @@ export function shine(node: HTMLElement, options: ShineOptions = {}) {
 		node.style.setProperty('--shine-y', `${Math.max(-25, Math.min(125, y))}%`);
 
 		if (hitTest) {
-			const over = x >= 0 && x <= 100 && y >= 0 && y <= 100;
+			const over = x >= 0 && x <= 100 && y >= 14 && y <= 86;
 			node.style.setProperty('--shine', over ? '1' : '0');
 		}
 	}
@@ -24,9 +24,13 @@ export function shine(node: HTMLElement, options: ShineOptions = {}) {
 		detach();
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-		const ancestor = opts.within ? node.closest<HTMLElement>(opts.within) : null;
+		const ancestor = opts.within
+			? node.closest<HTMLElement>(opts.within)
+			: opts.hitTest
+				? node.parentElement
+				: null;
 		const target = ancestor ?? node;
-		const hitTest = opts.hitTest === true && ancestor !== null;
+		const hitTest = opts.hitTest === true;
 
 		let frame = 0;
 		let latest: PointerEvent | null = null;
