@@ -1,5 +1,11 @@
 @import 'tailwindcss';
 
+::selection {
+	background-color: #e4e4e7;
+	color: #09090b;
+	-webkit-text-fill-color: #09090b;
+}
+
 @property --shine {
 	syntax: '<number>';
 	inherits: true;
