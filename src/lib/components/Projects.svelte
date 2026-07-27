@@ -24,10 +24,6 @@
 		github?: string;
 		radius?: string;
 		iconImage?: string;
-		stats?: {
-			label: string;
-			value: string;
-		}[];
 	}
 
 	// Module-scoped so a language switch (which remounts this section) doesn't
@@ -253,8 +249,6 @@
 					<a href={`/projects/${project.slug}`} class="absolute inset-0 z-0" aria-label={project.title}></a>
 				{/if}
 
-				<div class="absolute inset-x-0 top-0 h-1 bg-linear-to-r opacity-0 transition group-hover:opacity-100"></div>
-
 				<div class="mb-6 flex gap-3 items-center">
 					<div class={`shrink-0 h-10 w-10 ${project.radius} overflow-hidden`}>
 						<img src={project.iconImage} alt={project.title} class="w-full h-full object-cover" />
@@ -265,17 +259,6 @@
 				</div>
 
 				<p class="mb-6 flex-1 leading-7 text-zinc-300">{project.description}</p>
-
-				<!-- {#if project.stats}
-					<div class="mb-6 grid grid-cols-2 gap-3 rounded-xl border border-zinc-800 bg-zinc-950/70 p-4">
-						{#each project.stats as stat (stat.label)}
-							<div class="text-center">
-								<span class="block text-2xl font-bold text-white">{stat.value}</span>
-								<span class="block text-[11px] font-medium uppercase tracking-wide text-zinc-500">{stat.label}</span>
-							</div>
-						{/each}
-					</div>
-				{/if} -->
 
 				<div class="relative z-10 mb-7 flex flex-wrap gap-2">
 					{#each project.technologies as tech (tech)}

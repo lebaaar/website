@@ -20,5 +20,4 @@
 		{ title: m.companies_feature3_title(), description: m.companies_feature3_desc() },
 		{ title: m.companies_feature4_title(), description: m.companies_feature4_desc() }
 	]}
-	technologies={['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers', 'Cloudflare D1', 'Drizzle ORM', 'Leaflet']}
 />

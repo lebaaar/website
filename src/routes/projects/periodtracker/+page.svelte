@@ -24,5 +24,4 @@
 		{ title: m.periodtracker_feature3_title(), description: m.periodtracker_feature3_desc() },
 		{ title: m.periodtracker_feature4_title(), description: m.periodtracker_feature4_desc() }
 	]}
-	technologies={['Flutter', 'Dart', 'SQLite', 'Play Store']}
 />

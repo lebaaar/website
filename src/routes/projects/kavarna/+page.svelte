@@ -19,5 +19,4 @@
 		{ title: m.kavarna_feature2_title(), description: m.kavarna_feature2_desc() },
 		{ title: m.kavarna_feature3_title(), description: m.kavarna_feature3_desc() }
 	]}
-	technologies={['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Pages']}
 />

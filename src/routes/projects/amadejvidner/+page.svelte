@@ -22,5 +22,4 @@
 		{ title: m.amadejvidner_feature2_title(), description: m.amadejvidner_feature2_desc() },
 		{ title: m.amadejvidner_feature3_title(), description: m.amadejvidner_feature3_desc() }
 	]}
-	technologies={['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers']}
 />
