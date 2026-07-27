@@ -26,8 +26,6 @@
 		iconImage?: string;
 	}
 
-	// Module-scoped so a language switch (which remounts this section) doesn't
-	// replay the entrance fade — only the first view animates.
 	let seen = false;
 	let visible = $state(seen);
 	let hoveredCard = $state<number | null>(null);

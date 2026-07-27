@@ -7,8 +7,6 @@
 	import { i18n } from '$lib/i18n.svelte';
 	import * as m from '$paraglide/messages';
 
-	// The page scrolls inside .scroll-container, so SvelteKit's window scroll
-	// restoration does nothing, so save/restore the container's position manually.
 	beforeNavigate(() => {
 		const container = document.querySelector<HTMLElement>('.scroll-container');
 		if (container) sessionStorage.setItem('home-scroll', String(container.scrollTop));
@@ -18,8 +16,6 @@
 		if (!nav.from?.url.pathname.startsWith('/projects')) return;
 		const saved = sessionStorage.getItem('home-scroll');
 		if (!saved) return;
-		// Restore after the restored tab has re-filtered the grid and laid out,
-		// so the saved offset lands on the same content.
 		const restore = () => {
 			const container = document.querySelector<HTMLElement>('.scroll-container');
 			if (container) container.scrollTo({ top: Number(saved), behavior: 'instant' });

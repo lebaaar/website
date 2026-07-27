@@ -4,8 +4,6 @@
 	import { shine } from '$lib/actions/shine';
 	import loftwareLogo from '$lib/assets/loftware.png';
 
-	// Module-scoped so a language switch (which remounts this section) doesn't
-	// replay the entrance fade — only the first view animates.
 	let seen = false;
 	let visible = $state(seen);
 	let sectionEl = $state<HTMLElement | null>(null);

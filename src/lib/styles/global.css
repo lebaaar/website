@@ -18,23 +18,20 @@
 	initial-value: 50%;
 }
 
-@property --shine-y {
-	syntax: '<percentage>';
-	inherits: true;
-	initial-value: 50%;
-}
-
-.title-shimmer,
-.link-shine {
+.title-shimmer, .link-shine, .btn-shine-label {
 	background-image: linear-gradient(
 		100deg,
-		var(--shine-base) calc(var(--shine-x) - 22%),
+		var(--shine-base) calc(var(--shine-x) - var(--shine-spread)),
 		var(--shine-hot) var(--shine-x),
-		var(--shine-base) calc(var(--shine-x) + 22%)
+		var(--shine-base) calc(var(--shine-x) + var(--shine-spread))
 	);
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+
+.title-shimmer, .link-shine {
+	--shine: 0;
 	transition:
 		--shine 300ms ease-out,
 		--shine-x 120ms linear,
@@ -44,28 +41,61 @@
 .title-shimmer {
 	display: inline-block;
 	color: transparent;
-	--shine: 0;
+	--shine-spread: 22%;
 	--shine-base: color-mix(in oklab, #a1a1aa calc(var(--shine) * 100%), #fff);
 	--shine-hot: #fff;
 }
 
 .link-shine {
-	--shine: 0;
+	--shine-spread: 2rem;
 	--shine-base: currentColor;
 	--shine-hot: color-mix(in oklab, #fff calc(var(--shine) * 100%), currentColor);
-	background-image: linear-gradient(
+}
+
+.btn-shine-label {
+	--shine-spread: 2.5rem;
+	--shine-base: color-mix(in oklab, #a1a1aa calc(var(--shine) * 100%), currentColor);
+	--shine-hot: color-mix(in oklab, #fff calc(var(--shine) * 100%), currentColor);
+	transition: --shine-x 120ms linear;
+}
+
+.pill-shine .btn-shine-label {
+	--shine-base: color-mix(in oklab, #a1a1aa calc(var(--shine) * 50%), currentColor);
+	--shine-hot: color-mix(in oklab, #fff calc(var(--shine) * 50%), currentColor);
+}
+
+.btn-shine, .box-shine {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	--shine: 0;
+}
+
+.btn-shine::before, .box-shine::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background: linear-gradient(
 		100deg,
-		var(--shine-base) calc(var(--shine-x) - 2rem),
-		var(--shine-hot) var(--shine-x),
-		var(--shine-base) calc(var(--shine-x) + 2rem)
+		rgb(255 255 255 / 0) calc(50% - var(--sweep-width)),
+		rgb(255 255 255 / var(--sweep-alpha)) 50%,
+		rgb(255 255 255 / 0) calc(50% + var(--sweep-width))
 	);
+	transform: translateX(calc(var(--shine-x) - 50%));
+	opacity: var(--shine);
+	transition: transform var(--sweep-slide) linear;
+}
+
+.btn-shine:hover::before, .box-shine:hover::before {
+	will-change: transform;
 }
 
 .btn-shine {
-	position: relative;
-	overflow: hidden;
-	--shine: 0;
-	isolation: isolate;
+	--sweep-width: 3.5rem;
+	--sweep-alpha: 0.1;
+	--sweep-slide: 120ms;
 	transition:
 		--shine 500ms ease-out,
 		color 200ms ease-out,
@@ -73,138 +103,50 @@
 		background-color 200ms ease-out;
 }
 
-.btn-shine:hover::before {
-	will-change: transform;
-}
-
-.btn-shine[data-shine-jump]::before {
-	transition: none;
-}
-
-.btn-shine::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	z-index: -1;
-	pointer-events: none;
-	background: linear-gradient(
-		100deg,
-		rgb(255 255 255 / 0) calc(50% - 3.5rem),
-		rgb(255 255 255 / 0.1) 50%,
-		rgb(255 255 255 / 0) calc(50% + 3.5rem)
-	);
-	transform: translateX(calc(var(--shine-x) - 50%));
-	opacity: var(--shine);
-	transition: transform 120ms linear;
-}
-
-.btn-shine-soft::before {
-	background: linear-gradient(
-		100deg,
-		rgb(255 255 255 / 0) calc(50% - 3.5rem),
-		rgb(255 255 255 / 0.065) 50%,
-		rgb(255 255 255 / 0) calc(50% + 3.5rem)
-	);
-}
-
-.pill-shine::before {
-	background: linear-gradient(
-		100deg,
-		rgb(255 255 255 / 0) calc(50% - 2.5rem),
-		rgb(255 255 255 / 0.05) 50%,
-		rgb(255 255 255 / 0) calc(50% + 2.5rem)
-	);
-}
-
-.pill-shine .btn-shine-label {
-	--shine-base: color-mix(in oklab, #a1a1aa calc(var(--shine) * 50%), currentColor);
-	--shine-hot: color-mix(in oklab, #fff calc(var(--shine) * 50%), currentColor);
-}
 .box-shine {
-	position: relative;
-	overflow: hidden;
-	isolation: isolate;
-	--shine: 0;
+	--sweep-width: 9rem;
+	--sweep-alpha: 0.045;
+	--sweep-slide: 160ms;
 	transition: --shine 500ms ease-out;
 }
 
-.box-shine::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	z-index: -1;
-	pointer-events: none;
-	background: linear-gradient(
-		100deg,
-		rgb(255 255 255 / 0) calc(50% - 9rem),
-		rgb(255 255 255 / 0.045) 50%,
-		rgb(255 255 255 / 0) calc(50% + 9rem)
-	);
-	transform: translateX(calc(var(--shine-x) - 50%));
-	opacity: var(--shine);
-	transition: transform 160ms linear;
+.btn-shine-soft {
+	--sweep-alpha: 0.065;
 }
 
-.box-shine:hover {
+.pill-shine {
+	--sweep-width: 2.5rem;
+	--sweep-alpha: 0.05;
+}
+
+.link-shine:hover, .btn-shine:hover, .box-shine:hover {
 	--shine: 1;
 }
 
-.box-shine:hover::before {
-	will-change: transform;
-}
-
-.box-shine[data-shine-jump]::before {
-	transition: none;
-}
-.btn-shine-label {
-	--shine-base: color-mix(in oklab, #a1a1aa calc(var(--shine) * 100%), currentColor);
-	--shine-hot: color-mix(in oklab, #fff calc(var(--shine) * 100%), currentColor);
-	background-image: linear-gradient(
-		100deg,
-		var(--shine-base) calc(var(--shine-x) - 2.5rem),
-		var(--shine-hot) var(--shine-x),
-		var(--shine-base) calc(var(--shine-x) + 2.5rem)
-	);
-	background-clip: text;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	transition: --shine-x 120ms linear;
-}
-
-.link-shine:hover,
-.btn-shine:hover {
-	--shine: 1;
-}
 .shine-inherit {
 	--shine: inherit;
 }
 
+[data-shine-jump], [data-shine-jump]::before {
+	transition: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-	.title-shimmer,
-	.title-shimmer:hover {
+	.title-shimmer, .link-shine, .btn-shine-label {
 		background-image: none;
+		transition: none;
+	}
+
+	.title-shimmer {
 		color: #fff;
 		-webkit-text-fill-color: #fff;
-		transition: none;
 	}
 
-	.link-shine,
-	.link-shine:hover {
-		background-image: none;
+	.link-shine, .btn-shine-label {
 		-webkit-text-fill-color: currentColor;
-		transition: none;
 	}
 
-	.btn-shine,
-	.btn-shine:hover,
-	.box-shine,
-	.box-shine:hover {
-		transition: none;
-	}
-
-	.btn-shine-label {
-		background-image: none;
-		-webkit-text-fill-color: currentColor;
+	.btn-shine, .box-shine {
 		transition: none;
 	}
 }
