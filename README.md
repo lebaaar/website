@@ -1,2 +1,3 @@
-# [lan.si](https://lan.si/)
-My personal website, built with [SvelteKit](https://svelte.dev/).
+# Website
+
+My personal [lan.si](https://lan.si/), built with [SvelteKit](https://svelte.dev/)
