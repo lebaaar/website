@@ -64,18 +64,17 @@
 	--shine-hot: color-mix(in oklab, #fff calc(var(--shine) * 50%), currentColor);
 }
 
-.btn-shine, .box-shine {
+.btn-shine, .box-shine, .img-shine {
 	position: relative;
 	overflow: hidden;
 	isolation: isolate;
 	--shine: 0;
 }
 
-.btn-shine::before, .box-shine::before {
+.btn-shine::before, .box-shine::before, .img-shine::after {
 	content: '';
 	position: absolute;
 	inset: 0;
-	z-index: -1;
 	pointer-events: none;
 	background: linear-gradient(
 		100deg,
@@ -88,7 +87,15 @@
 	transition: transform var(--sweep-slide) linear;
 }
 
-.btn-shine:hover::before, .box-shine:hover::before {
+.btn-shine::before, .box-shine::before {
+	z-index: -1;
+}
+
+.img-shine::after {
+	z-index: 1;
+}
+
+.btn-shine:hover::before, .box-shine:hover::before, .img-shine:hover::after {
 	will-change: transform;
 }
 
@@ -119,7 +126,14 @@
 	--sweep-alpha: 0.05;
 }
 
-.link-shine:hover, .btn-shine:hover, .box-shine:hover {
+.img-shine {
+	--sweep-width: 4rem;
+	--sweep-alpha: 0.09;
+	--sweep-slide: 140ms;
+	transition: --shine 500ms ease-out;
+}
+
+.link-shine:hover, .btn-shine:hover, .box-shine:hover, .img-shine:hover {
 	--shine: 1;
 }
 
@@ -127,7 +141,7 @@
 	--shine: inherit;
 }
 
-[data-shine-jump], [data-shine-jump]::before {
+[data-shine-jump], [data-shine-jump]::before, [data-shine-jump]::after {
 	transition: none;
 }
 
@@ -146,7 +160,11 @@
 		-webkit-text-fill-color: currentColor;
 	}
 
-	.btn-shine, .box-shine {
+	.btn-shine, .box-shine, .img-shine {
 		transition: none;
+	}
+
+	.img-shine::after {
+		display: none;
 	}
 }

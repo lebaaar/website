@@ -75,7 +75,9 @@
 		</div>
 		<div class="hero-intro mx-auto flex w-full max-w-3xl flex-col items-center text-center">
 			<div class="avatar-intro mb-6">
-				<img src="/me.jpeg" alt="Lan Lebar" class="h-50 w-50 rounded-full object-cover" />
+				<div use:shine class="img-shine h-50 w-50 rounded-full">
+					<img src="/me.jpeg" alt="Lan Lebar" class="h-full w-full rounded-full object-cover" />
+				</div>
 			</div>
 			<h1 use:shine={{ hitTest: true }} class="title-shimmer mb-4 text-4xl font-semibold tracking-tight text-white sm:text-5xl">Lan Lebar</h1>
 			{#key i18n.locale}
