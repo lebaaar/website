@@ -126,5 +126,9 @@
   "error_500": "Something went wrong",
   "error_403": "Access denied",
   "error_default": "An error occurred",
-  "back_home": "Back home"
+  "back_home": "Back home",
+  "nav_label": "Page sections",
+  "nav_home": "Home",
+  "nav_about": "About",
+  "nav_projects": "Projects"
 }

@@ -126,5 +126,9 @@
   "error_500": "Nekaj je šlo narobe",
   "error_403": "Dostop zavrnjen",
   "error_default": "Prišlo je do napake",
-  "back_home": "Nazaj na začetek"
+  "back_home": "Nazaj na začetek",
+  "nav_label": "Razdelki strani",
+  "nav_home": "Domov",
+  "nav_about": "O meni",
+  "nav_projects": "Projekti"
 }
