@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import * as m from '$paraglide/messages';
-	import { shine } from '$lib/actions/shine';
 	import { i18n } from '$lib/i18n.svelte';
 
 	// Anchors live in +page.svelte (#home) and the section components.
@@ -112,8 +111,7 @@
 			>
 				<span
 					bind:this={labelEls[i]}
-					use:shine={{ within: '.section-nav' }}
-					class={`nav-label link-shine block w-max text-[13px] font-medium leading-5 tracking-[0.01em] transition-colors duration-300 ease-out ${
+					class={`nav-label block w-max text-[13px] font-medium leading-5 tracking-[0.01em] transition-colors duration-300 ease-out ${
 						isActive ? 'text-zinc-100' : 'text-zinc-400 group-hover/item:text-zinc-100'
 					}`}
 				>
@@ -137,21 +135,7 @@
 		transition: opacity 700ms ease-out;
 	}
 
-	/* One light source for the rail: every label tracks the same cursor x, so the
-	   shimmer reads as a single column sweeping across them. The highlight tops
-	   out partway to zinc-100 instead of white, and spreads wide, so it lifts the
-	   label's own colour rather than flashing over it. */
-	.nav-label {
-		--shine-spread: 3.5rem;
-		--shine-hot: color-mix(in oklab, var(--color-zinc-100) calc(var(--shine) * 55%), currentColor);
-	}
-
-	.section-nav:hover .nav-label {
-		--shine: 1;
-	}
-
-	/* Position reads from the marker's length, not its brightness — a bright dot
-	   with a halo glared against the dark page. */
+	/* Position reads from the marker's length, not its brightness — a bright dot with a halo glared against the dark page. */
 	.dot {
 		height: 5px;
 		transition:
