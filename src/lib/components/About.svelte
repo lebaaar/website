@@ -25,8 +25,8 @@
 	});
 
 	const skills = [
-		{ name: m.skill_web_mobile(), items: ['TypeScript', 'Angular', 'Vue', 'SvelteKit', 'Tailwind CSS', 'Flutter'] },
-		{ name: m.skill_backend_db(), items: ['.NET', 'Python', 'Java', 'Node.js', 'PostgreSQL', 'MongoDB'] },
+		{ name: m.skill_web_mobile(), items: ['Angular', 'Vue', 'SvelteKit', 'TypeScript', 'Tailwind CSS', 'Flutter'] },
+		{ name: m.skill_backend_db(), items: ['.NET C#', 'Python', 'Java', 'Node.js', 'PostgreSQL', 'MSSQL', 'MongoDB'] },
 		{ name: m.skill_tools_platforms(), items: ['AWS', 'Azure', 'Cloudflare', 'Docker', 'Linux', 'Supabase', 'Firebase'] },
 	];
 
@@ -84,7 +84,7 @@
 										</a>
 									</p>
 									<p class="leading-7 text-zinc-400">{exp.description}</p>
-									<p class="mt-2 text-sm font-medium text-zinc-500">{exp.tech_stack} C#, ASP.NET, Angular, TypeScript, MSSQL, PostgreSQL, Python, AWS, Azure</p>
+									<p class="mt-2 text-sm font-medium text-zinc-500">{exp.tech_stack} C#, ASP.NET, Angular, TypeScript, Python, PostgreSQL, MSSQL, AWS, Azure, Kubernetes</p>
 								</div>
 							</div>
 						{/each}
