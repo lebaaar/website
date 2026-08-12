@@ -47,7 +47,7 @@
 	class={`relative z-10 w-full px-6 py-0 sm:py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
 >
 	<div class="mx-auto max-w-7xl">
-		<div class="grid items-start gap-12 lg:grid-cols-[1.5fr_1fr]">
+		<div class="grid items-start gap-20 sm:gap-12 lg:grid-cols-[1.5fr_1fr]">
 			<div>
 				<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-8 text-white text-4xl font-bold sm:text-5xl">{m.about_title()}</h2>
 				<div class="space-y-5 text-base leading-8 text-zinc-300 sm:text-lg">
@@ -93,14 +93,14 @@
 			</div>
 
 			<div class="lg:sticky lg:top-8">
-				<h3 use:shine={{ hitTest: true }} class="title-shimmer mb-6 text-2xl font-semibold text-white">{m.skills_title()}</h3>
-				<div class="space-y-6">
+				<h3 use:shine={{ hitTest: true }} class="title-shimmer mb-4 text-2xl font-semibold text-white sm:mb-6">{m.skills_title()}</h3>
+				<div class="space-y-3 sm:space-y-6">
 					{#each skills as skillGroup (skillGroup.name)}
-						<div use:shine class="box-shine rounded-2xl border border-zinc-800 bg-zinc-900/70 p-6 shadow-lg shadow-black/20 transition hover:border-zinc-600">
-							<h4 use:shine={{ within: '.box-shine' }} class="link-shine shine-inherit mb-4 text-lg font-semibold text-zinc-200">{skillGroup.name}</h4>
+						<div use:shine class="box-shine rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 shadow-lg shadow-black/20 transition hover:border-zinc-600 sm:p-6">
+							<h4 use:shine={{ within: '.box-shine' }} class="link-shine shine-inherit mb-3 text-base font-semibold text-zinc-200 sm:mb-4 sm:text-xl">{skillGroup.name}</h4>
 							<div class="flex flex-wrap gap-2">
 								{#each skillGroup.items as skill (skill)}
-									<span use:shine class="btn-shine pill-shine cursor-default rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm font-medium text-zinc-300 transition hover:border-zinc-600 hover:text-white">
+									<span use:shine class="btn-shine pill-shine cursor-default rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-[13px] font-medium text-zinc-300 transition hover:border-zinc-600 hover:text-white sm:px-3 sm:py-2 sm:text-sm">
 										<span use:shine={{ within: '.btn-shine' }} class="btn-shine-label">{skill}</span>
 									</span>
 								{/each}
@@ -109,12 +109,12 @@
 					{/each}
 				</div>
 
-				<div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-					<div use:shine class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
+				<div class="mt-3 grid grid-cols-2 gap-3 sm:mt-6">
+					<div use:shine class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5">
 						<div use:shine={{ within: '.box-shine' }} class="title-shimmer shine-inherit text-3xl font-bold">3+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-widest text-zinc-500">{m.stat_years_experience()}</div>
 					</div>
-					<div use:shine class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-5 text-center transition hover:border-zinc-600">
+					<div use:shine class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5">
 						<div use:shine={{ within: '.box-shine' }} class="title-shimmer shine-inherit text-3xl font-bold">10+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-widest text-zinc-500">{m.stat_projects_built()}</div>
 					</div>

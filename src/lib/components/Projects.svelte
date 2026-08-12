@@ -108,7 +108,16 @@
 			github: 'https://github.com/LibreLock',
 			iconImage: librelock
 		},
-
+		{
+			title: 'companies.si',
+			description: m.project_companies_desc(),
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+			category: 'webapp',
+			slug: 'companies',
+			link: 'https://companies.si',
+			radius: 'rounded-lg',
+			iconImage: companies
+		},
 		{
 			title: 'Period Tracker',
 			description: m.project_period_tracker_desc(),
@@ -119,16 +128,6 @@
 			github: 'https://github.com/lebaaar/period_tracker',
 			iconImage: periodTracker,
 			radius: 'rounded-full',
-		},
-		{
-			title: 'companies.si',
-			description: m.project_companies_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
-			category: 'webapp',
-			slug: 'companies',
-			link: 'https://companies.si',
-			radius: 'rounded-lg',
-			iconImage: companies
 		},
 		{
 			title: 'Amadej Vidner',
@@ -199,7 +198,7 @@
 		'btn-shine btn-shine-soft inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:text-white';
 </script>
 
-<section id="projects" bind:this={sectionEl} class={`mx-auto w-full max-w-7xl px-6 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+<section id="projects" bind:this={sectionEl} class={`mx-auto w-full max-w-7xl px-4 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
 	<div class="mb-8 text-center sm:mb-10">
 		<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-2 pb-2 text-white text-4xl font-bold sm:text-5xl">{m.projects_title()}</h2>
 	</div>
@@ -230,11 +229,11 @@
 		</div>
 	</div>
 
-	<div class="flex flex-wrap justify-center gap-8">
+	<div class="flex flex-wrap justify-center gap-4 sm:gap-8">
 		{#each filteredProjects as project, i (project.title)}
 			<div
 				use:shine
-				class={`box-shine group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900/80 p-7 shadow-xl shadow-black/20 backdrop-blur transition-all duration-300 hover:border-zinc-500 hover:shadow-2xl hover:shadow-black/30
+				class={`box-shine group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900/80 px-5 py-7 shadow-xl sm:px-7 shadow-black/20 backdrop-blur transition-all duration-300 hover:border-zinc-500 hover:shadow-2xl hover:shadow-black/30
 				${visible ? 'opacity-100' : ' opacity-0'}
 				${hoveredCard === i ? 'ring-1 ring-zinc-500/60' : ''}
 				w-full sm:w-[calc(50%-1rem)] 2xl:w-[calc(33.333%-1.34rem)]`}
@@ -256,9 +255,9 @@
 					</div>
 				</div>
 
-				<p class="mb-6 flex-1 leading-7 text-zinc-300">{project.description}</p>
+				<p class="mb-5 flex-1 leading-7 text-zinc-300">{project.description}</p>
 
-				<div class="relative z-10 mb-7 flex flex-wrap gap-2">
+				<div class="relative z-10 mb-4 flex flex-wrap gap-2">
 					{#each project.technologies as tech (tech)}
 						<span use:shine class="btn-shine pill-shine cursor-default rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-xs font-medium text-zinc-300 transition group-hover:border-zinc-500/70 hover:border-zinc-600 hover:text-white">
 							<span use:shine={{ within: '.btn-shine' }} class="btn-shine-label">{tech}</span>

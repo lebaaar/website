@@ -72,7 +72,7 @@
 <SectionNav />
 
 <div class="scroll-container relative h-screen overflow-y-auto scroll-smooth">
-	<main id="home" class="relative flex min-h-screen items-center justify-center px-6 pb-20 pt-10 sm:px-8">
+	<main id="home" class="relative flex min-h-screen items-center justify-center px-4 pb-20 pt-10 sm:px-8">
 		<div class="absolute right-4 top-4 z-50 sm:right-6 sm:top-6">
 			<LanguagePicker />
 		</div>

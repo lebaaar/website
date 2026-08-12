@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+html {
+	font-size: 93.75%;
+}
+
 ::selection {
 	background-color: #e4e4e7;
 	color: #09090b;
