@@ -111,7 +111,7 @@
 
 				<div class="mt-3 grid grid-cols-2 gap-3 sm:mt-6">
 					<div use:shine class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5">
-						<div use:shine={{ within: '.box-shine' }} class="title-shimmer shine-inherit text-3xl font-bold">3+</div>
+						<div use:shine={{ within: '.box-shine' }} class="title-shimmer shine-inherit text-3xl font-bold">4+</div>
 						<div class="mt-1 text-xs font-medium uppercase tracking-widest text-zinc-500">{m.stat_years_experience()}</div>
 					</div>
 					<div use:shine class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5">
