@@ -51,7 +51,9 @@
 			<div>
 				<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-8 text-white text-4xl font-bold sm:text-5xl">{m.about_title()}</h2>
 				<div class="space-y-5 text-base leading-8 text-zinc-300 sm:text-lg">
-					<p>{m.about_para1()}</p>
+					<p>
+						{m.about_para1_prefix()}<span use:shine class="word-shine">{m.about_para1_word1()}</span>{m.about_para1_sep1()}<span use:shine class="word-shine">{m.about_para1_word2()}</span>{m.about_para1_sep2()}<span use:shine class="word-shine">{m.about_para1_word3()}</span>{m.about_para1_suffix()}
+					</p>
 					<p>
 						{m.about_para2_prefix()}
 						<a use:shine href="https://www.loftware.com" target="_blank" rel="noopener noreferrer" class="link-shine underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200">
