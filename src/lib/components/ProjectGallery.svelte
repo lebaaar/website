@@ -323,12 +323,12 @@
 
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<div class="flex min-h-0 max-w-full flex-1 items-center justify-center">
+		<div class="flex min-h-0 w-full flex-1 items-center justify-center">
 			{#key openIndex}
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div
-					class="lightbox-slide flex min-h-0 max-w-full items-center"
+					class="lightbox-slide flex h-full max-w-full min-h-0 items-center justify-center"
 					style={`--slide-from: ${slideFrom}`}
 					onclick={(e) => e.stopPropagation()}
 				>
