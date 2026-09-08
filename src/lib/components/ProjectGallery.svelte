@@ -36,8 +36,6 @@
 	let resumeAt = 0;
 	let slideFrom = $state(0);
 	let slideVideos: HTMLVideoElement[] = [];
-	// While an arrow-driven scroll is animating, the scroll handler would flip the
-	// counter back and forth as the snap settles, so it is pinned to the target.
 	let settling = 0;
 
 	function open(i: number) {
@@ -65,8 +63,6 @@
 		track.scrollTo({ left: index * track.clientWidth, behavior: 'smooth' });
 	}
 
-	// Native scrolling cannot go past the first or last slide, so a swipe that runs
-	// into either edge is turned into a wrap, matching what the arrows do.
 	let touchX = 0;
 	let touchY = 0;
 
@@ -90,11 +86,10 @@
 
 	let lightboxX = 0;
 	let lightboxY = 0;
-	// A swipe can be followed by a click, which would close the lightbox right after
-	// it navigated, so that click is swallowed once.
 	let swallowClick = false;
 
 	function onLightboxTouchStart(event: TouchEvent) {
+		swallowClick = false;
 		const touch = event.changedTouches[0];
 		lightboxX = touch.clientX;
 		lightboxY = touch.clientY;
@@ -143,7 +138,6 @@
 		};
 	});
 
-	// Keep the visible slide pinned when the viewport width changes.
 	$effect(() => {
 		const node = track;
 		if (!node) return;
@@ -329,14 +323,14 @@
 
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<div
-			class="flex min-h-0 max-w-full flex-1 items-center justify-center"
-			onclick={(e) => e.stopPropagation()}
-		>
+		<div class="flex min-h-0 max-w-full flex-1 items-center justify-center">
 			{#key openIndex}
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div
 					class="lightbox-slide flex min-h-0 max-w-full items-center"
 					style={`--slide-from: ${slideFrom}`}
+					onclick={(e) => e.stopPropagation()}
 				>
 					{#if item.type === 'video'}
 						<!-- svelte-ignore a11y_media_has_caption -->
@@ -377,29 +371,29 @@
 
 <style>
 	.gallery-track {
-	scrollbar-width: none;
+		scrollbar-width: none;
 	}
 
 	.gallery-track::-webkit-scrollbar {
-	display: none;
+		display: none;
 	}
 
 	.lightbox {
-	animation: lightbox-in 200ms ease-out both;
+		animation: lightbox-in 200ms ease-out both;
 	}
 
 	@keyframes lightbox-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-	.lightbox {
-		animation: none;
-	}
+		.lightbox {
+			animation: none;
+		}
 	}
 </style>
