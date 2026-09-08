@@ -2,7 +2,6 @@
 	import * as m from '$paraglide/messages';
 	import ProjectDetail from '$lib/components/ProjectDetail.svelte';
 	import icon from '$lib/assets/cenko.png';
-	import screenshot from '$lib/assets/cenko-screenshot.webp';
 </script>
 
 <ProjectDetail
@@ -11,7 +10,11 @@
 	badge={m.in_development()}
 	tagline={m.project_cenko_desc()}
 	{icon}
-	{screenshot}
+	media={[{ src: '/videos/cenko.mp4', poster: '/videos/cenko-poster.webp' }]}
+	mediaFit="contain"
+	mediaAspect="aspect-[400/888]"
+	mediaWidth="mx-auto max-w-sm lg:mx-0"
+	mediaAside
 	link="https://cenko.app"
 	overview={[m.cenko_overview_p1(), m.cenko_overview_p2()]}
 	features={[

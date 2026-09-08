@@ -73,7 +73,7 @@
 		{
 			title: 'Domača Hrana',
 			description: m.project_domacahrana_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
 			category: 'webapp',
 			slug: 'domacahrana',
 			link: 'https://domacahrana.si',
@@ -102,7 +102,7 @@
 		{
 			title: 'LibreLock',
 			description: m.project_librelock_desc(),
-			technologies: ['Vue', 'Go', 'PostgreSQL', 'Docker'],
+			technologies: ['Vue', 'Go', 'SQLite', 'Docker'],
 			category: 'webapp',
 			slug: 'librelock',
 			github: 'https://github.com/LibreLock',
@@ -111,7 +111,7 @@
 		{
 			title: 'companies.si',
 			description: m.project_companies_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers'],
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
 			category: 'webapp',
 			slug: 'companies',
 			link: 'https://companies.si',
@@ -132,7 +132,7 @@
 		{
 			title: 'Amadej Vidner',
 			description: m.project_amadejvidner_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare Pages'],
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
 			category: 'website',
 			slug: 'amadejvidner',
 			link: 'https://amadejvidner.com',
@@ -142,7 +142,7 @@
 		{
 			title: 'Kavarna & Cukrarija',
 			description: m.project_kavarna_cukrarija_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare Pages'],
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
 			category: 'website',
 			slug: 'kavarna',
 			link: 'https://torta-bo.si',
@@ -152,7 +152,7 @@
 		{
 			title: 'Shapers Academy',
 			description: m.project_globalshapers_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare Pages'],
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
 			category: 'website',
 			slug: 'shapers',
 			link: 'https://academy.globalshapers.si',

@@ -2,7 +2,6 @@
 	import * as m from '$paraglide/messages';
 	import ProjectDetail from '$lib/components/ProjectDetail.svelte';
 	import icon from '$lib/assets/companies.webp';
-	import screenshot from '$lib/assets/companies-screenshot.webp';
 </script>
 
 <ProjectDetail
@@ -11,7 +10,20 @@
 	tagline={m.project_companies_desc()}
 	{icon}
 	iconRadius="rounded-full"
-	{screenshot}
+	media={[
+		{
+			src: '/videos/companies.mp4',
+			poster: '/videos/companies-poster.webp',
+			label: m.media_label_website()
+		},
+		{
+			src: '/videos/companies-admin.mp4',
+			poster: '/videos/companies-admin-poster.webp',
+			label: m.media_label_admin()
+		}
+	]}
+	mediaFit="contain"
+	mediaAspect="aspect-[1280/618]"
 	link="https://companies.si"
 	overview={[m.companies_overview_p1(), m.companies_overview_p2()]}
 	features={[

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as m from '$paraglide/messages';
 	import { shine } from '$lib/actions/shine';
+	import ProjectGallery from '$lib/components/ProjectGallery.svelte';
 
 	interface Feature {
 		title: string;
@@ -16,12 +17,11 @@
 		iconRadius = '',
 		iconBg = '',
 		iconShadow = 'shadow-lg shadow-black/30',
-		screenshot = undefined,
-		screenshotBlur = '1.5px',
-		screenshotOpacity = 0.5,
-		screenshotSaturate = 1,
-		screenshotScale = 1.05,
-		screenshotPosition = 'top',
+		media = [],
+		mediaFit = 'cover',
+		mediaAspect = 'aspect-video',
+		mediaWidth = '',
+		mediaAside = false,
 		link = undefined,
 		linkLabel = undefined,
 		linkBadge = undefined,
@@ -37,12 +37,14 @@
 		iconRadius?: string;
 		iconBg?: string;
 		iconShadow?: string;
-		screenshot?: string;
-		screenshotBlur?: string;
-		screenshotOpacity?: number;
-		screenshotSaturate?: number;
-		screenshotScale?: number;
-		screenshotPosition?: string;
+		media?: (
+			| string
+			| { src: string; poster?: string; type?: 'image' | 'video'; label?: string }
+		)[];
+		mediaFit?: 'cover' | 'contain';
+		mediaAspect?: string;
+		mediaWidth?: string;
+		mediaAside?: boolean;
 		link?: string;
 		linkLabel?: string;
 		linkBadge?: string;
@@ -60,19 +62,7 @@
 	<meta name="description" content={tagline} />
 </svelte:head>
 
-<div class="relative overflow-hidden">
-	{#if screenshot}
-		<div class="absolute inset-x-0 top-0 h-105 overflow-hidden sm:h-120" aria-hidden="true">
-			<img
-				src={screenshot}
-				alt=""
-				class="h-full w-full object-cover"
-				style={`opacity: ${screenshotOpacity}; filter: blur(${screenshotBlur}) saturate(${screenshotSaturate}); transform: scale(${screenshotScale}); object-position: ${screenshotPosition};`}
-			/>
-			<div class="absolute inset-0 bg-linear-to-b from-zinc-950/55 via-zinc-950/70 to-zinc-950"></div>
-		</div>
-	{/if}
-
+<div class="relative">
 	<div class="relative mx-auto w-full max-w-4xl px-6 py-12 sm:px-8 sm:py-16">
 		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 		<a use:shine href="/"
@@ -130,16 +120,20 @@
 			</div>
 		</header>
 
-		<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 100ms">
+		{#snippet gallery()}
+			<ProjectGallery {media} {title} {mediaFit} {mediaAspect} {mediaWidth} />
+		{/snippet}
+
+		{#snippet overviewBlock()}
 			<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-5 text-2xl font-bold text-white">{m.project_page_overview()}</h2>
 			<div class="space-y-4 leading-8 text-zinc-300">
 				{#each overview as paragraph (paragraph)}
 					<p>{paragraph}</p>
 				{/each}
 			</div>
-		</section>
+		{/snippet}
 
-		<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 200ms">
+		{#snippet featuresBlock()}
 			<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-6 text-2xl font-bold text-white">{m.project_page_features()}</h2>
 			<ul class="space-y-6">
 				{#each features as feature (feature.title)}
@@ -152,7 +146,37 @@
 					</li>
 				{/each}
 			</ul>
-		</section>
+		{/snippet}
+
+		{#if mediaAside && media.length > 0}
+			<div class="mb-12 grid gap-10 sm:mb-16 lg:grid-cols-[minmax(0,22rem)_1fr] lg:items-start lg:gap-12">
+				<div class="detail-fade" style="animation-delay: 100ms">
+					{@render gallery()}
+				</div>
+				<div class="space-y-12 sm:space-y-16">
+					<section class="detail-fade" style="animation-delay: 150ms">
+						{@render overviewBlock()}
+					</section>
+					<section class="detail-fade" style="animation-delay: 250ms">
+						{@render featuresBlock()}
+					</section>
+				</div>
+			</div>
+		{:else}
+			{#if media.length > 0}
+				<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 100ms">
+					{@render gallery()}
+				</section>
+			{/if}
+
+			<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 150ms">
+				{@render overviewBlock()}
+			</section>
+
+			<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 250ms">
+				{@render featuresBlock()}
+			</section>
+		{/if}
 	</div>
 </div>
 

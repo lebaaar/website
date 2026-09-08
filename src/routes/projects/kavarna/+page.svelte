@@ -2,7 +2,6 @@
 	import * as m from '$paraglide/messages';
 	import ProjectDetail from '$lib/components/ProjectDetail.svelte';
 	import icon from '$lib/assets/kavarna.webp';
-	import screenshot from '$lib/assets/kavarna-screenshot.webp';
 </script>
 
 <ProjectDetail
@@ -11,7 +10,9 @@
 	tagline={m.project_kavarna_cukrarija_desc()}
 	{icon}
 	iconRadius="rounded-full"
-	{screenshot}
+	media={[{ src: '/videos/kavarna.mp4', poster: '/videos/kavarna-poster.webp' }]}
+	mediaFit="contain"
+	mediaAspect="aspect-[1280/646]"
 	link="https://torta-bo.si"
 	overview={[m.kavarna_overview_p1()]}
 	features={[

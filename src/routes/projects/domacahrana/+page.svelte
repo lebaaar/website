@@ -2,7 +2,6 @@
 	import * as m from '$paraglide/messages';
 	import ProjectDetail from '$lib/components/ProjectDetail.svelte';
 	import icon from '$lib/assets/domacahrana.png';
-	import screenshot from '$lib/assets/domacahrana-screenshot.webp';
 </script>
 
 <ProjectDetail
@@ -11,7 +10,9 @@
 	tagline={m.project_domacahrana_desc()}
 	{icon}
 	iconShadow=""
-	{screenshot}
+	media={[{ src: '/videos/domacahrana.mp4', poster: '/videos/domacahrana-poster.webp' }]}
+	mediaFit="contain"
+	mediaAspect="aspect-[1280/624]"
 	link="https://domacahrana.si"
 	overview={[m.domacahrana_overview_p1(), m.domacahrana_overview_p2()]}
 	features={[

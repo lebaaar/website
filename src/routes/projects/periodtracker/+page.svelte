@@ -2,7 +2,11 @@
 	import * as m from '$paraglide/messages';
 	import ProjectDetail from '$lib/components/ProjectDetail.svelte';
 	import icon from '$lib/assets/period_tracker.webp';
-	import screenshot from '$lib/assets/periodtracker-screenshot.webp';
+	import shot1 from '$lib/assets/periodtracker-screenshot.webp';
+	import shot2 from '$lib/assets/periodtracker-screenshot-2.webp';
+	import shot3 from '$lib/assets/periodtracker-screenshot-3.webp';
+	import shot4 from '$lib/assets/periodtracker-screenshot-4.webp';
+	import shot5 from '$lib/assets/periodtracker-screenshot-5.webp';
 	import playBadge from '$lib/assets/google-play-badge.webp';
 </script>
 
@@ -12,7 +16,11 @@
 	tagline={m.project_period_tracker_desc()}
 	{icon}
 	iconRadius="rounded-full"
-	{screenshot}
+	media={[shot1, shot2, shot3, shot4, shot5]}
+	mediaFit="contain"
+	mediaAspect="aspect-[900/1600]"
+	mediaWidth="mx-auto max-w-sm lg:mx-0"
+	mediaAside
 	link="https://play.google.com/store/apps/details?id=com.lebaaar.period_tracker"
 	linkLabel={m.project_page_playstore()}
 	linkBadge={playBadge}

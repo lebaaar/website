@@ -2,7 +2,6 @@
 	import * as m from '$paraglide/messages';
 	import ProjectDetail from '$lib/components/ProjectDetail.svelte';
 	import icon from '$lib/assets/globalshapers.png';
-	import screenshot from '$lib/assets/shapers-screenshot.webp';
 </script>
 
 <ProjectDetail
@@ -12,7 +11,9 @@
 	{icon}
 	iconBg="bg-white"
 	iconRadius="rounded-xl"
-	{screenshot}
+	media={[{ src: '/videos/shapers.mp4', poster: '/videos/shapers-poster.webp' }]}
+	mediaFit="contain"
+	mediaAspect="aspect-[1280/624]"
 	link="https://academy.globalshapers.si"
 	overview={[m.shapers_overview_p1()]}
 	features={[
