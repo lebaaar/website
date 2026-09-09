@@ -1,17 +1,6 @@
-const site = 'https://lan.si';
+import { PROJECT_SLUGS, SITE_URL as site } from '$lib/seo';
 
-const pages = [
-	'',
-	'projects/domacahrana',
-	'projects/cenko',
-	'projects/potegnime',
-	'projects/librelock',
-	'projects/periodtracker',
-	'projects/companies',
-	'projects/amadejvidner',
-	'projects/kavarna',
-	'projects/shapers'
-];
+const pages = ['', ...PROJECT_SLUGS.map((slug) => `projects/${slug}`)];
 
 export function GET() {
 	const body = `<?xml version="1.0" encoding="UTF-8"?>

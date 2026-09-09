@@ -11,6 +11,15 @@
 		403: m.error_403
 	};
 
+	const errorTitles: Record<number, string> = {
+		404: 'Page not found',
+		403: 'Access denied'
+	};
+
+	const headTitle = $derived(
+		errorTitles[page.status] ? `${errorTitles[page.status]} | Lan Lebar` : 'Lan Lebar'
+	);
+
 	let visible = $state(false);
 
 	onMount(() => {
@@ -19,7 +28,10 @@
 </script>
 
 <svelte:head>
-	<title>{page.status} | Lan Lebar</title>
+	<title>{headTitle}</title>
+	{#if page.status !== 500}
+		<meta name="robots" content="noindex" />
+	{/if}
 </svelte:head>
 
 <main>

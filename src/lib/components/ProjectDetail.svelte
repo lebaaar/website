@@ -60,6 +60,10 @@
 <svelte:head>
 	<title>{title} | Lan Lebar</title>
 	<meta name="description" content={tagline} />
+	<meta property="og:title" content={`${title} | Lan Lebar`} />
+	<meta property="og:description" content={tagline} />
+	<meta name="twitter:title" content={`${title} | Lan Lebar`} />
+	<meta name="twitter:description" content={tagline} />
 </svelte:head>
 
 <div class="relative">

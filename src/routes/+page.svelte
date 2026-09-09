@@ -68,6 +68,16 @@
 		next.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
+	const personSchema = {
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		name: 'Lan Lebar',
+		url: 'https://lan.si',
+		jobTitle: 'Software Developer',
+		image: 'https://lan.si/og-image.png',
+		sameAs: ['https://github.com/lebaaar', 'https://linkedin.com/in/lan-lebar']
+	};
+
 	const socialLinkClass =
 		'btn-shine inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-5 py-3 text-sm font-medium text-zinc-200 shadow-sm transition-colors hover:border-zinc-500 hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
 </script>
@@ -75,6 +85,12 @@
 <svelte:head>
 	<title>Lan Lebar</title>
 	<meta name="description" content="Lan Lebar - Software Developer" />
+	<meta property="og:title" content="Lan Lebar" />
+	<meta property="og:description" content="Lan Lebar - Software Developer" />
+	<meta name="twitter:title" content="Lan Lebar" />
+	<meta name="twitter:description" content="Lan Lebar - Software Developer" />
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{@html `<script type="application/ld+json">${JSON.stringify(personSchema)}</` + `script>`}
 </svelte:head>
 
 <svelte:window onkeydown={handleKeydown} />
