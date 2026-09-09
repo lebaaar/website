@@ -177,6 +177,20 @@
 				{@render featuresBlock()}
 			</section>
 		{/if}
+
+		<section class="detail-fade border-t border-zinc-800 pt-12" style="animation-delay: 350ms">
+			<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+				<div>
+					<h2 use:shine={{ hitTest: true }} class="title-shimmer text-2xl font-bold text-white">{m.project_cta_title()}</h2>
+					<p class="mt-2 max-w-xl leading-7 text-zinc-400">{m.project_cta_desc()}</p>
+				</div>
+				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+				<a use:shine href="/#contact" class={`${actionButtonClass} shrink-0 self-start sm:self-auto`}>
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+					{m.project_cta_button()}
+				</a>
+			</div>
+		</section>
 	</div>
 </div>
 

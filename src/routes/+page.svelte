@@ -15,6 +15,15 @@
 	});
 
 	afterNavigate((nav) => {
+		if (nav.to?.url.hash === '#contact') {
+			const jump = () => {
+				document.getElementById('contact')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+			};
+			jump();
+			requestAnimationFrame(jump);
+			return;
+		}
+
 		if (!nav.from?.url.pathname.startsWith('/projects')) return;
 		const saved = sessionStorage.getItem('home-scroll');
 		if (!saved) return;

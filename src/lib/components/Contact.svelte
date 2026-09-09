@@ -139,17 +139,14 @@
 			</h2>
 			<p class="text-base leading-8 text-zinc-400 sm:text-lg">
 				{m.contact_subtitle()}
-				<br>
 				{m.contact_lead()}
 			</p>
 
-			<!-- Below lg the items flow into a wrapping row and the descriptions drop
-			     away, so four stacked blocks become two compact lines. -->
 			<ul class="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 lg:mt-6 lg:block lg:space-y-4">
 				{#each services as service (service.title)}
 					<li class="flex items-center gap-1.5 lg:items-start lg:gap-3">
 						<span aria-hidden="true" class="shrink-0 text-zinc-500 lg:mt-1">
-							<svg class="h-3.5 w-3.5 lg:h-[18px] lg:w-[18px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+							<svg class="h-3.5 w-3.5 lg:h-4.5 lg:w-4.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
 						</span>
 						<div>
 							<h3 use:shine={{ hitTest: true }} class="title-shimmer text-sm font-medium text-white lg:text-base lg:font-semibold">{service.title}</h3>
@@ -178,8 +175,8 @@
 				</div>
 			{:else}
 				<form onsubmit={submit} novalidate class="space-y-4">
-					<!-- Honeypot: off-screen and skipped by tab order, so only bots reach it. -->
-					<div class="absolute -left-[9999px]" aria-hidden="true">
+					<!-- Honeypot -->
+					<div class="absolute -left-3000" aria-hidden="true">
 						<label for="contact-company">Company</label>
 						<input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" bind:value={company} />
 					</div>
