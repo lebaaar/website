@@ -26,7 +26,15 @@
 
 		if (!nav.from?.url.pathname.startsWith('/projects')) return;
 		const saved = sessionStorage.getItem('home-scroll');
-		if (!saved) return;
+		if (!saved) {
+			const toProjects = () => {
+				document.getElementById('projects')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+			};
+			toProjects();
+			requestAnimationFrame(toProjects);
+			setTimeout(toProjects, 400);
+			return;
+		}
 		const restore = () => {
 			const container = document.querySelector<HTMLElement>('.scroll-container');
 			if (container) container.scrollTo({ top: Number(saved), behavior: 'instant' });
@@ -35,7 +43,7 @@
 		requestAnimationFrame(restore);
 	});
 
-	function scrollToProjects() {
+	function scrollToAbout() {
 		document.getElementById('about')?.scrollIntoView({
 			behavior: 'smooth',
 			block: 'start'
@@ -158,7 +166,7 @@
 
 		<button
 			use:shine
-			onclick={scrollToProjects}
+			onclick={scrollToAbout}
 			aria-label={m.hero_scroll_label()}
 			class="btn-shine pill-shine absolute! bottom-4 mx-auto hidden h-12 w-12 cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition-colors hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100 sm:flex animate-bounce">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
