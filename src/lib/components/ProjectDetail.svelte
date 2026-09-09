@@ -63,12 +63,12 @@
 </svelte:head>
 
 <div class="relative">
-	<div class="relative mx-auto w-full max-w-4xl px-6 py-12 sm:px-8 sm:py-16">
+	<div class="relative mx-auto w-full max-w-4xl px-6 pb-12 pt-6 sm:px-8 sm:pb-16 sm:pt-8">
 		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 		<a use:shine href="/"
-			class="btn-shine mb-10 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:text-white"
+			class="link-shine mb-6 inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-zinc-200"
 		>
-			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
 			{m.project_page_back()}
 		</a>
 
