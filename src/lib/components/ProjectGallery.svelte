@@ -1,9 +1,8 @@
 <script lang="ts">
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 
 	type MediaInput =
-		| string
-		| { src: string; poster?: string; type?: 'image' | 'video'; label?: string };
+		string | { src: string; poster?: string; type?: 'image' | 'video'; label?: string };
 	type MediaItem = { src: string; poster?: string; type: 'image' | 'video'; label?: string };
 
 	let {
@@ -245,7 +244,18 @@
 					aria-label={m.project_page_image_prev()}
 					onclick={() => goTo(index - 1)}
 				>
-					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg
+					>
 				</button>
 				<button
 					type="button"
@@ -253,7 +263,18 @@
 					aria-label={m.project_page_image_next()}
 					onclick={() => goTo(index + 1)}
 				>
-					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg
+					>
 				</button>
 			</div>
 		{/if}
@@ -293,7 +314,17 @@
 				close();
 			}}
 		>
-			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg
+			>
 		</button>
 
 		{#if items.length > 1}
@@ -306,7 +337,17 @@
 					step(-1);
 				}}
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg
+				>
 			</button>
 			<button
 				type="button"
@@ -317,7 +358,17 @@
 					step(1);
 				}}
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg
+				>
 			</button>
 		{/if}
 
@@ -328,7 +379,7 @@
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div
-					class="lightbox-slide flex h-full max-w-full min-h-0 items-center justify-center"
+					class="lightbox-slide flex h-full min-h-0 max-w-full items-center justify-center"
 					style={`--slide-from: ${slideFrom}`}
 					onclick={(e) => e.stopPropagation()}
 				>

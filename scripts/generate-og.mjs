@@ -21,15 +21,64 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const messages = JSON.parse(readFileSync(join(root, 'messages/en.json'), 'utf8'));
 
 const projects = [
-	{ slug: 'domacahrana', title: 'Domača Hrana', desc: 'project_domacahrana_desc', icon: 'domacahrana.png', bare: true },
+	{
+		slug: 'domacahrana',
+		title: 'Domača Hrana',
+		desc: 'project_domacahrana_desc',
+		icon: 'domacahrana.png',
+		bare: true
+	},
 	{ slug: 'cenko', title: 'Cenko', desc: 'project_cenko_desc', icon: 'cenko.png', radius: '22%' },
-	{ slug: 'potegnime', title: 'potegni.me', desc: 'project_potegnime_desc', icon: 'potegnime.webp', radius: '50%' },
-	{ slug: 'librelock', title: 'LibreLock', desc: 'project_librelock_desc', icon: 'librelock.svg', radius: '22%' },
-	{ slug: 'periodtracker', title: 'Period Tracker', desc: 'project_period_tracker_desc', icon: 'period_tracker.webp', radius: '50%' },
-	{ slug: 'companies', title: 'companies.si', desc: 'project_companies_desc', icon: 'companies.webp', radius: '50%' },
-	{ slug: 'amadejvidner', title: 'Amadej Vidner', desc: 'project_amadejvidner_desc', icon: 'amadejvidner.webp', bare: true },
-	{ slug: 'kavarna', title: 'Kavarna & Cukrarija', desc: 'project_kavarna_cukrarija_desc', icon: 'kavarna.webp', radius: '50%' },
-	{ slug: 'shapers', title: 'Shapers Academy', desc: 'project_globalshapers_desc', icon: 'globalshapers.png', radius: '18%', iconBg: '#ffffff' }
+	{
+		slug: 'potegnime',
+		title: 'potegni.me',
+		desc: 'project_potegnime_desc',
+		icon: 'potegnime.webp',
+		radius: '50%'
+	},
+	{
+		slug: 'librelock',
+		title: 'LibreLock',
+		desc: 'project_librelock_desc',
+		icon: 'librelock.svg',
+		radius: '22%'
+	},
+	{
+		slug: 'periodtracker',
+		title: 'Period Tracker',
+		desc: 'project_period_tracker_desc',
+		icon: 'period_tracker.webp',
+		radius: '50%'
+	},
+	{
+		slug: 'companies',
+		title: 'companies.si',
+		desc: 'project_companies_desc',
+		icon: 'companies.webp',
+		radius: '50%'
+	},
+	{
+		slug: 'amadejvidner',
+		title: 'Amadej Vidner',
+		desc: 'project_amadejvidner_desc',
+		icon: 'amadejvidner.webp',
+		bare: true
+	},
+	{
+		slug: 'kavarna',
+		title: 'Kavarna & Cukrarija',
+		desc: 'project_kavarna_cukrarija_desc',
+		icon: 'kavarna.webp',
+		radius: '50%'
+	},
+	{
+		slug: 'shapers',
+		title: 'Shapers Academy',
+		desc: 'project_globalshapers_desc',
+		icon: 'globalshapers.png',
+		radius: '18%',
+		iconBg: '#ffffff'
+	}
 ];
 
 const MIME = {
@@ -241,7 +290,8 @@ const projectHtml = (font, project, icon) =>
 	);
 
 const CHROME =
-	process.env.CHROME_BIN ?? ['chromium-browser', 'chromium', 'google-chrome', 'chrome'].find((bin) => {
+	process.env.CHROME_BIN ??
+	['chromium-browser', 'chromium', 'google-chrome', 'chrome'].find((bin) => {
 		try {
 			execFileSync('which', [bin], { stdio: 'ignore' });
 			return true;
@@ -253,16 +303,20 @@ const CHROME =
 function screenshot(html, out) {
 	const tmp = join(root, '.cache/og-page.html');
 	writeFileSync(tmp, html);
-	execFileSync(CHROME, [
-		'--headless',
-		'--no-sandbox',
-		'--disable-gpu',
-		'--hide-scrollbars',
-		'--force-device-scale-factor=1',
-		'--window-size=1200,630',
-		`--screenshot=${out}`,
-		`file://${tmp}`
-	], { stdio: 'ignore' });
+	execFileSync(
+		CHROME,
+		[
+			'--headless',
+			'--no-sandbox',
+			'--disable-gpu',
+			'--hide-scrollbars',
+			'--force-device-scale-factor=1',
+			'--window-size=1200,630',
+			`--screenshot=${out}`,
+			`file://${tmp}`
+		],
+		{ stdio: 'ignore' }
+	);
 	rmSync(tmp);
 	console.log(`  ${out.replace(root + '/', '')}`);
 }
@@ -276,7 +330,10 @@ const font = await interCss();
 mkdirSync(join(root, 'static/og'), { recursive: true });
 
 console.log('Rendering Open Graph images:');
-screenshot(homeHtml(font, dataUri(join(root, 'static/me.jpeg'))), join(root, 'static/og-image.png'));
+screenshot(
+	homeHtml(font, dataUri(join(root, 'static/me.jpeg'))),
+	join(root, 'static/og-image.png')
+);
 
 for (const project of projects) {
 	const icon = dataUri(join(root, 'src/lib/assets', project.icon));

@@ -26,6 +26,8 @@
 	<meta name="twitter:image" content={image} />
 </svelte:head>
 
-<div class="relative min-h-screen overflow-x-hidden bg-zinc-950 font-sans text-zinc-100 antialiased">
+<div
+	class="relative min-h-screen overflow-x-hidden bg-zinc-950 font-sans text-zinc-100 antialiased"
+>
 	{@render children()}
 </div>

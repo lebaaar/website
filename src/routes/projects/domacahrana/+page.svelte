@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 	import ProjectDetail from '$lib/components/ProjectDetail.svelte';
 	import icon from '$lib/assets/domacahrana.png';
 </script>
@@ -18,6 +18,6 @@
 	features={[
 		{ title: m.domacahrana_feature1_title(), description: m.domacahrana_feature1_desc() },
 		{ title: m.domacahrana_feature2_title(), description: m.domacahrana_feature2_desc() },
-		{ title: m.domacahrana_feature3_title(), description: m.domacahrana_feature3_desc() },
+		{ title: m.domacahrana_feature3_title(), description: m.domacahrana_feature3_desc() }
 	]}
 />
