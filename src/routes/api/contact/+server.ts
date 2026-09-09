@@ -3,8 +3,6 @@ import { isValidEmail, MAX_EMAIL, MAX_MESSAGE } from '$lib/validation';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
 const MAX_NAME = 100;
-// Discord caps an embed field value at 1024 characters; anything longer
-// rides along as an attachment instead of being cut off.
 const FIELD_LIMIT = 1024;
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_PER_WINDOW = 3;

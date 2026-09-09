@@ -3,7 +3,6 @@
 	import * as m from '$paraglide/messages';
 	import { i18n } from '$lib/i18n.svelte';
 
-	// Anchors live in +page.svelte (#home) and the section components.
 	const items = $derived.by(() => {
 		void i18n.locale;
 		return [
@@ -19,8 +18,6 @@
 	let labelEls = $state<HTMLSpanElement[]>([]);
 	let labelWidths = $state<number[]>([]);
 
-	// Labels expand to their measured width rather than an arbitrary max-width,
-	// so the open/close motion is a single even sweep instead of a snap.
 	function measureLabels() {
 		labelWidths = labelEls.map((el) => (el ? Math.ceil(el.getBoundingClientRect().width) : 0));
 	}
@@ -31,8 +28,6 @@
 		measureLabels();
 	});
 
-	// The page scrolls inside `.scroll-container`, not the window, so the active
-	// section is resolved from that container's scroll offsets.
 	function resolveActive(container: HTMLElement) {
 		const containerTop = container.getBoundingClientRect().top;
 		const line = container.clientHeight * 0.35;
@@ -75,7 +70,6 @@
 			mounted = true;
 		});
 
-		// Web fonts settle after first paint and shift the measured label widths.
 		document.fonts?.ready.then(measureLabels);
 
 		container.addEventListener('scroll', onScroll, { passive: true });
@@ -130,13 +124,11 @@
 </nav>
 
 <style>
-	/* Site easing, shared with the hero intro. */
 	.section-nav {
 		--nav-ease: cubic-bezier(0.22, 1, 0.36, 1);
 		transition: opacity 700ms ease-out;
 	}
 
-	/* Position reads from the marker's length, not its brightness — a bright dot with a halo glared against the dark page. */
 	.dot {
 		height: 5px;
 		transition:
@@ -148,8 +140,6 @@
 		height: 1.125rem;
 	}
 
-	/* Collapsed labels hold zero width; hover sweeps them to their measured
-	   width, staggered top to bottom, and pulls them back in unison. */
 	.label-wrap {
 		width: 0;
 		margin-right: 0;
