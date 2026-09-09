@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import About from '$lib/components/About.svelte';
+	import Contact from '$lib/components/Contact.svelte';
 	import LanguagePicker from '$lib/components/LanguagePicker.svelte';
 	import Projects from '$lib/components/Projects.svelte';
 	import SectionNav from '$lib/components/SectionNav.svelte';
@@ -144,6 +145,7 @@
 	{#key i18n.locale}
 		<About />
 		<Projects />
+		<Contact />
 	{/key}
 </div>
 

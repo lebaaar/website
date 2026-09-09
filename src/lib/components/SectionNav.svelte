@@ -9,7 +9,8 @@
 		return [
 			{ id: 'home', label: m.nav_home() },
 			{ id: 'about', label: m.nav_about() },
-			{ id: 'projects', label: m.nav_projects() }
+			{ id: 'projects', label: m.nav_projects() },
+			{ id: 'contact', label: m.nav_contact() }
 		];
 	});
 
