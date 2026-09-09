@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 
 	type MediaInput =
 		string | { src: string; poster?: string; type?: 'image' | 'video'; label?: string };

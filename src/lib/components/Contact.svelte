@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
 	import { isValidEmail, MAX_EMAIL, MAX_MESSAGE } from '$lib/validation';
 
@@ -96,7 +96,7 @@
 				headers: { 'content-type': 'application/json' },
 				body: JSON.stringify({ name, email, message, company })
 			});
-			const body = await response.json().catch(() => ({}));
+			const body = (await response.json().catch(() => ({}))) as { error?: unknown };
 
 			if (!response.ok) {
 				error = isKnownError(body?.error) ? body.error : 'server';

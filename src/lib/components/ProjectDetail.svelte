@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
 	import ProjectGallery from '$lib/components/ProjectGallery.svelte';
 
@@ -65,7 +65,6 @@
 
 <div class="relative">
 	<div class="relative mx-auto w-full max-w-4xl px-6 pt-6 pb-12 sm:px-8 sm:pt-8 sm:pb-16">
-		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 		<a
 			use:shine
 			href="/"
@@ -114,7 +113,6 @@
 
 			<div class="flex flex-wrap items-center gap-3">
 				{#if link && linkBadge}
-					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 					<a
 						href={link}
 						target="_blank"
@@ -125,7 +123,6 @@
 						<img src={linkBadge} alt={linkLabel ?? m.project_page_visit()} class="h-12 w-auto" />
 					</a>
 				{:else if link}
-					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 					<a
 						use:shine
 						href={link}
@@ -151,7 +148,6 @@
 					</a>
 				{/if}
 				{#if github}
-					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 					<a
 						use:shine
 						href={github}
@@ -262,7 +258,6 @@
 					</h2>
 					<p class="mt-2 max-w-xl leading-7 text-zinc-400">{m.project_cta_desc()}</p>
 				</div>
-				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a
 					use:shine
 					href="/#contact"

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
 	import domacahrana from '$lib/assets/domacahrana.png';
 	import potegnime from '$lib/assets/potegnime.webp';
@@ -251,7 +251,6 @@
 				role="article"
 			>
 				{#if project.slug}
-					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 					<a
 						href={`/projects/${project.slug}`}
 						class="absolute inset-0 z-0"
@@ -288,7 +287,6 @@
 
 				<div class="relative z-10 mt-auto flex flex-wrap gap-2">
 					{#if project.slug}
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 						<a
 							use:shine
 							href={`/projects/${project.slug}`}
@@ -310,7 +308,6 @@
 						</a>
 					{/if}
 					{#if project.link}
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 						<a
 							use:shine
 							href={project.link}
@@ -337,7 +334,6 @@
 						</a>
 					{/if}
 					{#if project.github && !(project.slug && project.link)}
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 						<a
 							use:shine
 							href={project.github}

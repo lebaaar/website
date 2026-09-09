@@ -1,4 +1,4 @@
-import { getLocale, setLocale, locales } from '$paraglide/runtime';
+import { getLocale, setLocale, locales } from '$lib/paraglide/runtime';
 
 export type Locale = Parameters<typeof setLocale>[0];
 

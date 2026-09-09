@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 	import { i18n } from '$lib/i18n.svelte';
 
 	const items = $derived.by(() => {

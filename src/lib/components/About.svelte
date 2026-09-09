@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
 	import loftwareLogo from '$lib/assets/loftware.png';
 
@@ -120,7 +120,6 @@
 										<span class="text-sm font-medium text-zinc-500">{exp.period}</span>
 									</div>
 									<p class="mb-2 font-medium text-zinc-300">
-										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 										<a
 											use:shine
 											href={exp.companyLink}

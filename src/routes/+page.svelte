@@ -7,7 +7,7 @@
 	import SectionNav from '$lib/components/SectionNav.svelte';
 	import { shine } from '$lib/actions/shine';
 	import { i18n } from '$lib/i18n.svelte';
-	import * as m from '$paraglide/messages';
+	import * as m from '$lib/paraglide/messages';
 
 	beforeNavigate(() => {
 		const container = document.querySelector<HTMLElement>('.scroll-container');
