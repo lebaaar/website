@@ -91,14 +91,14 @@
 
 <nav
 	aria-label={m.nav_label()}
-	class={`section-nav fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-stretch py-2 pl-2 lg:flex ${mounted ? 'opacity-100' : 'opacity-0'}`}
+	class={`section-nav fixed top-1/2 right-5 z-40 hidden -translate-y-1/2 flex-col items-stretch py-2 pl-2 lg:flex ${mounted ? 'opacity-100' : 'opacity-0'}`}
 >
 	{#each items as item, i (item.id)}
 		{@const isActive = active === item.id}
 		<button
 			onclick={() => jumpTo(item.id)}
 			aria-current={isActive ? 'true' : undefined}
-			class="group/item relative flex cursor-pointer items-center justify-end rounded-lg py-1.5 pl-2 pr-1"
+			class="group/item relative flex cursor-pointer items-center justify-end rounded-lg py-1.5 pr-1 pl-2"
 		>
 			<span
 				class="label-wrap"
@@ -106,7 +106,7 @@
 			>
 				<span
 					bind:this={labelEls[i]}
-					class={`nav-label block w-max text-[13px] font-medium leading-5 tracking-[0.01em] transition-colors duration-300 ease-out ${
+					class={`nav-label block w-max text-[13px] leading-5 font-medium tracking-[0.01em] transition-colors duration-300 ease-out ${
 						isActive ? 'text-zinc-100' : 'text-zinc-400 group-hover/item:text-zinc-100'
 					}`}
 				>

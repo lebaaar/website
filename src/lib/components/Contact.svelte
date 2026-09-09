@@ -134,7 +134,10 @@
 >
 	<div class="grid items-start gap-8 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
 		<div class="lg:sticky lg:top-8 lg:py-4">
-			<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-3 pb-2 text-4xl font-bold text-white sm:text-5xl">
+			<h2
+				use:shine={{ hitTest: true }}
+				class="title-shimmer mb-3 pb-2 text-4xl font-bold text-white sm:text-5xl"
+			>
 				{m.contact_title()}
 			</h2>
 			<p class="text-base leading-8 text-zinc-400 sm:text-lg">
@@ -146,10 +149,24 @@
 				{#each services as service (service.title)}
 					<li class="flex items-center gap-1.5 lg:items-start lg:gap-3">
 						<span aria-hidden="true" class="shrink-0 text-zinc-500 lg:mt-1">
-							<svg class="h-3.5 w-3.5 lg:h-4.5 lg:w-4.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+							<svg
+								class="h-3.5 w-3.5 lg:h-4.5 lg:w-4.5"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg
+							>
 						</span>
 						<div>
-							<h3 use:shine={{ hitTest: true }} class="title-shimmer text-sm font-medium text-white lg:text-base lg:font-semibold">{service.title}</h3>
+							<h3
+								use:shine={{ hitTest: true }}
+								class="title-shimmer text-sm font-medium text-white lg:text-base lg:font-semibold"
+							>
+								{service.title}
+							</h3>
 							<p class="mt-0.5 hidden text-sm leading-6 text-zinc-500 lg:block">{service.desc}</p>
 						</div>
 					</li>
@@ -157,11 +174,26 @@
 			</ul>
 		</div>
 
-		<div use:shine class="box-shine relative rounded-2xl border border-zinc-700 bg-zinc-900/80 p-5 shadow-xl shadow-black/20 backdrop-blur transition-colors hover:border-zinc-500 sm:p-6">
+		<div
+			use:shine
+			class="box-shine relative rounded-2xl border border-zinc-700 bg-zinc-900/80 p-5 shadow-xl shadow-black/20 backdrop-blur transition-colors hover:border-zinc-500 sm:p-6"
+		>
 			{#if status === 'sent'}
 				<div class="flex flex-col items-center gap-4 py-6 text-center">
-					<div class="flex h-14 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-950 text-zinc-100">
-						<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+					<div
+						class="flex h-14 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-950 text-zinc-100"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="28"
+							height="28"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg
+						>
 					</div>
 					<p class="text-lg text-zinc-200">{m.contact_success()}</p>
 					<button
@@ -170,7 +202,9 @@
 						onclick={() => (status = 'idle')}
 						class="btn-shine cursor-pointer rounded-xl border border-zinc-700 bg-zinc-950 px-5 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
 					>
-						<span use:shine={{ within: '.btn-shine' }} class="btn-shine-label">{m.contact_send_another()}</span>
+						<span use:shine={{ within: '.btn-shine' }} class="btn-shine-label"
+							>{m.contact_send_another()}</span
+						>
 					</button>
 				</div>
 			{:else}
@@ -178,7 +212,14 @@
 					<!-- Honeypot -->
 					<div class="absolute -left-3000" aria-hidden="true">
 						<label for="contact-company">Company</label>
-						<input id="contact-company" name="company" type="text" tabindex="-1" autocomplete="off" bind:value={company} />
+						<input
+							id="contact-company"
+							name="company"
+							type="text"
+							tabindex="-1"
+							autocomplete="off"
+							bind:value={company}
+						/>
 					</div>
 
 					<div class="grid gap-4 sm:grid-cols-2">
@@ -212,14 +253,16 @@
 								bind:this={emailEl}
 								bind:value={email}
 								oninput={() => {
-								emailTouched = false;
-								clearError();
-							}}
+									emailTouched = false;
+									clearError();
+								}}
 								onblur={() => (emailTouched = true)}
 								class={`${fieldClass} ${showEmailError ? 'border-red-500/70 hover:border-red-500/70 focus:border-red-500' : ''}`}
 							/>
 							{#if showEmailError}
-								<p id="contact-email-error" class="mt-1 text-sm text-red-400">{m.contact_error_email()}</p>
+								<p id="contact-email-error" class="mt-1 text-sm text-red-400">
+									{m.contact_error_email()}
+								</p>
 							{/if}
 						</div>
 					</div>
@@ -228,7 +271,7 @@
 						<div class="flex items-baseline justify-between">
 							<label class={labelClass} for="contact-message">{m.contact_message_label()}</label>
 							{#if showCounter}
-								<span aria-hidden="true" class="mb-1.5 text-xs tabular-nums text-zinc-500">
+								<span aria-hidden="true" class="mb-1.5 text-xs text-zinc-500 tabular-nums">
 									{message.length} / {MAX_MESSAGE}
 								</span>
 							{/if}
@@ -243,8 +286,7 @@
 							bind:value={message}
 							oninput={clearError}
 							onkeydown={handleKeydown}
-							class={`${fieldClass} resize-y`}
-						></textarea>
+							class={`${fieldClass} resize-y`}></textarea>
 					</div>
 
 					{#if error === 'server'}
@@ -253,7 +295,8 @@
 								use:shine
 								href="mailto:hello@lan.si"
 								class="link-shine underline decoration-red-400/60 underline-offset-4 transition hover:text-red-300"
-							>hello@lan.si</a>{m.contact_error_server_suffix()}
+								>hello@lan.si</a
+							>{m.contact_error_server_suffix()}
 						</p>
 					{:else if error}
 						<p role="alert" class="text-sm font-medium text-red-400">{errorMessages[error]()}</p>
@@ -263,13 +306,34 @@
 						use:shine
 						type="submit"
 						disabled={status === 'sending' || showEmailError}
-						class="btn-shine shine-dark flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-400 bg-zinc-100 px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+						class="btn-shine shine-dark flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-400 bg-zinc-100 px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-white focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
 					>
 						{#if status === 'sending'}
-							<svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+							<svg
+								class="animate-spin"
+								xmlns="http://www.w3.org/2000/svg"
+								width="18"
+								height="18"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg
+							>
 							{m.contact_sending()}
 						{:else}
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="18"
+								height="18"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg
+							>
 							{m.contact_submit()}
 						{/if}
 					</button>

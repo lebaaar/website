@@ -1,6 +1,7 @@
 import type { HandleClientError } from '@sveltejs/kit';
 
-const CHUNK_LOAD_ERROR = /dynamically imported module|Importing a module script failed|module script failed|Failed to fetch/i;
+const CHUNK_LOAD_ERROR =
+	/dynamically imported module|Importing a module script failed|module script failed|Failed to fetch/i;
 
 export const handleError: HandleClientError = ({ error, status }) => {
 	const message = error instanceof Error ? error.message : String(error);
