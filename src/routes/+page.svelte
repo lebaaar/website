@@ -112,8 +112,8 @@
 		id="home"
 		class="relative flex min-h-screen items-center justify-center px-4 pt-10 pb-20 sm:px-8"
 	>
-		<div class="absolute top-4 right-4 z-50 sm:top-6 sm:right-6">
-			<LanguagePicker />
+		<div class="absolute top-0 right-4 z-50 flex h-16 items-center sm:right-6">
+			<LanguagePicker compact />
 		</div>
 		<div class="hero-intro mx-auto flex w-full max-w-3xl flex-col items-center text-center">
 			<div class="avatar-intro mb-6">

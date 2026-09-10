@@ -27,3 +27,7 @@ vite.config.ts.timestamp-*
 # Paraglide
 src/lib/paraglide
 project.inlang/cache/
+
+# Claude
+CLAUDE.md
+DESIGN.md
