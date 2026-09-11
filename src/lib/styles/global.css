@@ -162,19 +162,8 @@ html {
 .word-shine:hover,
 .btn-shine:hover,
 .box-shine:hover,
-.img-shine:hover,
-.icon-shine:hover {
+.img-shine:hover {
 	--shine: 1;
-}
-
-.icon-shine {
-	--shine: 0;
-	--icon-base: #a1a1aa;
-	--icon-hot: #fafafa;
-	color: color-mix(in oklab, var(--icon-hot) calc(var(--shine) * 100%), var(--icon-base));
-	transition:
-		--shine 300ms ease-out,
-		color 200ms ease-out;
 }
 
 .shine-inherit {
@@ -213,8 +202,7 @@ html {
 
 	.btn-shine,
 	.box-shine,
-	.img-shine,
-	.icon-shine {
+	.img-shine {
 		transition: none;
 	}
 

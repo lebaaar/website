@@ -11,13 +11,8 @@
 		403: m.error_403
 	};
 
-	const errorTitles: Record<number, string> = {
-		404: 'Page not found',
-		403: 'Access denied'
-	};
-
 	const headTitle = $derived(
-		errorTitles[page.status] ? `${errorTitles[page.status]} | Lan Lebar` : 'Lan Lebar'
+		page.status ? `${page.status} | Lan Lebar` : 'Lan Lebar'
 	);
 
 	let visible = $state(false);
