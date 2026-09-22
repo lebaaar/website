@@ -182,8 +182,8 @@
 						class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5"
 					>
 						<div
-							use:shine={{ within: '.box-shine' }}
-							class="title-shimmer shine-inherit text-3xl font-bold"
+							use:shine={{ hitTest: true }}
+							class="title-shimmer text-3xl font-bold"
 						>
 							4+
 						</div>
@@ -196,10 +196,10 @@
 						class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5"
 					>
 						<div
-							use:shine={{ within: '.box-shine' }}
-							class="title-shimmer shine-inherit text-3xl font-bold"
+							use:shine={{ hitTest: true }}
+							class="title-shimmer text-3xl font-bold"
 						>
-							10+
+							20+
 						</div>
 						<div class="mt-1 text-xs font-medium tracking-widest text-zinc-500 uppercase">
 							{m.stat_projects_built()}
