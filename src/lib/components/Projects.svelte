@@ -80,6 +80,25 @@
 			iconImage: domacahrana
 		},
 		{
+			title: 'LibreLock',
+			description: m.project_librelock_desc(),
+			technologies: ['Vue', 'Go', 'SQLite', 'Docker'],
+			category: 'webapp',
+			slug: 'librelock',
+			github: 'https://github.com/LibreLock',
+			iconImage: librelock
+		},
+		{
+			title: 'Amadej Vidner Portfolio',
+			description: m.project_amadejvidner_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
+			category: 'website',
+			slug: 'amadejvidner',
+			link: 'https://amadejvidner.com',
+			radius: 'rounded-sm',
+			iconImage: amadejvidner
+		},
+		{
 			title: 'Cenko',
 			description: m.project_cenko_desc(),
 			technologies: ['Flutter', 'Dart', 'Supabase', 'Play Store'],
@@ -87,6 +106,16 @@
 			slug: 'cenko',
 			link: 'https://cenko.app',
 			iconImage: cenko
+		},
+		{
+			title: 'companies.si',
+			description: m.project_companies_desc(),
+			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
+			category: 'webapp',
+			slug: 'companies',
+			link: 'https://companies.si',
+			radius: 'rounded-lg',
+			iconImage: companies
 		},
 		{
 			title: 'potegni.me',
@@ -100,25 +129,6 @@
 			radius: 'rounded-full'
 		},
 		{
-			title: 'LibreLock',
-			description: m.project_librelock_desc(),
-			technologies: ['Vue', 'Go', 'SQLite', 'Docker'],
-			category: 'webapp',
-			slug: 'librelock',
-			github: 'https://github.com/LibreLock',
-			iconImage: librelock
-		},
-		{
-			title: 'companies.si',
-			description: m.project_companies_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
-			category: 'webapp',
-			slug: 'companies',
-			link: 'https://companies.si',
-			radius: 'rounded-lg',
-			iconImage: companies
-		},
-		{
 			title: 'Period Tracker',
 			description: m.project_period_tracker_desc(),
 			technologies: ['Flutter', 'Dart', 'SQLite', 'Play Store'],
@@ -128,16 +138,6 @@
 			github: 'https://github.com/lebaaar/period_tracker',
 			iconImage: periodTracker,
 			radius: 'rounded-full'
-		},
-		{
-			title: 'Amadej Vidner',
-			description: m.project_amadejvidner_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			category: 'website',
-			slug: 'amadejvidner',
-			link: 'https://amadejvidner.com',
-			radius: 'rounded-sm',
-			iconImage: amadejvidner
 		},
 		{
 			title: 'Kavarna & Cukrarija',

@@ -6,11 +6,10 @@
 
 	let { children } = $props();
 
-	const canonical = $derived(
-		SITE_URL + (page.url.pathname === '/' ? '' : page.url.pathname.replace(/\/$/, ''))
-	);
+	const isIndexable = $derived(page.url.pathname === '/');
+	const canonical = $derived(isIndexable ? SITE_URL : undefined);
 
-	const image = $derived(ogImage(page.url.pathname));
+	const image = $derived(isIndexable ? ogImage(page.url.pathname) : undefined);
 
 	$effect(() => {
 		document.documentElement.lang = i18n.locale;
@@ -18,12 +17,16 @@
 </script>
 
 <svelte:head>
-	<link rel="canonical" href={canonical} />
-	<meta property="og:url" content={canonical} />
-	<meta property="og:image" content={image} />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-	<meta name="twitter:image" content={image} />
+	{#if isIndexable}
+		<link rel="canonical" href={canonical} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={image} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta name="twitter:image" content={image} />
+	{:else}
+		<meta name="robots" content="noindex, nofollow" />
+	{/if}
 </svelte:head>
 
 <div
