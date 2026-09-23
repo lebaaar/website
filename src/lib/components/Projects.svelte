@@ -73,7 +73,7 @@
 		{
 			title: 'Domača Hrana',
 			description: m.project_domacahrana_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
 			category: 'webapp',
 			slug: 'domacahrana',
 			link: 'https://domacahrana.si',
@@ -110,7 +110,7 @@
 		{
 			title: 'companies.si',
 			description: m.project_companies_desc(),
-			technologies: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'Cloudflare'],
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
 			category: 'webapp',
 			slug: 'companies',
 			link: 'https://companies.si',
