@@ -174,7 +174,12 @@
 	"contact_service4_title": "APIs & integrations",
 	"contact_service4_desc": "Backends, third-party integrations, scrapers and automation.",
 	"contact_error_long": "Message is too long, please keep it under 10.000 characters.",
-	"project_cta_title": "Want one like it?",
+	"project_cta_title_like": "Like what you see?",
+	"project_cta_title_similar": "Want one like it?",
+	"project_cta_title_yours": "Your project could be next.",
+	"project_cta_title_idea": "Got a similar idea in mind?",
+	"project_cta_title_business": "Need a site for your business?",
+	"project_cta_title_app": "Have an app in mind?",
 	"project_cta_desc": "Tell me what you have in mind and let's make it happen!",
 	"project_cta_button": "Get in touch"
 }

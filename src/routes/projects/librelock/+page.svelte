@@ -18,4 +18,5 @@
 		{ title: m.librelock_feature3_title(), description: m.librelock_feature3_desc() },
 		{ title: m.librelock_feature4_title(), description: m.librelock_feature4_desc() }
 	]}
+	cta="similar"
 />

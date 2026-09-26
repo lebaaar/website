@@ -174,7 +174,12 @@
 	"contact_service4_title": "API-ji in integracije",
 	"contact_service4_desc": "Zaledni sistemi, integracije z drugimi sistemi, scraperji in avtomatizacija.",
 	"contact_error_long": "Sporočilo je predolgo, prosim, da ga omejite na 10.000 znakov.",
-	"project_cta_title": "Želite nekaj podobnega?",
-	"project_cta_desc": "Zaupajte mi svojo idejo in skupaj jo bomo spravili v resničnost.",
+	"project_cta_title_like": "Vam je všeč kar vidite?",
+	"project_cta_title_similar": "Želite nekaj podobnega?",
+	"project_cta_title_yours": "Naslednji projekt je lahko vaš.",
+	"project_cta_title_idea": "Imate v mislih podobno idejo?",
+	"project_cta_title_business": "Potrebujete spletno stran za svoje podjetje?",
+	"project_cta_title_app": "Imate v mislih aplikacijo?",
+	"project_cta_desc": "Zaupajte mi svojo idejo in skupaj jo bomo uresničili.",
 	"project_cta_button": "Stopite v stik"
 }

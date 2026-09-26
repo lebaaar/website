@@ -20,4 +20,5 @@
 		{ title: m.domacahrana_feature2_title(), description: m.domacahrana_feature2_desc() },
 		{ title: m.domacahrana_feature3_title(), description: m.domacahrana_feature3_desc() }
 	]}
+	cta="idea"
 />

@@ -32,4 +32,5 @@
 		{ title: m.companies_feature3_title(), description: m.companies_feature3_desc() },
 		{ title: m.companies_feature4_title(), description: m.companies_feature4_desc() }
 	]}
+	cta="yours"
 />

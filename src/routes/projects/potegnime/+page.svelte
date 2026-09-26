@@ -21,4 +21,5 @@
 		{ title: m.potegnime_feature2_title(), description: m.potegnime_feature2_desc() },
 		{ title: m.potegnime_feature3_title(), description: m.potegnime_feature3_desc() }
 	]}
+	cta="similar"
 />

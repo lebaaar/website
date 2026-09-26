@@ -8,6 +8,15 @@
 		description: string;
 	}
 
+	const ctaTitles = {
+		like: m.project_cta_title_like,
+		similar: m.project_cta_title_similar,
+		yours: m.project_cta_title_yours,
+		idea: m.project_cta_title_idea,
+		business: m.project_cta_title_business,
+		app: m.project_cta_title_app
+	};
+
 	let {
 		title,
 		type,
@@ -27,7 +36,8 @@
 		linkBadge = undefined,
 		github = undefined,
 		overview,
-		features
+		features,
+		cta
 	}: {
 		title: string;
 		type: string;
@@ -48,6 +58,7 @@
 		github?: string;
 		overview: string[];
 		features: Feature[];
+		cta: keyof typeof ctaTitles;
 	} = $props();
 
 	const actionButtonClass =
@@ -254,7 +265,7 @@
 			<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
 				<div>
 					<h2 use:shine={{ hitTest: true }} class="title-shimmer text-2xl font-bold text-white">
-						{m.project_cta_title()}
+						{ctaTitles[cta]()}
 					</h2>
 					<p class="mt-2 max-w-xl leading-7 text-zinc-400">{m.project_cta_desc()}</p>
 				</div>

@@ -33,4 +33,5 @@
 		{ title: m.amadejvidner_feature4_title(), description: m.amadejvidner_feature4_desc() },
 		{ title: m.amadejvidner_feature5_title(), description: m.amadejvidner_feature5_desc() }
 	]}
+	cta="like"
 />

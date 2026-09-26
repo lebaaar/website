@@ -23,4 +23,5 @@
 		{ title: m.cenko_feature3_title(), description: m.cenko_feature3_desc() },
 		{ title: m.cenko_feature4_title(), description: m.cenko_feature4_desc() }
 	]}
+	cta="app"
 />

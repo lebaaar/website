@@ -20,4 +20,5 @@
 		{ title: m.shapers_feature1_title(), description: m.shapers_feature1_desc() },
 		{ title: m.shapers_feature2_title(), description: m.shapers_feature2_desc() }
 	]}
+	cta="yours"
 />
