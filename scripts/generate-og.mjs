@@ -58,6 +58,13 @@ const projects = [
 		radius: '50%'
 	},
 	{
+		slug: 'undefined',
+		title: 'undefined',
+		desc: 'project_undefined_desc',
+		icon: 'undefined.webp',
+		bare: true
+	},
+	{
 		slug: 'amadejvidner',
 		title: 'Amadej Vidner',
 		desc: 'project_amadejvidner_desc',

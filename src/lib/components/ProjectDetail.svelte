@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
+	import type { Snippet } from 'svelte';
 	import ProjectGallery from '$lib/components/ProjectGallery.svelte';
 
 	interface Feature {
@@ -56,7 +57,7 @@
 		linkLabel?: string;
 		linkBadge?: string;
 		github?: string;
-		overview: string[];
+		overview: (string | Snippet)[];
 		features: Feature[];
 		cta: keyof typeof ctaTitles;
 	} = $props();
@@ -191,8 +192,10 @@
 				{m.project_page_overview()}
 			</h2>
 			<div class="space-y-4 leading-8 text-zinc-300">
-				{#each overview as paragraph (paragraph)}
-					<p>{paragraph}</p>
+				{#each overview as paragraph, i (i)}
+					<p>
+						{#if typeof paragraph === 'string'}{paragraph}{:else}{@render paragraph()}{/if}
+					</p>
 				{/each}
 			</div>
 		{/snippet}

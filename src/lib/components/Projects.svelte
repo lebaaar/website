@@ -10,6 +10,7 @@
 	import globalShapers from '$lib/assets/globalshapers.png';
 	import kavarna from '$lib/assets/kavarna.webp';
 	import companies from '$lib/assets/companies.webp';
+	import undefinedIcon from '$lib/assets/undefined.webp';
 	import amadejvidner from '$lib/assets/amadejvidner.webp';
 
 	type ProjectCategory = 'mobile' | 'webapp' | 'website';
@@ -118,9 +119,18 @@
 			iconImage: companies
 		},
 		{
+			title: 'undefined',
+			description: m.project_undefined_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'three.js',],
+			category: 'webapp',
+			slug: 'undefined',
+			github: 'https://github.com/undefined-application',
+			iconImage: undefinedIcon
+		},
+		{
 			title: 'potegni.me',
 			description: m.project_potegnime_desc(),
-			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL', 'Docker'],
+			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL'],
 			category: 'webapp',
 			slug: 'potegnime',
 			github: 'https://github.com/potegnime',
@@ -140,6 +150,15 @@
 			radius: 'rounded-full'
 		},
 		{
+			title: 'Shapers Academy',
+			description: m.project_globalshapers_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
+			category: 'website',
+			slug: 'shapers',
+			link: 'https://academy.globalshapers.si',
+			iconImage: globalShapers
+		},
+		{
 			title: 'Kavarna & Cukrarija',
 			description: m.project_kavarna_cukrarija_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
@@ -149,15 +168,6 @@
 			radius: 'rounded-full',
 			iconImage: kavarna
 		},
-		{
-			title: 'Shapers Academy',
-			description: m.project_globalshapers_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			category: 'website',
-			slug: 'shapers',
-			link: 'https://academy.globalshapers.si',
-			iconImage: globalShapers
-		}
 	];
 
 	const filters: { value: 'all' | ProjectCategory; label: () => string }[] = [
@@ -167,8 +177,13 @@
 		{ value: 'website', label: m.projects_filter_website }
 	];
 
+	const MAX_PROJECTS = 9;
+
 	const filteredProjects = $derived(
-		activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)
+		(activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)).slice(
+			0,
+			MAX_PROJECTS
+		)
 	);
 
 	function moveIndicator() {

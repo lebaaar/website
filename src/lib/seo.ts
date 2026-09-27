@@ -7,6 +7,7 @@ export const PROJECT_SLUGS = [
 	'librelock',
 	'periodtracker',
 	'companies',
+	'undefined',
 	'amadejvidner',
 	'kavarna',
 	'shapers'
