@@ -12,6 +12,7 @@
 	import companies from '$lib/assets/companies.webp';
 	import undefinedIcon from '$lib/assets/undefined.webp';
 	import amadejvidner from '$lib/assets/amadejvidner.webp';
+	import domainForSale from '$lib/assets/domain-for-sale.svg';
 
 	type ProjectCategory = 'mobile' | 'webapp' | 'website';
 
@@ -168,13 +169,23 @@
 			radius: 'rounded-full',
 			iconImage: kavarna
 		},
+		{
+			title: 'Domain for sale',
+			description: m.project_domainforsale_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS'],
+			category: 'website',
+			slug: 'domain-for-sale',
+			github: 'https://github.com/lebaaar/domain-for-sale',
+			link: 'https://ll.si',
+			iconImage: domainForSale
+		}
 	];
 
 	const filters: { value: 'all' | ProjectCategory; label: () => string }[] = [
 		{ value: 'all', label: m.projects_filter_all },
 		{ value: 'webapp', label: m.projects_filter_webapp },
-		{ value: 'mobile', label: m.projects_filter_mobile },
-		{ value: 'website', label: m.projects_filter_website }
+		{ value: 'website', label: m.projects_filter_website },
+		{ value: 'mobile', label: m.projects_filter_mobile }
 	];
 
 	const MAX_PROJECTS = 9;
