@@ -3,7 +3,10 @@
 	"compilerOptions": {
 		"rewriteRelativeImportExtensions": true,
 		"allowJs": true,
-		"checkJs": true,
+		// Off, as in the sibling apps: worker-configuration.d.ts types `mainModule` as
+		// `import("./.svelte-kit/cloudflare/_worker")`, so checkJs type-checks the
+		// bundled adapter output and reports hundreds of errors in generated code.
+		"checkJs": false,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,

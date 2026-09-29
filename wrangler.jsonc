@@ -1,0 +1,14 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "website",
+	"account_id": "e2066d0e872f07612cc90f8b8cfdab0a",
+	"compatibility_date": "2026-09-09",
+	"compatibility_flags": ["nodejs_compat"],
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	"workers_dev": true,
+	"preview_urls": true
+}
