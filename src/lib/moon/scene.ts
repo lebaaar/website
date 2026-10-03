@@ -220,7 +220,9 @@ export async function createMoonScene(
 	function resize() {
 		width = canvas.clientWidth;
 		height = canvas.clientHeight;
-		const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+		// Phones render at a lower resolution to spare the GPU.
+		const phone = window.matchMedia('(pointer: coarse)').matches && Math.min(width, height) < 768;
+		const dpr = Math.min(window.devicePixelRatio || 1, phone ? 1.25 : 1.75);
 		renderer.setPixelRatio(dpr);
 		renderer.setSize(width, height, false);
 		camera.left = -width / 2;
