@@ -14,6 +14,8 @@ export interface MoonState {
 	/** Extra spin in rad/s, from scrolling. */
 	spinRate: number;
 	stars: number;
+	/** Multiplier on the faint light that shows craters on the dark side. */
+	earthshine: number;
 	/** Raises the sun so the lower half falls into shadow. */
 	elev: number;
 	starAlpha: number;
@@ -262,7 +264,7 @@ export async function createMoonScene(
 		sun.position.set(cx + lx * 100, cy + ly * 100, lz * 100);
 		sun.target.position.set(cx, cy, 0);
 		sun.intensity = 3.2 * s.light;
-		earthshine.intensity = (0.1 + 0.12 * (1 - s.phase)) * Math.min(s.light, 1);
+		earthshine.intensity = (0.1 + 0.12 * (1 - s.phase)) * Math.min(s.light, 1) * s.earthshine;
 
 		corona.position.set(cx, cy, -s.r - 10);
 		corona.scale.setScalar(Math.max(s.r, 0.01) * CORONA_SPAN);

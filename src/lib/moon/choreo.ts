@@ -18,6 +18,7 @@ const pose = (p: Partial<Pose> & Pick<Pose, 'x' | 'y' | 'r'>): Pose => ({
 	spin: 0,
 	stars: 0,
 	elev: 0,
+	earthshine: 1,
 	...p
 });
 
@@ -61,7 +62,7 @@ export function buildKeyframes(container: HTMLElement): Keyframe[] {
 	const projectsEnd = projects + (document.getElementById('projects')?.offsetHeight ?? vh) - vh;
 	const contact = Math.min(offsetIn(container, 'contact'), max);
 
-	const hero = heroPose(container);
+	const hero = { ...heroPose(container), earthshine: 1.3 };
 
 	const aboutPose = pose({
 		x: vw * (wide ? 0.84 : 0.82),
@@ -120,7 +121,8 @@ export function mixPose(a: Pose, b: Pose, t: number): Pose {
 		light: lerp(a.light, b.light, t),
 		spin: lerp(a.spin, b.spin, t),
 		stars: lerp(a.stars, b.stars, t),
-		elev: lerp(a.elev, b.elev, t)
+		elev: lerp(a.elev, b.elev, t),
+		earthshine: lerp(a.earthshine, b.earthshine, t)
 	};
 }
 
