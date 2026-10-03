@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
+	import { reveal } from '$lib/actions/reveal';
+	import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
 	import domacahrana from '$lib/assets/domacahrana.png';
 	import potegnime from '$lib/assets/potegnime.webp';
 	import periodTracker from '$lib/assets/period_tracker.webp';
@@ -28,10 +30,7 @@
 		iconImage?: string;
 	}
 
-	let seen = false;
-	let visible = $state(seen);
-	let hoveredCard = $state<number | null>(null);
-	let sectionEl = $state<HTMLElement | null>(null);
+	let listEl = $state<HTMLElement>();
 	let activeFilter = $state<'all' | ProjectCategory>('all');
 	let tabEls = $state<HTMLButtonElement[]>([]);
 	let indicator = $state({ x: 0, y: 0, width: 0, height: 0, ready: false });
@@ -53,22 +52,6 @@
 		if (saved === 'all' || saved === 'mobile' || saved === 'webapp' || saved === 'website') {
 			activeFilter = saved;
 		}
-	});
-
-	onMount(() => {
-		if (seen) return;
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					visible = true;
-					seen = true;
-					observer.disconnect();
-				}
-			},
-			{ threshold: 0.1 }
-		);
-		if (sectionEl) observer.observe(sectionEl);
-		return () => observer.disconnect();
 	});
 
 	const projects: Project[] = [
@@ -122,7 +105,7 @@
 		{
 			title: 'undefined',
 			description: m.project_undefined_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'three.js',],
+			technologies: ['SvelteKit', 'Tailwind CSS', 'three.js'],
 			category: 'webapp',
 			slug: 'undefined',
 			github: 'https://github.com/undefined-application',
@@ -168,7 +151,7 @@
 			link: 'https://torta-bo.si',
 			radius: 'rounded-full',
 			iconImage: kavarna
-		},
+		}
 		// {
 		// 	title: 'Domain for sale',
 		// 	description: m.project_domainforsale_desc(),
@@ -220,25 +203,83 @@
 		return () => resizeObserver.disconnect();
 	});
 
+	// Cards tilt up into place as they scroll in, and alternate columns drift at a different speed
+	// so the grid shears slightly as you move through it. Rebuilt whenever the filter changes.
+	$effect(() => {
+		void filteredProjects;
+		const list = listEl;
+		if (!list || prefersReducedMotion()) return;
+
+		const mm = gsap.matchMedia();
+		let cancelled = false;
+		tick().then(() => {
+			if (cancelled) return;
+			mm.add(
+				{ sm: '(min-width: 640px) and (max-width: 1023px)', lg: '(min-width: 1024px)' },
+				(context) => {
+					const { sm, lg } = context.conditions as { sm: boolean; lg: boolean };
+					const cols = lg ? 3 : sm ? 2 : 1;
+					const cards = Array.from(list.querySelectorAll<HTMLElement>('[data-card]'));
+					cards.forEach((card, i) => {
+						const inner = card.querySelector<HTMLElement>('[data-card-inner]');
+						if (inner) {
+							gsap.from(inner, {
+								y: 140,
+								rotateX: 18,
+								scale: 0.92,
+								opacity: 0,
+								ease: 'power2.out',
+								scrollTrigger: { trigger: card, start: 'top bottom', end: 'top 62%', scrub: 0.6 }
+							});
+						}
+						if (cols > 1 && i % cols === 1) {
+							gsap.fromTo(
+								card,
+								{ y: 90 },
+								{
+									y: -90,
+									ease: 'none',
+									scrollTrigger: {
+										trigger: list,
+										start: 'top bottom',
+										end: 'bottom top',
+										scrub: true
+									}
+								}
+							);
+						}
+					});
+				},
+				list
+			);
+		});
+
+		return () => {
+			cancelled = true;
+			mm.revert();
+		};
+	});
+
 	const projectButtonClass =
 		'btn-shine btn-shine-soft inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:text-white';
 </script>
 
-<section
-	id="projects"
-	bind:this={sectionEl}
-	class={`mx-auto w-full max-w-7xl px-4 py-20 transition-all duration-700 sm:px-8 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
->
-	<div class="mb-8 text-center sm:mb-10">
+<section id="projects" class="relative mx-auto w-full max-w-6xl px-4 py-20 sm:px-8 lg:py-28">
+	<div class="mb-8 text-center sm:mb-10" use:reveal>
 		<h2
 			use:shine={{ hitTest: true }}
-			class="title-shimmer mb-2 pb-2 text-4xl font-bold text-white sm:text-5xl"
+			class="title-shimmer mb-2 pb-2 text-5xl font-bold text-white sm:text-6xl lg:text-7xl"
 		>
 			{m.projects_title()}
 		</h2>
 	</div>
 
-	<div class="mb-10 flex justify-center sm:mb-14" role="tablist" aria-label={m.projects_title()}>
+	<div
+		class="mb-12 flex justify-center sm:mb-16"
+		role="tablist"
+		aria-label={m.projects_title()}
+		use:reveal={{ delay: 0.1 }}
+	>
 		<div
 			class="relative flex flex-wrap justify-center gap-1.5 rounded-2xl border border-zinc-700 bg-zinc-900/80 p-1.5 backdrop-blur"
 		>
@@ -264,125 +305,129 @@
 		</div>
 	</div>
 
-	<div class="flex flex-wrap justify-center gap-4 sm:gap-8">
-		{#each filteredProjects as project, i (project.title)}
-			<div
-				use:shine
-				class={`box-shine group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-900/80 px-5 py-7 shadow-xl shadow-black/20 backdrop-blur transition-all duration-300 hover:border-zinc-500 hover:shadow-2xl hover:shadow-black/30 sm:px-7
-				${visible ? 'opacity-100' : ' opacity-0'}
-				${hoveredCard === i ? 'ring-1 ring-zinc-500/60' : ''}
-				w-full sm:w-[calc(50%-1rem)] 2xl:w-[calc(33.333%-1.34rem)]`}
-				onmouseenter={() => (hoveredCard = i)}
-				onmouseleave={() => (hoveredCard = null)}
-				role="article"
-			>
-				{#if project.slug}
-					<a
-						href={`/projects/${project.slug}`}
-						class="absolute inset-0 z-0"
-						aria-label={project.title}
-					></a>
-				{/if}
-
-				<div class="mb-6 flex items-center gap-3">
-					<div class={`h-10 w-10 shrink-0 ${project.radius} overflow-hidden`}>
-						<img src={project.iconImage} alt={project.title} class="h-full w-full object-cover" />
-					</div>
-					<div class="flex-1">
-						<h3
-							use:shine={{ within: '.group', hitTest: true }}
-							class="title-shimmer text-2xl font-bold tracking-tight text-white"
-						>
-							{project.title}
-						</h3>
-					</div>
-				</div>
-
-				<p class="mb-5 flex-1 leading-7 text-zinc-300">{project.description}</p>
-
-				<div class="relative z-10 mb-4 flex flex-wrap gap-2">
-					{#each project.technologies as tech (tech)}
-						<span
-							use:shine
-							class="btn-shine pill-shine cursor-default rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-xs font-medium text-zinc-300 transition group-hover:border-zinc-500/70 hover:border-zinc-600 hover:text-white"
-						>
-							<span use:shine={{ within: '.btn-shine' }} class="btn-shine-label">{tech}</span>
-						</span>
-					{/each}
-				</div>
-
-				<div class="relative z-10 mt-auto flex flex-wrap gap-2">
+	<div
+		bind:this={listEl}
+		class="grid gap-5 perspective-[1600px] sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+	>
+		{#each filteredProjects as project (project.title)}
+			<article data-card aria-label={project.title}>
+				<div
+					data-card-inner
+					use:shine
+					class="box-shine group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-zinc-700/80 bg-linear-to-br from-zinc-900 to-zinc-950 shadow-2xl shadow-black/50 transition-[border-color,translate] duration-300 hover:-translate-y-1 hover:border-zinc-500"
+				>
 					{#if project.slug}
 						<a
-							use:shine
 							href={`/projects/${project.slug}`}
-							class={`${projectButtonClass} border-zinc-600 bg-zinc-900 text-zinc-100 hover:border-zinc-400 hover:bg-zinc-800`}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg
-							>
-							<span class="inline sm:hidden lg:inline">{m.read_more()}</span>
-							<span class="hidden sm:inline lg:hidden">{m.read_more().split(' ')[0]}</span>
-						</a>
+							class="absolute inset-0 z-5"
+							aria-label={project.title}
+						></a>
 					{/if}
-					{#if project.link}
-						<a
-							use:shine
-							href={project.link}
-							target="_blank"
-							rel="noopener noreferrer"
-							class={`${projectButtonClass} border-zinc-600 bg-zinc-900 text-zinc-100 hover:border-zinc-400 hover:bg-zinc-800`}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline
-									points="15 3 21 3 21 9"
-								/><line x1="10" x2="21" y1="14" y2="3" /></svg
+
+					<div class="relative flex flex-1 flex-col p-6">
+						<div class="mb-5 flex items-center gap-3">
+							<div class={`h-10 w-10 shrink-0 ${project.radius} overflow-hidden`}>
+								<img
+									src={project.iconImage}
+									alt={project.title}
+									class="h-full w-full object-cover"
+								/>
+							</div>
+							<h3
+								use:shine={{ within: '.group', hitTest: true }}
+								class="title-shimmer text-2xl font-bold tracking-tight text-white"
 							>
-							<span class="inline sm:hidden lg:inline">{m.view_project()}</span>
-							<span class="hidden sm:inline lg:hidden">{m.view_project().split(' ')[0]}</span>
-						</a>
-					{/if}
-					{#if project.github && !(project.slug && project.link)}
-						<a
-							use:shine
-							href={project.github}
-							target="_blank"
-							rel="noopener noreferrer"
-							class={`${projectButtonClass} hover:bg-zinc-800`}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="currentColor"
-								><path
-									d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-								/></svg
-							>
-							<span class="inline sm:hidden lg:inline">{m.source_code()}</span>
-							<span class="hidden sm:inline lg:hidden">{m.source_code().split(' ')[0]}</span>
-						</a>
-					{/if}
+								{project.title}
+							</h3>
+						</div>
+
+						<p class="mb-6 flex-1 leading-7 text-zinc-300">{project.description}</p>
+
+						<div class="relative z-10 mb-5 flex flex-wrap gap-2">
+							{#each project.technologies as tech (tech)}
+								<span
+									use:shine
+									class="btn-shine pill-shine cursor-default rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-xs font-medium text-zinc-300 transition group-hover:border-zinc-500/70 hover:border-zinc-600 hover:text-white"
+								>
+									<span use:shine={{ within: '.btn-shine' }} class="btn-shine-label">{tech}</span>
+								</span>
+							{/each}
+						</div>
+
+						<div class="relative z-10 mt-auto flex flex-wrap gap-2">
+							{#if project.slug}
+								<a
+									use:shine
+									href={`/projects/${project.slug}`}
+									class={`${projectButtonClass} border-zinc-600 bg-zinc-900 text-zinc-100 hover:border-zinc-400 hover:bg-zinc-800`}
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg
+									>
+									<span class="inline sm:hidden lg:inline">{m.read_more()}</span>
+									<span class="hidden sm:inline lg:hidden">{m.read_more().split(' ')[0]}</span>
+								</a>
+							{/if}
+							{#if project.link}
+								<a
+									use:shine
+									href={project.link}
+									target="_blank"
+									rel="noopener noreferrer"
+									class={`${projectButtonClass} border-zinc-600 bg-zinc-900 text-zinc-100 hover:border-zinc-400 hover:bg-zinc-800`}
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline
+											points="15 3 21 3 21 9"
+										/><line x1="10" x2="21" y1="14" y2="3" /></svg
+									>
+									<span class="inline sm:hidden lg:inline">{m.view_project()}</span>
+									<span class="hidden sm:inline lg:hidden">{m.view_project().split(' ')[0]}</span>
+								</a>
+							{/if}
+							{#if project.github && !(project.slug && project.link)}
+								<a
+									use:shine
+									href={project.github}
+									target="_blank"
+									rel="noopener noreferrer"
+									class={`${projectButtonClass} hover:bg-zinc-800`}
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+										fill="currentColor"
+										><path
+											d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+										/></svg
+									>
+									<span class="inline sm:hidden lg:inline">{m.source_code()}</span>
+									<span class="hidden sm:inline lg:hidden">{m.source_code().split(' ')[0]}</span>
+								</a>
+							{/if}
+						</div>
+					</div>
 				</div>
-			</div>
+			</article>
 		{/each}
 	</div>
 </section>

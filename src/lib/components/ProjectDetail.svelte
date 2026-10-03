@@ -3,6 +3,10 @@
 	import { shine } from '$lib/actions/shine';
 	import type { Snippet } from 'svelte';
 	import ProjectGallery from '$lib/components/ProjectGallery.svelte';
+	import MoonCanvas from '$lib/components/MoonCanvas.svelte';
+	import { reveal } from '$lib/actions/reveal';
+	import { gsap, initScroll, prefersReducedMotion } from '$lib/motion/scroll';
+	import { onMount } from 'svelte';
 
 	interface Feature {
 		title: string;
@@ -62,6 +66,49 @@
 		cta: keyof typeof ctaTitles;
 	} = $props();
 
+	let root = $state<HTMLElement>();
+	let progress = $state<HTMLElement>();
+
+	onMount(() => {
+		const stopScroll = initScroll();
+		if (prefersReducedMotion() || !root) return stopScroll;
+
+		const ctx = gsap.context(() => {
+			// The header lands with the moon: icon spins in, then title and copy rise out of blur.
+			gsap
+				.timeline({ delay: 0.35 })
+				.from('[data-intro="icon"]', {
+					scale: 0.4,
+					rotate: -25,
+					opacity: 0,
+					duration: 1.1,
+					ease: 'back.out(1.8)'
+				})
+				.to(
+					'[data-intro="text"]',
+					{ opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out', stagger: 0.1 },
+					0.15
+				);
+			// Reading progress along the top edge.
+			if (progress) {
+				gsap.fromTo(
+					progress,
+					{ scaleX: 0 },
+					{
+						scaleX: 1,
+						ease: 'none',
+						scrollTrigger: { start: 0, end: 'max', scrub: 0.3 }
+					}
+				);
+			}
+		}, root);
+
+		return () => {
+			ctx.revert();
+			stopScroll();
+		};
+	});
+
 	const actionButtonClass =
 		'btn-shine inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-950/80 px-5 py-3 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800 hover:text-white';
 </script>
@@ -75,7 +122,15 @@
 	<meta name="twitter:description" content={tagline} />
 </svelte:head>
 
-<div class="relative">
+<MoonCanvas mode="detail" />
+
+<div
+	bind:this={progress}
+	class="fixed inset-x-0 top-0 z-50 h-px origin-left scale-x-0 bg-linear-to-r from-zinc-500 via-zinc-100 to-zinc-500"
+	aria-hidden="true"
+></div>
+
+<div class="relative z-10" bind:this={root}>
 	<div class="relative mx-auto w-full max-w-4xl px-6 pt-6 pb-12 sm:px-8 sm:pt-8 sm:pb-16">
 		<a
 			use:shine
@@ -96,12 +151,15 @@
 			{m.project_page_back()}
 		</a>
 
-		<header class="detail-fade mb-12 sm:mb-16">
+		<header class="mb-12 sm:mb-16">
 			<div class="mb-6 flex items-center gap-5">
-				<div class={`h-20 w-20 shrink-0 overflow-hidden ${iconRadius} ${iconBg} ${iconShadow}`}>
+				<div
+					data-intro="icon"
+					class={`h-20 w-20 shrink-0 overflow-hidden ${iconRadius} ${iconBg} ${iconShadow}`}
+				>
 					<img src={icon} alt={title} class="h-full w-full object-cover" />
 				</div>
-				<div>
+				<div data-intro="text">
 					<h1
 						use:shine={{ hitTest: true }}
 						class="title-shimmer text-4xl font-bold tracking-tight text-white sm:text-5xl"
@@ -121,9 +179,9 @@
 				</div>
 			</div>
 
-			<p class="mb-8 max-w-2xl text-lg leading-8 text-zinc-200">{tagline}</p>
+			<p data-intro="text" class="mb-8 max-w-2xl text-lg leading-8 text-zinc-200">{tagline}</p>
 
-			<div class="flex flex-wrap items-center gap-3">
+			<div data-intro="text" class="flex flex-wrap items-center gap-3">
 				{#if link && linkBadge}
 					<a
 						href={link}
@@ -191,7 +249,7 @@
 			<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-5 text-2xl font-bold text-white">
 				{m.project_page_overview()}
 			</h2>
-			<div class="space-y-4 leading-8 text-zinc-300">
+			<div use:reveal={{ stagger: 0.1, y: 32 }} class="space-y-4 leading-8 text-zinc-300">
 				{#each overview as paragraph, i (i)}
 					<p>
 						{#if typeof paragraph === 'string'}{paragraph}{:else}{@render paragraph()}{/if}
@@ -204,7 +262,7 @@
 			<h2 use:shine={{ hitTest: true }} class="title-shimmer mb-6 text-2xl font-bold text-white">
 				{m.project_page_features()}
 			</h2>
-			<ul class="space-y-6">
+			<ul use:reveal={{ stagger: 0.12, y: 32 }} class="space-y-6">
 				{#each features as feature (feature.title)}
 					<li class="flex gap-4">
 						<svg
@@ -236,35 +294,35 @@
 			<div
 				class="mb-12 grid gap-10 sm:mb-16 lg:grid-cols-[minmax(0,22rem)_1fr] lg:items-start lg:gap-12"
 			>
-				<div class="detail-fade" style="animation-delay: 100ms">
+				<div use:reveal={{ clip: true }}>
 					{@render gallery()}
 				</div>
 				<div class="space-y-12 sm:space-y-16">
-					<section class="detail-fade" style="animation-delay: 150ms">
+					<section use:reveal>
 						{@render overviewBlock()}
 					</section>
-					<section class="detail-fade" style="animation-delay: 250ms">
+					<section use:reveal>
 						{@render featuresBlock()}
 					</section>
 				</div>
 			</div>
 		{:else}
 			{#if media.length > 0}
-				<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 100ms">
+				<section use:reveal={{ clip: true, delay: 0.5 }} class="mb-12 sm:mb-16">
 					{@render gallery()}
 				</section>
 			{/if}
 
-			<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 150ms">
+			<section use:reveal class="mb-12 sm:mb-16">
 				{@render overviewBlock()}
 			</section>
 
-			<section class="detail-fade mb-12 sm:mb-16" style="animation-delay: 250ms">
+			<section use:reveal class="mb-12 sm:mb-16">
 				{@render featuresBlock()}
 			</section>
 		{/if}
 
-		<section class="detail-fade border-t border-zinc-800 pt-12" style="animation-delay: 350ms">
+		<section use:reveal class="border-t border-zinc-800 pt-12">
 			<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
 				<div>
 					<h2 use:shine={{ hitTest: true }} class="title-shimmer text-2xl font-bold text-white">
@@ -296,24 +354,18 @@
 </div>
 
 <style>
-	.detail-fade {
-		animation: detail-fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-	}
-
-	@keyframes detail-fade-up {
-		from {
-			opacity: 0;
-			transform: translateY(24px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	/* Hidden until the GSAP intro lifts them in; shown outright with reduced motion. */
+	[data-intro='text'] {
+		opacity: 0;
+		transform: translateY(28px);
+		filter: blur(8px);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.detail-fade {
-			animation: none;
+		[data-intro='text'] {
+			opacity: 1;
+			transform: none;
+			filter: none;
 		}
 	}
 </style>
