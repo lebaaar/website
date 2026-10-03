@@ -1,37 +1,25 @@
 import * as THREE from 'three';
 
-/** Everything the scene draws, in viewport pixels. Read once per frame. */
+// Positions and radius are in viewport pixels.
 export interface MoonState {
-	/** Moon centre, px from the viewport's left / top edge. */
 	x: number;
 	y: number;
-	/** Moon radius in px. */
 	r: number;
-	/** 0 = total eclipse (lit from behind), 1 = full moon (lit from the front). */
+	/** 0 = total eclipse, 1 = full moon. */
 	phase: number;
-	/** Corona strength, 0..1. */
 	corona: number;
-	/** Overall brightness multiplier for the moon, 0..1. */
 	light: number;
-	/** Extra y-rotation in radians, added on top of the idle spin. */
 	spin: number;
-	/** Idle spin speed multiplier, 0..1. */
 	idle: number;
-	/** Vertical star drift in px. */
+	/** Extra spin in rad/s, from scrolling. */
+	spinRate: number;
 	stars: number;
-	/** Raises the sun above the moon, so the lower half falls into shadow. 0 = level. */
+	/** Raises the sun so the lower half falls into shadow. */
 	elev: number;
-	/** Rotation in the screen plane, radians. Used while the moon rolls in. */
-	roll: number;
-	/** "Diamond ring" flash on the lit limb, 0..1. */
-	flare: number;
-	/** Opacity of the resting starfield, 0..1. */
 	starAlpha: number;
-	/** How far round the moon the corona reaches, from the sun's side: 0 = none, 1 = all the way. */
+	/** How far round the limb the corona reaches from the sun's side, 0..1. */
 	wrap: number;
-	/** Sunlight bleeding round the limb while the sun is just behind the edge, 0..1. */
-	bleed: number;
-	/** Extra swing of the sun around the moon, radians, on top of `phase`. A full turn is a full cycle. */
+	/** Extra swing of the sun in radians, on top of `phase`. */
 	azimuth: number;
 }
 
@@ -55,9 +43,7 @@ const coronaFragment = /* glsl */ `
 	uniform float uSpan;
 	uniform float uTime;
 	uniform vec2 uLight;
-	uniform float uFlare;
 	uniform float uWrap;
-	uniform float uBleed;
 	varying vec2 vUv;
 
 	void main() {
@@ -68,7 +54,6 @@ const coronaFragment = /* glsl */ `
 		float angle = atan(p.y, p.x);
 
 		float facing = dot(dir, uLight);
-		// The corona grows out of the sun's side and wraps round the limb as the sun lines up behind.
 		float reach = 1.0 - uWrap * 2.6;
 		float wrapMask = smoothstep(reach, reach + 0.6, facing);
 		float tight = exp(-e * (2.6 + (1.0 - uWrap) * 4.0)) * 0.52;
@@ -77,24 +62,9 @@ const coronaFragment = /* glsl */ `
 		float bias = 1.0 + 0.35 * facing;
 
 		float glow = (tight * streaks + broad) * bias * uIntensity * wrapMask;
-		// The sun just behind the edge: light spilling round the limb on its side.
-		glow += uBleed * pow(max(facing, 0.0), 3.0) * (exp(-e * 16.0) * 0.35 + exp(-e * 4.0) * 0.08);
-		// Baily's beads: points of sunlight through the limb's valleys. The outer ones wink out
-		// first, leaving the diamond ring.
-		for (int i = -2; i <= 2; i++) {
-			float k = float(i);
-			float o = k * 0.16;
-			vec2 at = vec2(uLight.x * cos(o) - uLight.y * sin(o), uLight.x * sin(o) + uLight.y * cos(o));
-			vec2 b = p - at * 1.015;
-			float w = pow(uFlare, 1.0 + abs(k) * 2.5) * (0.75 + 0.25 * sin(uTime * 23.0 + k * 7.0));
-			glow += w * exp(-dot(b, b) * 220.0) * 1.6;
-		}
-		// A thin bright ring hugging the limb as it ignites.
-		glow += uFlare * exp(-e * 22.0) * 0.35;
 		// Fade out before the quad's edge so it never shows as a square.
 		glow *= 1.0 - smoothstep(uSpan * 0.36, uSpan * 0.5, d);
-		// Soft knee instead of a hard clip: untouched below 0.7, then rolling smoothly towards 1, so
-		// stacked glows never flatten into a hard-edged white shape.
+		// Soft knee above 0.7 so stacked glows never clip into a hard white edge.
 		if (glow > 0.7) glow = 0.7 + 0.3 * (1.0 - exp(-(glow - 0.7) / 0.3));
 		gl_FragColor = vec4(vec3(1.0, 0.965, 0.92) * glow, 1.0);
 	}
@@ -136,11 +106,7 @@ function loadTexture(loader: THREE.TextureLoader, url: string) {
 	);
 }
 
-/**
- * Builds the moon, its corona and a starfield on `canvas`. `getState` is read every frame, so the
- * caller owns all choreography; this module only draws. Resolves once the textures are on the GPU
- * and the first frame has rendered.
- */
+// Draws only. The caller owns all choreography through getState, read every frame.
 export async function createMoonScene(
 	canvas: HTMLCanvasElement,
 	getState: () => MoonState
@@ -163,7 +129,6 @@ export async function createMoonScene(
 	colorMap.colorSpace = THREE.SRGBColorSpace;
 	colorMap.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
-	// Moon
 	const moonMaterial = new THREE.MeshStandardMaterial({
 		map: colorMap,
 		normalMap,
@@ -175,27 +140,22 @@ export async function createMoonScene(
 	const pivot = new THREE.Group();
 	pivot.rotation.x = 0.12;
 	pivot.rotation.z = -0.08;
-	const roller = new THREE.Group();
-	roller.add(moon);
-	pivot.add(roller);
+	pivot.add(moon);
 	scene.add(pivot);
 
 	const sun = new THREE.DirectionalLight(0xfff4e6, 3.2);
 	scene.add(sun, sun.target);
-	// Earthshine: just enough to read craters on the dark side, as in the photo.
+	// Earthshine, just enough to read craters on the dark side.
 	const earthshine = new THREE.AmbientLight(0x9fb4d6, 0.22);
 	scene.add(earthshine);
 
-	// Corona, drawn first, behind the moon
 	const CORONA_SPAN = 14;
 	const coronaUniforms = {
 		uIntensity: { value: 1 },
 		uSpan: { value: CORONA_SPAN },
 		uTime: { value: 0 },
 		uLight: { value: new THREE.Vector2(-1, 0.3) },
-		uFlare: { value: 0 },
-		uWrap: { value: 1 },
-		uBleed: { value: 0 }
+		uWrap: { value: 1 }
 	};
 	const corona = new THREE.Mesh(
 		new THREE.PlaneGeometry(1, 1),
@@ -212,7 +172,7 @@ export async function createMoonScene(
 	corona.renderOrder = -1;
 	scene.add(corona);
 
-	// Stars, normalised to [-0.5, 0.5] and scaled to the viewport in the shader
+	// Star positions are normalised to [-0.5, 0.5] and scaled to the viewport in the shader.
 	const STAR_COUNT = 1400;
 	const positions = new Float32Array(STAR_COUNT * 3);
 	const sizes = new Float32Array(STAR_COUNT);
@@ -288,12 +248,10 @@ export async function createMoonScene(
 		pivot.position.set(cx, cy, 0);
 		pivot.scale.setScalar(Math.max(s.r, 0.01));
 		pivot.visible = s.r > 0.5;
-		idleAngle += dt * IDLE_SPEED * s.idle;
+		idleAngle += dt * (IDLE_SPEED * s.idle + s.spinRate);
 		moon.rotation.y = -Math.PI / 2 + idleAngle + s.spin;
-		roller.rotation.z = s.roll;
 
-		// Phase: the sun swings from behind the moon (upper-left rim) round to the camera. Azimuth
-		// keeps it going: negative swings it the other way, over the right side first.
+		// Phase swings the sun from behind the upper-left limb round to the camera.
 		const a =
 			THREE.MathUtils.lerp(0.42, Math.PI * 0.97, THREE.MathUtils.clamp(s.phase, 0, 1)) + s.azimuth;
 		const lx = -Math.sin(a);
@@ -309,9 +267,7 @@ export async function createMoonScene(
 		corona.visible = s.r > 0.5;
 		coronaUniforms.uIntensity.value = s.corona;
 		coronaUniforms.uTime.value = time;
-		coronaUniforms.uFlare.value = s.flare;
 		coronaUniforms.uWrap.value = s.wrap;
-		coronaUniforms.uBleed.value = s.bleed;
 		coronaUniforms.uLight.value.set(lx, ly).normalize();
 
 		starUniforms.uOffset.value = s.stars;

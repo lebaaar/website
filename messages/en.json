@@ -2,7 +2,6 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"hero_developer_at": "Software Developer @",
 	"hero_student_at": "&& Student @",
-	"hero_scroll_label": "Scroll to about section",
 	"about_title": "About Me",
 	"about_para1_prefix": "I design and build custom software end to end: ",
 	"about_para1_word1": "websites",

@@ -9,14 +9,9 @@ export const prefersReducedMotion = () =>
 
 let lenis: Lenis | null = null;
 
-/** The active Lenis instance, if smooth scrolling is on. */
 export const getLenis = () => lenis;
 
-/**
- * Smooth inertial scrolling, driven from GSAP's ticker so ScrollTrigger and Lenis agree on every
- * frame. The home page scrolls its own `.scroll-container` (pass it and its content); project
- * pages scroll the window (pass nothing). Off under reduced motion. Returns a cleanup.
- */
+// Pass the wrapper and content on the home page; pass nothing to scroll the window.
 export function initScroll(wrapper?: HTMLElement, content?: HTMLElement) {
 	ScrollTrigger.defaults({ scroller: wrapper ?? window });
 	if (prefersReducedMotion()) return () => ScrollTrigger.defaults({ scroller: window });
@@ -40,7 +35,6 @@ export function initScroll(wrapper?: HTMLElement, content?: HTMLElement) {
 	};
 }
 
-/** Scroll the container to `target`, through Lenis when it is running. */
 export function scrollToTarget(target: HTMLElement, instant = false) {
 	if (lenis) {
 		lenis.scrollTo(target, { immediate: instant, duration: 1.4 });

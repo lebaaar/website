@@ -1,16 +1,4 @@
-/**
- * Renders the Open Graph images into static/.
- *
- *   node scripts/generate-og.mjs
- *
- * One card per route: static/og-image.png for the site itself and
- * static/og/<slug>.png for every project page. Layout is plain HTML, screenshotted
- * with headless Chrome, so the cards stay in the same visual language as the site
- * (zinc-950 ground, Inter, hairline rings) without pulling a renderer into the build.
- *
- * Requires Chrome/Chromium on PATH and network access on first run (Inter is
- * downloaded once and cached in .cache/og-fonts).
- */
+// Renders OG images into static/ with headless Chrome. Needs Chrome on PATH and network on first run.
 
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
@@ -99,7 +87,7 @@ const MIME = {
 const dataUri = (path) =>
 	`data:${MIME[extname(path)]};base64,${readFileSync(path).toString('base64')}`;
 
-/** Inter, inlined so the render never races a webfont request. */
+// Inlined so the render never races a webfont request.
 async function interCss() {
 	const cacheDir = join(root, '.cache/og-fonts');
 	const cached = join(cacheDir, 'inter.css');
@@ -272,8 +260,7 @@ const projectHtml = (font, project, icon) =>
 				width: 120px;
 				height: 120px;
 				margin-bottom: 40px;
-				/* Logos that carry their own shape sit bare on the ground; the rest get
-				   the same tile treatment the site uses. */
+				/* Logos with their own shape sit bare; the rest get the site's tile treatment. */
 				${
 					project.bare
 						? 'object-fit: contain;'

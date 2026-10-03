@@ -5,8 +5,7 @@
 	import { isValidEmail, MAX_EMAIL, MAX_MESSAGE } from '$lib/validation';
 
 	type Status = 'idle' | 'sending' | 'sent';
-	// 'server' renders with an inline mailto fallback, so errors are held as a
-	// code and turned into markup at render time rather than a flat string.
+	// Errors are codes, not strings, because 'server' renders with an inline mailto link.
 	type ErrorCode = 'missing' | 'email' | 'long' | 'rate' | 'server';
 
 	let name = $state('');
@@ -17,13 +16,11 @@
 	let status = $state<Status>('idle');
 	let error = $state<ErrorCode | ''>('');
 
-	// The inline email error only appears once the field has been left or the
-	// form submitted, so it doesn't fire while the address is still half-typed.
+	// Only after blur or submit, so it doesn't fire on a half-typed address.
 	let emailTouched = $state(false);
 	const emailValid = $derived(isValidEmail(email.trim()));
 	const showEmailError = $derived(emailTouched && email.trim() !== '' && !emailValid);
 
-	// The counter stays out of the way until the message is near the cap.
 	const showCounter = $derived(message.length > MAX_MESSAGE * 0.9);
 
 	const errorMessages: Record<Exclude<ErrorCode, 'server'>, () => string> = {
@@ -37,14 +34,11 @@
 		return typeof code === 'string' && code in errorMessages;
 	}
 
-	// Typing anywhere clears the form-level error, so a stale one can't linger
-	// next to a field the visitor has already fixed.
 	function clearError() {
 		error = '';
 	}
 
-	// Enter already submits from the single-line inputs; the textarea needs the
-	// modifier so a plain Enter can still start a new line.
+	// Ctrl/Cmd+Enter submits from the textarea; plain Enter keeps adding lines.
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key !== 'Enter' || !(event.ctrlKey || event.metaKey)) return;
 		event.preventDefault();
@@ -321,8 +315,7 @@
 </section>
 
 <style>
-	/* The shared sweep is white, which is invisible on a light button, so this
-	   one sweeps dark instead. */
+	/* The shared sweep is white, invisible on a light button, so this one sweeps dark. */
 	.shine-dark::before {
 		background: linear-gradient(
 			100deg,

@@ -13,23 +13,22 @@
 	import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
 
 	interface Props {
-		/**
-		 * `home`: the full choreography, following `container`. `detail`: a project page, following
-		 * the window's scroll, with a shorter eclipse on arrival.
-		 */
+		/** `detail` follows the window scroll and plays a shorter intro. */
 		mode?: 'home' | 'detail';
-		/** The home page's scroll container. */
 		container?: HTMLElement;
 	}
 
 	let { mode = 'home', container }: Props = $props();
+
+	// Extra spin per px/s of scroll velocity.
+	const SCROLL_SPIN = 0.0007;
 
 	let canvas = $state<HTMLCanvasElement>();
 	let shade = $state<HTMLDivElement>();
 	let live = $state(false);
 	let failed = $state(false);
 
-	// An effect rather than onMount: the parent binds `container` after this component mounts.
+	// An effect, not onMount, because the parent binds `container` after this mounts.
 	$effect(() => {
 		const home = mode === 'home';
 		const scroller = home ? container : document.documentElement;
@@ -40,15 +39,26 @@
 		let frames = build(scroller);
 		const intro = introStart();
 		const shadeEl = shade;
+		let lastScroll = scroller.scrollTop;
+		let lastTime = performance.now();
+		let scrollVelocity = 0;
 		const getState = () => {
 			const scroll = scroller.scrollTop;
-			// Fade the bottom shade in over the last screen and a bit of the page.
 			if (shadeEl) {
 				const left = scroller.scrollHeight - scroller.clientHeight - scroll;
 				const t = 1 - left / (scroller.clientHeight * 1.2);
 				shadeEl.style.opacity = String(Math.min(Math.max(t, 0), 1));
 			}
-			return introState(poseAt(frames, scroll), intro);
+			const now = performance.now();
+			const dt = Math.max((now - lastTime) / 1000, 1 / 240);
+			const velocity = Math.max(Math.min((scroll - lastScroll) / dt, 6000), -6000);
+			scrollVelocity += (velocity - scrollVelocity) * Math.min(dt * 6, 1);
+			lastScroll = scroll;
+			lastTime = now;
+			return {
+				...introState(poseAt(frames, scroll), intro),
+				spinRate: scrollVelocity * SCROLL_SPIN
+			};
 		};
 
 		let disposed = false;
@@ -70,10 +80,6 @@
 				dispose = scene.dispose;
 				resizeScene = scene.resize;
 				live = true;
-				// Light reveals the moon. Out of the dark a sliver catches on its right limb, the sun
-				// swings once round the front (crescent, half, full, waning) while the moon slowly turns,
-				// and as it slips behind the upper-left limb the rim flashes and the corona blooms.
-				// Project pages get a quicker cut of the same thing.
 				const k = home ? 1 : 0.5;
 				const sweep = 4.4 * k;
 				const settle = 0.4 + sweep;
@@ -88,16 +94,7 @@
 					.to(intro, { corona: 1, duration: 2.4, ease: 'expo.out' }, settle - 0.1)
 					.call(() => window.dispatchEvent(new Event('moon:settled')), [], settle - 1.2 * k);
 
-				// Baily's beads only belong to a total eclipse, which is where the home page comes to
-				// rest; project pages settle on a lit crescent, so they skip the flash.
-				if (home) {
-					timeline
-						.to(intro, { flare: 1, duration: 0.35, ease: 'power2.out' }, settle - 0.45)
-						.to(intro, { flare: 0, duration: 1.2, ease: 'power2.in' }, settle - 0.1);
-				}
-
-				// The home page plays it once per page load; coming back from a project page (a
-				// client-side navigation) lands straight on the finished scene.
+				// Returning from a project page skips straight to the finished scene.
 				if (home && introPlayed) {
 					timeline.progress(1);
 					window.dispatchEvent(new Event('moon:settled'));
@@ -105,7 +102,6 @@
 				if (home) introPlayed = true;
 			})
 			.catch(() => {
-				// No WebGL or textures failed: fall back to the still photo.
 				failed = true;
 				window.dispatchEvent(new Event('moon:settled'));
 			});
@@ -125,13 +121,12 @@
 		bind:this={canvas}
 		class={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-out ${live ? 'opacity-100' : 'opacity-0'}`}
 	></canvas>
-	<!-- Sinks the foot of the viewport into shadow, where the full moon rises at the page's end. -->
 	<div
 		class:hidden={mode !== 'home'}
 		bind:this={shade}
 		class="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-zinc-950 via-zinc-950/60 to-transparent opacity-0"
 	></div>
-	<!-- Only shown when the live moon can't run: reduced motion, no WebGL. -->
+	<!-- Fallback for reduced motion or no WebGL. -->
 	<img
 		class:hidden={mode !== 'home'}
 		src="/moon/eclipse.webp"

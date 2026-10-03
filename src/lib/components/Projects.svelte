@@ -42,12 +42,11 @@
 		try {
 			sessionStorage.setItem(FILTER_KEY, value);
 		} catch {
-			// sessionStorage unavailable (SSR / privacy mode); ignore.
+			// sessionStorage is unavailable in private mode.
 		}
 	}
 
 	onMount(() => {
-		// Restore the tab chosen before navigating into a project detail page.
 		const saved = sessionStorage.getItem(FILTER_KEY);
 		if (saved === 'all' || saved === 'mobile' || saved === 'webapp' || saved === 'website') {
 			activeFilter = saved;
@@ -203,8 +202,6 @@
 		return () => resizeObserver.disconnect();
 	});
 
-	// Cards tilt up into place as they scroll in, and alternate columns drift at a different speed
-	// so the grid shears slightly as you move through it. Rebuilt whenever the filter changes.
 	$effect(() => {
 		void filteredProjects;
 		const list = listEl;
@@ -314,7 +311,7 @@
 				<div
 					data-card-inner
 					use:shine
-					class="box-shine group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-zinc-700/80 bg-linear-to-br from-zinc-900 to-zinc-950 shadow-2xl shadow-black/50 transition-[border-color,translate] duration-300 hover:-translate-y-1 hover:border-zinc-500"
+					class="box-shine group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-zinc-700/80 bg-linear-to-br from-zinc-900/55 to-zinc-950/45 shadow-2xl shadow-black/30 backdrop-blur-[3px] transition-[border-color,translate] duration-300 hover:-translate-y-1 hover:border-zinc-500"
 				>
 					{#if project.slug}
 						<a

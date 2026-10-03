@@ -74,22 +74,15 @@
 		if (prefersReducedMotion() || !root) return stopScroll;
 
 		const ctx = gsap.context(() => {
-			// The header lands with the moon: icon spins in, then title and copy rise out of blur.
-			gsap
-				.timeline({ delay: 0.35 })
-				.from('[data-intro="icon"]', {
-					scale: 0.4,
-					rotate: -25,
-					opacity: 0,
-					duration: 1.1,
-					ease: 'back.out(1.8)'
-				})
-				.to(
-					'[data-intro="text"]',
-					{ opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'expo.out', stagger: 0.1 },
-					0.15
-				);
-			// Reading progress along the top edge.
+			gsap.to('[data-intro]', {
+				opacity: 1,
+				y: 0,
+				filter: 'blur(0px)',
+				duration: 1,
+				ease: 'power3.out',
+				stagger: 0.08,
+				delay: 0.25
+			});
 			if (progress) {
 				gsap.fromTo(
 					progress,
@@ -308,7 +301,7 @@
 			</div>
 		{:else}
 			{#if media.length > 0}
-				<section use:reveal={{ clip: true, delay: 0.5 }} class="mb-12 sm:mb-16">
+				<section use:reveal={{ clip: true, delay: 0.35 }} class="mb-12 sm:mb-16">
 					{@render gallery()}
 				</section>
 			{/if}
@@ -354,15 +347,15 @@
 </div>
 
 <style>
-	/* Hidden until the GSAP intro lifts them in; shown outright with reduced motion. */
-	[data-intro='text'] {
+	/* Revealed by the GSAP intro. */
+	[data-intro] {
 		opacity: 0;
-		transform: translateY(28px);
-		filter: blur(8px);
+		transform: translateY(14px);
+		filter: blur(4px);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		[data-intro='text'] {
+		[data-intro] {
 			opacity: 1;
 			transform: none;
 			filter: none;

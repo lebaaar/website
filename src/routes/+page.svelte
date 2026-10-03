@@ -21,7 +21,7 @@
 		const stopScroll = initScroll(container, content);
 		if (prefersReducedMotion()) return stopScroll;
 
-		// The hero copy waits for the moon to land, or for a few seconds if it never does.
+		// Waits for the moon to land, with a timeout in case it never does.
 		let revealed = false;
 		const revealHero = () => {
 			if (revealed) return;
@@ -41,7 +41,6 @@
 
 		const ctx = gsap.context(() => {
 			gsap.delayedCall(6, revealHero);
-			// The hero drifts up and dissolves as the moon leaves it.
 			gsap.to('.hero-inner', {
 				yPercent: -18,
 				opacity: 0,
@@ -93,11 +92,6 @@
 		restore();
 		requestAnimationFrame(restore);
 	});
-
-	function scrollToAbout() {
-		const about = document.getElementById('about');
-		if (about) scrollToTarget(about);
-	}
 
 	const interactiveTags = ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'];
 
@@ -181,8 +175,9 @@
 					>
 						Lan Lebar
 					</h1>
-					{#key i18n.locale}
-						<p class="hero-item mb-6 max-w-md text-base text-zinc-400 sm:text-lg lg:mb-8">
+					<p class="hero-item mb-6 max-w-md text-base text-zinc-400 sm:text-lg lg:mb-8">
+						<!-- Keyed inside the <p> so the revealed element survives a language switch. -->
+						{#key i18n.locale}
 							{m.hero_developer_at()}
 							<a
 								use:shine
@@ -203,8 +198,8 @@
 							>
 								FRI
 							</a>
-						</p>
-					{/key}
+						{/key}
+					</p>
 
 					<div class="hero-item flex flex-wrap gap-2 sm:gap-3" id="links-container">
 						<a
@@ -273,36 +268,9 @@
 						</a>
 					</div>
 				</div>
-				<!-- Desktop only: below lg the moon sits cropped off the top-right corner instead. -->
 				<div class="hidden justify-center lg:flex">
 					<div data-moon-slot aria-hidden="true" class="aspect-square w-full max-w-140"></div>
 				</div>
-			</div>
-
-			<!-- Lined up under the hero copy; fades in after it. -->
-			<div
-				class="hero-late pointer-events-none absolute inset-x-0 bottom-8 mx-auto hidden w-full max-w-6xl px-8 lg:block"
-			>
-				<button
-					use:shine
-					onclick={scrollToAbout}
-					aria-label={m.hero_scroll_label()}
-					class="btn-shine pill-shine pointer-events-auto flex h-12 w-12 animate-bounce cursor-pointer items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/70 text-zinc-400 shadow-sm backdrop-blur transition-colors hover:border-zinc-400 hover:bg-zinc-800 hover:text-zinc-100"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<polyline points="18 9 12 15 6 9"></polyline>
-					</svg>
-				</button>
 			</div>
 		</main>
 
@@ -311,7 +279,6 @@
 			<Projects />
 			<Contact />
 		{/key}
-		<!-- Room for the full moon to rise at the end of the page. -->
 		<div class="h-[45vh]" aria-hidden="true"></div>
 	</div>
 </div>
@@ -326,8 +293,7 @@
 		display: none;
 	}
 
-	/* Hidden until the GSAP intro reveals them; shown outright with reduced motion. */
-	/* Language picker and scroll arrow: in last, after the copy. */
+	/* Revealed by the GSAP intro. */
 	.hero-late {
 		opacity: 0;
 	}
