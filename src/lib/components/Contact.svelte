@@ -1,17 +1,12 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
+	import { reveal } from '$lib/actions/reveal';
 	import { isValidEmail, MAX_EMAIL, MAX_MESSAGE } from '$lib/validation';
 
 	type Status = 'idle' | 'sending' | 'sent';
-	// 'server' renders with an inline mailto fallback, so errors are held as a
-	// code and turned into markup at render time rather than a flat string.
+	// Errors are codes, not strings, because 'server' renders with an inline mailto link.
 	type ErrorCode = 'missing' | 'email' | 'long' | 'rate' | 'server';
-
-	let seen = false;
-	let visible = $state(seen);
-	let sectionEl = $state<HTMLElement | null>(null);
 
 	let name = $state('');
 	let email = $state('');
@@ -21,13 +16,11 @@
 	let status = $state<Status>('idle');
 	let error = $state<ErrorCode | ''>('');
 
-	// The inline email error only appears once the field has been left or the
-	// form submitted, so it doesn't fire while the address is still half-typed.
+	// Only after blur or submit, so it doesn't fire on a half-typed address.
 	let emailTouched = $state(false);
 	const emailValid = $derived(isValidEmail(email.trim()));
 	const showEmailError = $derived(emailTouched && email.trim() !== '' && !emailValid);
 
-	// The counter stays out of the way until the message is near the cap.
 	const showCounter = $derived(message.length > MAX_MESSAGE * 0.9);
 
 	const errorMessages: Record<Exclude<ErrorCode, 'server'>, () => string> = {
@@ -41,30 +34,11 @@
 		return typeof code === 'string' && code in errorMessages;
 	}
 
-	onMount(() => {
-		if (seen) return;
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					visible = true;
-					seen = true;
-					observer.disconnect();
-				}
-			},
-			{ threshold: 0.1 }
-		);
-		if (sectionEl) observer.observe(sectionEl);
-		return () => observer.disconnect();
-	});
-
-	// Typing anywhere clears the form-level error, so a stale one can't linger
-	// next to a field the visitor has already fixed.
 	function clearError() {
 		error = '';
 	}
 
-	// Enter already submits from the single-line inputs; the textarea needs the
-	// modifier so a plain Enter can still start a new line.
+	// Ctrl/Cmd+Enter submits from the textarea; plain Enter keeps adding lines.
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key !== 'Enter' || !(event.ctrlKey || event.metaKey)) return;
 		event.preventDefault();
@@ -127,13 +101,9 @@
 	const labelClass = 'mb-1.5 block text-sm font-medium text-zinc-400';
 </script>
 
-<section
-	id="contact"
-	bind:this={sectionEl}
-	class={`mx-auto w-full max-w-7xl px-4 py-12 transition-all duration-700 sm:px-8 lg:py-16 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
->
+<section id="contact" class="mx-auto w-full max-w-7xl px-4 py-12 sm:px-8 lg:py-16">
 	<div class="grid items-start gap-8 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
-		<div class="lg:sticky lg:top-8 lg:py-4">
+		<div use:reveal class="lg:sticky lg:top-8 lg:py-4">
 			<h2
 				use:shine={{ hitTest: true }}
 				class="title-shimmer mb-3 pb-2 text-4xl font-bold text-white sm:text-5xl"
@@ -176,6 +146,7 @@
 
 		<div
 			use:shine
+			use:reveal={{ delay: 0.15 }}
 			class="box-shine relative rounded-2xl border border-zinc-700 bg-zinc-900/80 p-5 shadow-xl shadow-black/20 backdrop-blur transition-colors hover:border-zinc-500 sm:p-6"
 		>
 			{#if status === 'sent'}
@@ -344,8 +315,7 @@
 </section>
 
 <style>
-	/* The shared sweep is white, which is invisible on a light button, so this
-	   one sweeps dark instead. */
+	/* The shared sweep is white, invisible on a light button, so this one sweeps dark. */
 	.shine-dark::before {
 		background: linear-gradient(
 			100deg,

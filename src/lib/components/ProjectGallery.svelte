@@ -117,8 +117,7 @@
 		index = Math.round(track.scrollLeft / track.clientWidth);
 	}
 
-	// The gallery sits inside an element that keeps a transform from its entry
-	// animation, which would make `position: fixed` resolve against that box.
+	// Portalled to body because an ancestor's transform would break `position: fixed`.
 	function portal(node: HTMLElement) {
 		document.body.appendChild(node);
 		return {

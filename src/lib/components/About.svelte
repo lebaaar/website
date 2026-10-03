@@ -1,28 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { shine } from '$lib/actions/shine';
+	import { reveal } from '$lib/actions/reveal';
 	import loftwareLogo from '$lib/assets/loftware.png';
-
-	let seen = false;
-	let visible = $state(seen);
-	let sectionEl = $state<HTMLElement | null>(null);
-
-	onMount(() => {
-		if (seen) return;
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					visible = true;
-					seen = true;
-					observer.disconnect();
-				}
-			},
-			{ threshold: 0.1 }
-		);
-		if (sectionEl) observer.observe(sectionEl);
-		return () => observer.disconnect();
-	});
 
 	const skills = [
 		{
@@ -51,21 +31,21 @@
 	];
 </script>
 
-<section
-	id="about"
-	bind:this={sectionEl}
-	class={`relative z-10 w-full px-6 py-0 transition-all duration-700 sm:px-8 sm:py-20 lg:py-24 ${visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
->
+<section id="about" class="relative z-10 w-full px-6 py-0 sm:px-8 sm:py-20 lg:py-24">
 	<div class="mx-auto max-w-7xl">
 		<div class="grid items-start gap-20 sm:gap-12 lg:grid-cols-[1.5fr_1fr]">
 			<div>
 				<h2
 					use:shine={{ hitTest: true }}
-					class="title-shimmer mb-8 text-4xl font-bold text-white sm:text-5xl"
+					use:reveal
+					class="title-shimmer mb-8 text-5xl font-bold text-white sm:text-6xl"
 				>
 					{m.about_title()}
 				</h2>
-				<div class="space-y-5 text-base leading-8 text-zinc-300 sm:text-lg">
+				<div
+					use:reveal={{ stagger: 0.12, delay: 0.1 }}
+					class="space-y-5 text-base leading-8 text-zinc-300 sm:text-lg"
+				>
 					<p>
 						{m.about_para1_prefix()}<span use:shine class="word-shine">{m.about_para1_word1()}</span
 						>{m.about_para1_sep1()}<span use:shine class="word-shine">{m.about_para1_word2()}</span
@@ -96,7 +76,7 @@
 					<p>{m.about_para3()}</p>
 				</div>
 
-				<div class="mt-12 border-t border-zinc-800 pt-12">
+				<div use:reveal class="mt-12 border-t border-zinc-800 pt-12">
 					<h3
 						use:shine={{ hitTest: true }}
 						class="title-shimmer mb-8 text-2xl font-semibold text-white"
@@ -149,7 +129,7 @@
 				>
 					{m.skills_title()}
 				</h3>
-				<div class="space-y-3 sm:space-y-6">
+				<div use:reveal={{ stagger: 0.1 }} class="space-y-3 sm:space-y-6">
 					{#each skills as skillGroup (skillGroup.name)}
 						<div
 							use:shine
@@ -176,17 +156,12 @@
 					{/each}
 				</div>
 
-				<div class="mt-3 grid grid-cols-2 gap-3 sm:mt-6">
+				<div use:reveal={{ stagger: 0.1 }} class="mt-3 grid grid-cols-2 gap-3 sm:mt-6">
 					<div
 						use:shine
 						class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5"
 					>
-						<div
-							use:shine={{ hitTest: true }}
-							class="title-shimmer text-3xl font-bold"
-						>
-							4+
-						</div>
+						<div use:shine={{ hitTest: true }} class="title-shimmer text-3xl font-bold">4+</div>
 						<div class="mt-1 text-xs font-medium tracking-widest text-zinc-500 uppercase">
 							{m.stat_years_experience()}
 						</div>
@@ -195,12 +170,7 @@
 						use:shine
 						class="box-shine rounded-xl border border-zinc-800 bg-zinc-900/70 px-4 py-3.5 text-center transition hover:border-zinc-600 sm:py-5"
 					>
-						<div
-							use:shine={{ hitTest: true }}
-							class="title-shimmer text-3xl font-bold"
-						>
-							20+
-						</div>
+						<div use:shine={{ hitTest: true }} class="title-shimmer text-3xl font-bold">20+</div>
 						<div class="mt-1 text-xs font-medium tracking-widest text-zinc-500 uppercase">
 							{m.stat_projects_built()}
 						</div>

@@ -2,6 +2,7 @@
 	import { onMount, tick } from 'svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { i18n } from '$lib/i18n.svelte';
+	import { scrollToTarget } from '$lib/motion/scroll';
 
 	const items = $derived.by(() => {
 		void i18n.locale;
@@ -85,7 +86,7 @@
 		const el = document.getElementById(id);
 		if (!el) return;
 		active = id;
-		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		scrollToTarget(el);
 	}
 </script>
 

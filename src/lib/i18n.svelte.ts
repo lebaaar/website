@@ -4,9 +4,7 @@ export type Locale = Parameters<typeof setLocale>[0];
 
 export const supportedLocales = locales as readonly Locale[];
 
-// Reactive locale used to re-render translated content in place, without the
-// full-page reload paraglide does by default. `setLocale(reload: false)` updates
-// the runtime synchronously, so getLocale() reflects the change immediately.
+// Switches locale in place instead of paraglide's default full-page reload.
 export const i18n = $state<{ locale: Locale }>({ locale: getLocale() as Locale });
 
 export function switchLocale(lang: Locale) {

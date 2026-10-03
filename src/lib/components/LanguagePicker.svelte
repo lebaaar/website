@@ -2,9 +2,7 @@
 	import { i18n, supportedLocales, switchLocale, type Locale } from '$lib/i18n.svelte';
 	import { shine } from '$lib/actions/shine';
 
-	// Apps whose paraglide strategy includes 'url' must navigate instead of only flipping the cookie, so the handler is overridable.
-	// See website/DESIGN.md.
-	// `compact` is for chrome where the picker is a utility rather than a feature, such as a documentation header.
+	// The handler is overridable for apps with a 'url' strategy, which must navigate. See DESIGN.md.
 	let {
 		onselect = switchLocale,
 		compact = false
