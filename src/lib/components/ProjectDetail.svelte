@@ -67,7 +67,6 @@
 	} = $props();
 
 	let root = $state<HTMLElement>();
-	let progress = $state<HTMLElement>();
 
 	onMount(() => {
 		const stopScroll = initScroll();
@@ -83,17 +82,6 @@
 				stagger: 0.08,
 				delay: 0.25
 			});
-			if (progress) {
-				gsap.fromTo(
-					progress,
-					{ scaleX: 0 },
-					{
-						scaleX: 1,
-						ease: 'none',
-						scrollTrigger: { start: 0, end: 'max', scrub: 0.3 }
-					}
-				);
-			}
 		}, root);
 
 		return () => {
@@ -116,12 +104,6 @@
 </svelte:head>
 
 <MoonCanvas mode="detail" />
-
-<div
-	bind:this={progress}
-	class="fixed inset-x-0 top-0 z-50 h-px origin-left scale-x-0 bg-linear-to-r from-zinc-500 via-zinc-100 to-zinc-500"
-	aria-hidden="true"
-></div>
 
 <div class="relative z-10" bind:this={root}>
 	<div class="relative mx-auto w-full max-w-4xl px-6 pt-6 pb-12 sm:px-8 sm:pt-8 sm:pb-16">
