@@ -3,6 +3,7 @@ export const SITE_URL = 'https://lan.si';
 export const PROJECT_SLUGS = [
 	'domacahrana',
 	'cenko',
+	'doomwalk',
 	'potegnime',
 	'librelock',
 	'periodtracker',

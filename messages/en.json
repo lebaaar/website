@@ -206,5 +206,16 @@
 	"project_cta_title_business": "Need a site for your business?",
 	"project_cta_title_app": "Have an app in mind?",
 	"project_cta_desc": "Tell me what you have in mind and let's make it happen!",
-	"project_cta_button": "Get in touch"
+	"project_cta_button": "Get in touch",
+	"project_doomwalk_desc": "App that makes you walk before you can doomscroll. It measures your scrolling in metres and blocks addictive apps once you've used up what you walked. Winner of Hack Chalmers hackathon.",
+	"doomwalk_feature1_title": "Walk to scroll",
+	"doomwalk_feature1_desc": "Steps turn into scrolling metres, and addictive apps are blocked when you run out.",
+	"doomwalk_feature2_title": "More scrolling = more steps",
+	"doomwalk_feature2_desc": "Every metre costs more walking the further you scroll in a day, with gentle, balanced and strict modes.",
+	"doomwalk_feature3_title": "Activity insights",
+	"doomwalk_feature3_desc": "See your steps, streak and which apps eat the most of your time.",
+	"doomwalk_feature4_title": "Private by design",
+	"doomwalk_feature4_desc": "No personal data is collected and nothing ever leaves your phone.",
+	"doomwalk_overview_prefix": "DoomWalk is an Android app that makes you walk before you can doomscroll. It measures your scrolling in metres and blocks addictive apps (Instagram, TikTok...) once you've scrolled further than you've walked. Private by design, no personal data is collected. Winning project at ",
+	"doomwalk_overview_suffix": "."
 }

@@ -206,5 +206,16 @@
 	"project_cta_title_business": "Potrebujete spletno stran za svoje podjetje?",
 	"project_cta_title_app": "Imate podobno idejo za aplikacijo?",
 	"project_cta_desc": "Zaupajte mi svojo idejo in skupaj jo bomo uresničili.",
-	"project_cta_button": "Stopite v stik"
+	"project_cta_button": "Stopite v stik",
+	"project_doomwalk_desc": "Mobilna aplikacija, ki te prisili k hoji, preden lahko skrolaš. Skrolanje meri v metrih in blokira zasvojljive aplikacije, ko porabiš prehojeno. Zmagovalna aplikacija na Hack Chalmers.",
+	"doomwalk_feature1_title": "Hodi za skrolanje",
+	"doomwalk_feature1_desc": "Koraki se pretvorijo v metre skrolanja, zasvojljive aplikacije pa so blokirane, ko jih zmanjka.",
+	"doomwalk_feature2_title": "Več skrolanja = več korakov",
+	"doomwalk_feature2_desc": "Vsak meter stane več hoje, čim dlje skrolaš v dnevu, z načini blag, uravnotežen in strog.",
+	"doomwalk_feature3_title": "Vpogled v aktivnost",
+	"doomwalk_feature3_desc": "Poglej svoje korake, niz in aplikacije, ki ti vzamejo največ časa.",
+	"doomwalk_feature4_title": "Zasebnost že v zasnovi",
+	"doomwalk_feature4_desc": "Osebni podatki se ne zbirajo in nič ne zapusti tvojega telefona.",
+	"doomwalk_overview_prefix": "DoomWalk je Android aplikacija, ki te prisili k hoji, preden lahko skrolaš. Skrolanje meri v metrih in blokira zasvojljive aplikacije (Instagram, TikTok...), ko skrolaš dlje, kot si prehodil. Aplikacija ne zbira nobenih osebnih podatkov. Zmagovalni projekt na ",
+	"doomwalk_overview_suffix": "."
 }

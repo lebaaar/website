@@ -18,6 +18,13 @@ const projects = [
 	},
 	{ slug: 'cenko', title: 'Cenko', desc: 'project_cenko_desc', icon: 'cenko.png', radius: '22%' },
 	{
+		slug: 'doomwalk',
+		title: 'DoomWalk',
+		desc: 'project_doomwalk_desc',
+		icon: 'doomwalk.webp',
+		bare: true
+	},
+	{
 		slug: 'potegnime',
 		title: 'potegni.me',
 		desc: 'project_potegnime_desc',

@@ -6,6 +6,7 @@
 	import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
 	import domacahrana from '$lib/assets/domacahrana.png';
 	import potegnime from '$lib/assets/potegnime.webp';
+	import doomwalk from '$lib/assets/doomwalk.webp';
 	import periodTracker from '$lib/assets/period_tracker.webp';
 	import librelock from '$lib/assets/librelock.svg';
 	import cenko from '$lib/assets/cenko.png';
@@ -81,6 +82,15 @@
 			link: 'https://amadejvidner.com',
 			radius: 'rounded-sm',
 			iconImage: amadejvidner
+		},
+		{
+			title: 'DoomWalk',
+			description: m.project_doomwalk_desc(),
+			technologies: ['Flutter', 'Dart', 'Kotlin', 'Play Store'],
+			category: 'mobile',
+			slug: 'doomwalk',
+			github: 'https://github.com/lebaaar/doomwalk',
+			iconImage: doomwalk
 		},
 		{
 			title: 'Cenko',
