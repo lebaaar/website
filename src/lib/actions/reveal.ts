@@ -1,26 +1,24 @@
-import { gsap, ScrollTrigger, prefersReducedMotion } from '$lib/motion/scroll';
+import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
 
 export interface RevealOptions {
 	/** Stagger the children instead of animating the element itself. */
 	stagger?: number;
 	y?: number;
 	delay?: number;
-	start?: string;
+	/** How far above the viewport's bottom edge the element must reach, as a CSS margin. */
+	offset?: string;
 	/** Wipe up from the bottom, for media. */
 	clip?: boolean;
 }
 
+// An IntersectionObserver rather than a ScrollTrigger: ScrollTrigger caches trigger positions and
+// only recomputes them on window resize, so content shifting inside the scroll container (lazy
+// images, mobile URL bar) left the last sections waiting on a start they could never reach,
+// stuck at opacity 0. The observer measures live geometry every time.
 export function reveal(node: HTMLElement, options: RevealOptions = {}) {
-	const { stagger, y = 48, delay = 0, start = 'top 88%', clip = false } = options;
+	const { stagger, y = 48, delay = 0, offset = '12%', clip = false } = options;
 	const targets = stagger ? Array.from(node.children) : node;
 	const reduced = prefersReducedMotion();
-	const scrollTrigger = {
-		trigger: node,
-		// The home page scrolls its own container, project pages scroll the window.
-		scroller: node.closest('.scroll-container') ?? window,
-		start,
-		once: true
-	};
 
 	const tween =
 		clip && !reduced
@@ -31,7 +29,7 @@ export function reveal(node: HTMLElement, options: RevealOptions = {}) {
 					ease: 'power3.out',
 					delay,
 					clearProps: 'clipPath,transform',
-					scrollTrigger
+					paused: true
 				})
 			: gsap.from(targets, {
 					opacity: 0,
@@ -42,15 +40,27 @@ export function reveal(node: HTMLElement, options: RevealOptions = {}) {
 					delay,
 					stagger: stagger ?? 0,
 					clearProps: 'transform,filter',
-					scrollTrigger
+					paused: true
 				});
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				// Also reveal anything already scrolled past, e.g. after a restored scroll position.
+				if (!entry.isIntersecting && entry.boundingClientRect.bottom > 0) continue;
+				tween.play();
+				observer.disconnect();
+				return;
+			}
+		},
+		{ rootMargin: `0px 0px -${offset} 0px` }
+	);
+	observer.observe(node);
 
 	return {
 		destroy() {
-			tween.scrollTrigger?.kill();
+			observer.disconnect();
 			tween.kill();
 		}
 	};
 }
-
-export { ScrollTrigger };
