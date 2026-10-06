@@ -178,26 +178,7 @@
 					<p class="hero-item mb-6 max-w-md text-base text-zinc-400 sm:text-lg lg:mb-8">
 						<!-- Keyed inside the <p> so the revealed element survives a language switch. -->
 						{#key i18n.locale}
-							{m.hero_developer_at()}
-							<a
-								use:shine
-								href="https://www.loftware.com"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="link-shine underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
-							>
-								Loftware
-							</a>
-							{m.hero_student_at()}
-							<a
-								use:shine
-								href="https://fri.uni-lj.si/"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="link-shine underline decoration-zinc-500/60 underline-offset-4 transition hover:text-zinc-200"
-							>
-								FRI
-							</a>
+							{m.hero_tagline()}
 						{/key}
 					</p>
 

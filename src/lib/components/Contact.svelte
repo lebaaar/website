@@ -97,7 +97,7 @@
 	];
 
 	const fieldClass =
-		'w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-2.5 text-base text-zinc-100 placeholder:text-zinc-600 transition-colors hover:border-zinc-600 focus:border-zinc-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:opacity-60';
+		'w-full rounded-xl border border-zinc-700 bg-zinc-950/60 px-4 py-2.5 text-base text-zinc-100 placeholder:text-zinc-600 transition-colors hover:border-zinc-600 focus:border-zinc-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:opacity-60';
 	const labelClass = 'mb-1.5 block text-sm font-medium text-zinc-400';
 </script>
 
@@ -147,7 +147,7 @@
 		<div
 			use:shine
 			use:reveal={{ delay: 0.15 }}
-			class="box-shine relative rounded-2xl border border-zinc-700 bg-zinc-900/80 p-5 shadow-xl shadow-black/20 backdrop-blur transition-colors hover:border-zinc-500 sm:p-6"
+			class="box-shine relative rounded-2xl border border-zinc-700 bg-linear-to-br from-zinc-900/55 to-zinc-950/45 p-5 shadow-xl shadow-black/20 backdrop-blur-[3px] transition-colors hover:border-zinc-500 sm:p-6"
 		>
 			{#if status === 'sent'}
 				<div class="flex flex-col items-center gap-4 py-6 text-center">
@@ -273,41 +273,51 @@
 						<p role="alert" class="text-sm font-medium text-red-400">{errorMessages[error]()}</p>
 					{/if}
 
-					<button
-						use:shine
-						type="submit"
-						disabled={status === 'sending' || showEmailError}
-						class="btn-shine shine-dark flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-400 bg-zinc-100 px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-white focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-					>
-						{#if status === 'sending'}
-							<svg
-								class="animate-spin"
-								xmlns="http://www.w3.org/2000/svg"
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg
+					<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+						<button
+							use:shine
+							type="submit"
+							disabled={status === 'sending' || showEmailError}
+							class="btn-shine shine-dark flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-400 bg-zinc-100 px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-white focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+						>
+							{#if status === 'sending'}
+								<svg
+									class="animate-spin"
+									xmlns="http://www.w3.org/2000/svg"
+									width="18"
+									height="18"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg
+								>
+								{m.contact_sending()}
+							{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="18"
+									height="18"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg
+								>
+								{m.contact_submit()}
+							{/if}
+						</button>
+						<p class="text-right text-sm text-zinc-500 sm:pb-0.5">
+							{m.contact_direct_prefix()}<a
+								use:shine
+								href="mailto:hello@lan.si"
+								class="link-shine font-medium text-zinc-400 underline decoration-zinc-500/60 underline-offset-4 transition hover:text-white"
+								>hello@lan.si</a
 							>
-							{m.contact_sending()}
-						{:else}
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg
-							>
-							{m.contact_submit()}
-						{/if}
-					</button>
+						</p>
+					</div>
 				</form>
 			{/if}
 		</div>
