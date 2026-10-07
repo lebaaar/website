@@ -2,7 +2,10 @@ import type { MoonState } from './scene';
 
 // Moon keyframes are pinned to section offsets and rebuilt on resize.
 
-export type Pose = Omit<MoonState, 'idle' | 'spinRate' | 'starAlpha' | 'azimuth' | 'wrap'>;
+export type Pose = Omit<
+	MoonState,
+	'idle' | 'spinRate' | 'turnX' | 'turnY' | 'starAlpha' | 'azimuth' | 'wrap'
+>;
 interface Keyframe {
 	at: number;
 	pose: Pose;
@@ -261,6 +264,8 @@ export function introState(target: Pose, intro: Intro): MoonState {
 		corona: target.corona * Math.max(settled, behind * 0.55),
 		starAlpha: intro.starAlpha,
 		idle: intro.idle,
-		spinRate: 0
+		spinRate: 0,
+		turnX: 0,
+		turnY: 0
 	};
 }
