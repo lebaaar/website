@@ -36,6 +36,7 @@
 
 	let listEl = $state<HTMLElement>();
 	let activeFilter = $state<ProjectTab>('featured');
+	let showAll = $state(false);
 	let tabEls = $state<HTMLButtonElement[]>([]);
 	let indicator = $state({ x: 0, y: 0, width: 0, height: 0, ready: false });
 
@@ -193,7 +194,34 @@
 		{ value: 'mobile', label: m.projects_filter_mobile }
 	];
 
-	const filteredProjects = $derived(projects.filter((p) => p.tabs.includes(activeFilter)));
+	const filteredProjects = $derived(
+		projects.filter(
+			(p) => p.tabs.includes(activeFilter) || (activeFilter === 'featured' && showAll)
+		)
+	);
+	function isExtra(project: Project) {
+		return activeFilter === 'featured' && !project.tabs.includes('featured');
+	}
+
+	async function showMore() {
+		showAll = true;
+		await tick();
+		if (prefersReducedMotion() || !listEl) return;
+		const inners = Array.from(
+			listEl.querySelectorAll<HTMLElement>('[data-extra] [data-card-inner]')
+		);
+		gsap.from(inners, {
+			y: 80,
+			scale: 0.94,
+			opacity: 0,
+			duration: 0.8,
+			ease: 'power3.out',
+			stagger: 0.12,
+			clearProps: 'transform,opacity'
+		});
+	}
+
+	const canShowMore = $derived(activeFilter === 'featured' && !showAll);
 
 	function moveIndicator() {
 		const el = tabEls[filters.findIndex((f) => f.value === activeFilter)];
@@ -235,7 +263,7 @@
 					const cards = Array.from(list.querySelectorAll<HTMLElement>('[data-card]'));
 					cards.forEach((card, i) => {
 						const inner = card.querySelector<HTMLElement>('[data-card-inner]');
-						if (inner) {
+						if (inner && !card.hasAttribute('data-extra')) {
 							gsap.from(inner, {
 								y: 140,
 								rotateX: 18,
@@ -322,13 +350,14 @@
 		{#each filteredProjects as project (project.title)}
 			<article
 				data-card
+				data-extra={isExtra(project) ? '' : undefined}
 				aria-label={project.title}
 				class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc((100%-3rem)/3)]"
 			>
 				<div
 					data-card-inner
 					use:shine
-					class="box-shine group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-zinc-700/80 bg-linear-to-br from-zinc-900/55 to-zinc-950/45 shadow-2xl shadow-black/30 backdrop-blur-[3px] transition-[border-color,translate] duration-300 hover:-translate-y-1 hover:border-zinc-500"
+					class="box-shine group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-zinc-700/80 bg-linear-to-br from-zinc-900/55 to-zinc-950/45 shadow-2xl shadow-black/30 backdrop-blur-[3px] transition-[border-color] duration-300 hover:border-zinc-500"
 				>
 					{#if project.slug}
 						<a
@@ -450,4 +479,34 @@
 			</article>
 		{/each}
 	</div>
+
+	{#if canShowMore}
+		<div class="mt-12 flex justify-center sm:mt-16">
+			<button
+				use:shine
+				type="button"
+				class="btn-shine btn-shine-soft group/more inline-flex cursor-pointer items-center gap-3 rounded-full border border-zinc-600 bg-zinc-900/80 py-3 pr-5 pl-6 text-base font-medium text-zinc-100 shadow-lg shadow-black/30 backdrop-blur transition hover:border-zinc-400 hover:bg-zinc-800 hover:text-white"
+				onclick={showMore}
+			>
+				<span use:shine={{ within: '.btn-shine' }} class="btn-shine-label"
+					>{m.projects_show_more()}</span
+				>
+				<span class="flex items-center justify-center">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="transition-transform duration-300 group-hover/more:translate-y-0.5"
+						aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg
+					>
+				</span>
+			</button>
+		</div>
+	{/if}
 </section>
