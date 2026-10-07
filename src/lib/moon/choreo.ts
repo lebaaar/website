@@ -6,9 +6,13 @@ export type Pose = Omit<MoonState, 'idle' | 'spinRate' | 'starAlpha' | 'azimuth'
 interface Keyframe {
 	at: number;
 	pose: Pose;
+	// A camera push into the moon instead of a move: the screen centre the zoom is measured from.
+	push?: { cx: number; cy: number };
 }
 
 const smooth = (t: number) => t * t * (3 - 2 * t);
+// Slow start, so the moon only dims once the push is nearly done.
+const late = (t: number) => smooth(t * t);
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 const pose = (p: Partial<Pose> & Pick<Pose, 'x' | 'y' | 'r'>): Pose => ({
@@ -19,6 +23,9 @@ const pose = (p: Partial<Pose> & Pick<Pose, 'x' | 'y' | 'r'>): Pose => ({
 	stars: 0,
 	elev: 0,
 	earthshine: 1,
+	zoom: 1,
+	fx: 0,
+	fy: 0,
 	...p
 });
 
@@ -94,12 +101,29 @@ export function buildKeyframes(container: HTMLElement): Keyframe[] {
 		elev: 2.2
 	});
 
+	// The camera pushes in from About to Projects, so the moon grows by `zoom` and the stars with it.
+	// The focus is where the camera ends up looking, chosen so the moon lands on projectsPose.
+	const cx = vw / 2;
+	const cy = vh / 2;
+	const zoom = projectsPose.r / aboutPose.r;
+	const camera = {
+		zoom,
+		fx: aboutPose.x - cx - (projectsPose.x - cx) / zoom,
+		fy: aboutPose.y - cy - (projectsPose.y - cy) / zoom
+	};
+	Object.assign(projectsPose, camera);
+	Object.assign(contactPose, camera);
+
+	const aboutAt = Math.max(about - vh * 0.15, 1);
+	const leaveAbout = Math.max(projects - vh * 0.35, aboutAt + 1);
+	const arrive = Math.max(projects + vh * 0.45, leaveAbout + 1);
+
 	const frames: Keyframe[] = [
 		{ at: 0, pose: hero },
-		{ at: Math.max(about - vh * 0.15, 1), pose: aboutPose },
-		{ at: Math.max(projects - vh * 0.1, 2), pose: aboutPose },
-		{ at: Math.max(projects + vh * 0.4, 3), pose: projectsPose },
-		{ at: Math.max(projectsEnd, projects + vh * 0.4 + 1), pose: projectsPose },
+		{ at: aboutAt, pose: aboutPose },
+		{ at: leaveAbout, pose: aboutPose },
+		{ at: arrive, pose: projectsPose, push: { cx, cy } },
+		{ at: Math.max(projectsEnd, arrive + 1), pose: projectsPose },
 		{
 			at: Math.max(contact, projectsEnd + 2),
 			pose: { ...contactPose, phase: 0.75, corona: 0.15, light: 0.5 }
@@ -122,7 +146,10 @@ export function mixPose(a: Pose, b: Pose, t: number): Pose {
 		spin: lerp(a.spin, b.spin, t),
 		stars: lerp(a.stars, b.stars, t),
 		elev: lerp(a.elev, b.elev, t),
-		earthshine: lerp(a.earthshine, b.earthshine, t)
+		earthshine: lerp(a.earthshine, b.earthshine, t),
+		zoom: lerp(a.zoom, b.zoom, t),
+		fx: lerp(a.fx, b.fx, t),
+		fy: lerp(a.fy, b.fy, t)
 	};
 }
 
@@ -133,10 +160,27 @@ export function poseAt(frames: Keyframe[], scroll: number): Pose {
 		if (scroll > b.at) continue;
 		const a = frames[i - 1];
 		const linear = (scroll - a.at) / (b.at - a.at || 1);
+		const t = smooth(linear);
 		// Linear so the starfield never stalls between keyframes.
-		return {
-			...mixPose(a.pose, b.pose, smooth(linear)),
+		const mixed = {
+			...mixPose(a.pose, b.pose, t),
 			stars: lerp(a.pose.stars, b.pose.stars, linear)
+		};
+		if (!b.push) return mixed;
+		// Assumes the camera starts unzoomed. Scale grows exponentially so the push reads as one
+		// steady zoom, and the focus follows whatever keeps the moon on its path.
+		const scale = b.pose.zoom ** t;
+		const dx = lerp(a.pose.x, b.pose.x, t) - b.push.cx;
+		const dy = lerp(a.pose.y, b.pose.y, t) - b.push.cy;
+		const lag = late(linear);
+		return {
+			...mixed,
+			r: a.pose.r * scale,
+			zoom: scale,
+			fx: a.pose.x - b.push.cx - dx / scale,
+			fy: a.pose.y - b.push.cy - dy / scale,
+			light: lerp(a.pose.light, b.pose.light, lag),
+			corona: lerp(a.pose.corona, b.pose.corona, lag)
 		};
 	}
 	return frames[frames.length - 1].pose;

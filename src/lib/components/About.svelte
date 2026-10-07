@@ -122,7 +122,7 @@
 				</div>
 			</div>
 
-			<div class="lg:sticky lg:top-8">
+			<div>
 				<h3
 					use:shine={{ hitTest: true }}
 					class="title-shimmer mb-4 text-2xl font-semibold text-white sm:mb-6"

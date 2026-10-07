@@ -187,11 +187,11 @@
 		// }
 	];
 
-	const filters: { value: ProjectTab; label: () => string }[] = [
+	const filters: { value: ProjectTab; label: () => string; short?: () => string }[] = [
 		{ value: 'featured', label: m.projects_filter_featured },
 		{ value: 'webapp', label: m.projects_filter_webapp },
 		{ value: 'website', label: m.projects_filter_website },
-		{ value: 'mobile', label: m.projects_filter_mobile }
+		{ value: 'mobile', label: m.projects_filter_mobile, short: m.projects_filter_mobile_short }
 	];
 
 	const filteredProjects = $derived(
@@ -340,7 +340,12 @@
 					${activeFilter === filter.value ? 'text-zinc-900' : 'btn-shine text-zinc-400 hover:text-white'}`}
 					onclick={() => selectFilter(filter.value)}
 				>
-					{filter.label()}
+					{#if filter.short}
+						<span class="sm:hidden">{filter.short()}</span>
+						<span class="hidden sm:inline">{filter.label()}</span>
+					{:else}
+						{filter.label()}
+					{/if}
 				</button>
 			{/each}
 		</div>

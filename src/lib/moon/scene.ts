@@ -23,6 +23,11 @@ export interface MoonState {
 	wrap: number;
 	/** Extra swing of the sun in radians, on top of `phase`. */
 	azimuth: number;
+	/** Camera zoom on the starfield; the moon's own size already includes it. */
+	zoom: number;
+	/** Camera focus, in px from the viewport centre (y down). */
+	fx: number;
+	fy: number;
 }
 
 export interface MoonScene {
@@ -80,14 +85,20 @@ const starVertex = /* glsl */ `
 	uniform float uOffset;
 	uniform float uTime;
 	uniform float uPixelRatio;
+	uniform float uZoom;
+	uniform vec2 uFocus;
 	varying float vAlpha;
 
 	void main() {
 		vec3 pos = position;
 		pos.x *= uView.x;
 		pos.y = mod(position.y * uView.y + uOffset * aDepth + uView.y * 0.5, uView.y) - uView.y * 0.5;
+		// Distant stars zoom and pan less than near ones, so the push has depth.
+		float k = 0.3 + 0.5 * aDepth;
+		float z = pow(uZoom, k);
+		pos.xy = (pos.xy - uFocus * k) * z;
 		vAlpha = (0.45 + 0.55 * sin(uTime * (0.6 + aSeed * 1.6) + aSeed * 40.0)) * (0.35 + aDepth * 0.65);
-		gl_PointSize = aSize * uPixelRatio;
+		gl_PointSize = aSize * uPixelRatio * sqrt(z);
 		gl_Position = projectionMatrix * modelViewMatrix * vec4(pos.xy, -500.0, 1.0);
 	}
 `;
@@ -198,7 +209,9 @@ export async function createMoonScene(
 		uOffset: { value: 0 },
 		uTime: { value: 0 },
 		uPixelRatio: { value: 1 },
-		uAlpha: { value: 1 }
+		uAlpha: { value: 1 },
+		uZoom: { value: 1 },
+		uFocus: { value: new THREE.Vector2() }
 	};
 	const stars = new THREE.Points(
 		starGeometry,
@@ -276,6 +289,8 @@ export async function createMoonScene(
 
 		starUniforms.uOffset.value = s.stars;
 		starUniforms.uAlpha.value = s.starAlpha;
+		starUniforms.uZoom.value = s.zoom;
+		starUniforms.uFocus.value.set(s.fx, -s.fy);
 		starUniforms.uTime.value = time;
 
 		renderer.render(scene, camera);
