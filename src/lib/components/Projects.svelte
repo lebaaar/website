@@ -15,15 +15,18 @@
 	import companies from '$lib/assets/companies.webp';
 	import undefinedIcon from '$lib/assets/undefined.webp';
 	import amadejvidner from '$lib/assets/amadejvidner.webp';
+	import ajdahozjan from '$lib/assets/ajdahozjan.webp';
 	// import domainForSale from '$lib/assets/domain-for-sale.svg';
 
-	type ProjectCategory = 'mobile' | 'webapp' | 'website';
+	const TABS = ['featured', 'webapp', 'website', 'mobile'] as const;
+	type ProjectTab = (typeof TABS)[number];
 
 	interface Project {
 		title: string;
 		description: string;
 		technologies: string[];
-		category: ProjectCategory;
+		/** Tabs this project is listed under; include 'featured' to show it on the default tab. */
+		tabs: ProjectTab[];
 		slug?: string;
 		link?: string;
 		github?: string;
@@ -32,13 +35,13 @@
 	}
 
 	let listEl = $state<HTMLElement>();
-	let activeFilter = $state<'all' | ProjectCategory>('all');
+	let activeFilter = $state<ProjectTab>('featured');
 	let tabEls = $state<HTMLButtonElement[]>([]);
 	let indicator = $state({ x: 0, y: 0, width: 0, height: 0, ready: false });
 
 	const FILTER_KEY = 'projects-filter';
 
-	function selectFilter(value: 'all' | ProjectCategory) {
+	function selectFilter(value: ProjectTab) {
 		activeFilter = value;
 		try {
 			sessionStorage.setItem(FILTER_KEY, value);
@@ -49,8 +52,8 @@
 
 	onMount(() => {
 		const saved = sessionStorage.getItem(FILTER_KEY);
-		if (saved === 'all' || saved === 'mobile' || saved === 'webapp' || saved === 'website') {
-			activeFilter = saved;
+		if (TABS.includes(saved as ProjectTab)) {
+			activeFilter = saved as ProjectTab;
 		}
 	});
 
@@ -59,7 +62,7 @@
 			title: 'Domača Hrana',
 			description: m.project_domacahrana_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			category: 'webapp',
+			tabs: ['featured', 'webapp'],
 			slug: 'domacahrana',
 			link: 'https://domacahrana.si',
 			iconImage: domacahrana
@@ -68,7 +71,7 @@
 			title: 'LibreLock',
 			description: m.project_librelock_desc(),
 			technologies: ['Vue', 'Go', 'SQLite', 'Docker'],
-			category: 'webapp',
+			tabs: ['featured', 'webapp'],
 			slug: 'librelock',
 			github: 'https://github.com/LibreLock',
 			iconImage: librelock
@@ -77,7 +80,7 @@
 			title: 'Amadej Vidner Portfolio',
 			description: m.project_amadejvidner_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			category: 'website',
+			tabs: ['featured', 'website'],
 			slug: 'amadejvidner',
 			link: 'https://amadejvidner.com',
 			radius: 'rounded-sm',
@@ -86,8 +89,8 @@
 		{
 			title: 'DoomWalk',
 			description: m.project_doomwalk_desc(),
-			technologies: ['Flutter', 'Dart', 'Kotlin', 'Play Store'],
-			category: 'mobile',
+			technologies: ['Flutter', 'Kotlin', 'Play Store'],
+			tabs: ['featured', 'mobile'],
 			slug: 'doomwalk',
 			github: 'https://github.com/lebaaar/doomwalk',
 			iconImage: doomwalk
@@ -95,17 +98,27 @@
 		{
 			title: 'Cenko',
 			description: m.project_cenko_desc(),
-			technologies: ['Flutter', 'Dart', 'Supabase', 'Play Store'],
-			category: 'mobile',
+			technologies: ['Flutter', 'Supabase', 'Play Store'],
+			tabs: ['featured', 'mobile'],
 			slug: 'cenko',
 			link: 'https://cenko.app',
 			iconImage: cenko
 		},
 		{
+			title: 'Ajda Hozjan Portfolio',
+			description: m.project_ajdahozjan_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
+			tabs: ['featured', 'website'],
+			slug: 'ajdahozjan',
+			link: 'https://ajdahozjan.eu',
+			radius: 'rounded-sm',
+			iconImage: ajdahozjan
+		},
+		{
 			title: 'companies.si',
 			description: m.project_companies_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			category: 'webapp',
+			tabs: ['featured', 'webapp'],
 			slug: 'companies',
 			link: 'https://companies.si',
 			radius: 'rounded-lg',
@@ -115,7 +128,7 @@
 			title: 'undefined',
 			description: m.project_undefined_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'three.js'],
-			category: 'webapp',
+			tabs: ['featured', 'webapp'],
 			slug: 'undefined',
 			github: 'https://github.com/undefined-application',
 			iconImage: undefinedIcon
@@ -124,7 +137,7 @@
 			title: 'potegni.me',
 			description: m.project_potegnime_desc(),
 			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL'],
-			category: 'webapp',
+			tabs: ['featured', 'webapp'],
 			slug: 'potegnime',
 			github: 'https://github.com/potegnime',
 			link: 'https://potegni.me',
@@ -134,8 +147,8 @@
 		{
 			title: 'Period Tracker',
 			description: m.project_period_tracker_desc(),
-			technologies: ['Flutter', 'Dart', 'SQLite', 'Play Store'],
-			category: 'mobile',
+			technologies: ['Flutter', 'SQLite', 'Play Store'],
+			tabs: ['mobile'],
 			slug: 'periodtracker',
 			link: 'https://play.google.com/store/apps/details?id=com.lebaaar.period_tracker',
 			github: 'https://github.com/lebaaar/period_tracker',
@@ -143,23 +156,23 @@
 			radius: 'rounded-full'
 		},
 		{
-			title: 'Shapers Academy',
-			description: m.project_globalshapers_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			category: 'website',
-			slug: 'shapers',
-			link: 'https://academy.globalshapers.si',
-			iconImage: globalShapers
-		},
-		{
 			title: 'Kavarna & Cukrarija',
 			description: m.project_kavarna_cukrarija_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			category: 'website',
+			tabs: ['website'],
 			slug: 'kavarna',
 			link: 'https://torta-bo.si',
 			radius: 'rounded-full',
 			iconImage: kavarna
+		},
+		{
+			title: 'Shapers Academy',
+			description: m.project_globalshapers_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
+			tabs: ['website'],
+			slug: 'shapers',
+			link: 'https://academy.globalshapers.si',
+			iconImage: globalShapers
 		}
 		// {
 		// 	title: 'Domain for sale',
@@ -173,21 +186,14 @@
 		// }
 	];
 
-	const filters: { value: 'all' | ProjectCategory; label: () => string }[] = [
-		{ value: 'all', label: m.projects_filter_all },
+	const filters: { value: ProjectTab; label: () => string }[] = [
+		{ value: 'featured', label: m.projects_filter_featured },
 		{ value: 'webapp', label: m.projects_filter_webapp },
 		{ value: 'website', label: m.projects_filter_website },
 		{ value: 'mobile', label: m.projects_filter_mobile }
 	];
 
-	const MAX_PROJECTS = 9;
-
-	const filteredProjects = $derived(
-		(activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)).slice(
-			0,
-			MAX_PROJECTS
-		)
-	);
+	const filteredProjects = $derived(projects.filter((p) => p.tabs.includes(activeFilter)));
 
 	function moveIndicator() {
 		const el = tabEls[filters.findIndex((f) => f.value === activeFilter)];
@@ -312,12 +318,13 @@
 		</div>
 	</div>
 
-	<div
-		bind:this={listEl}
-		class="grid gap-5 perspective-[1600px] sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
-	>
+	<div bind:this={listEl} class="flex flex-wrap justify-center gap-5 perspective-[1600px] sm:gap-6">
 		{#each filteredProjects as project (project.title)}
-			<article data-card aria-label={project.title}>
+			<article
+				data-card
+				aria-label={project.title}
+				class="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc((100%-3rem)/3)]"
+			>
 				<div
 					data-card-inner
 					use:shine

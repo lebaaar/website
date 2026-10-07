@@ -10,6 +10,7 @@ export const PROJECT_SLUGS = [
 	'companies',
 	'undefined',
 	'amadejvidner',
+	'ajdahozjan',
 	'kavarna',
 	'shapers'
 ] as const;

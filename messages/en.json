@@ -24,8 +24,8 @@
 	"skill_tools_platforms": "Tools & Platforms",
 	"stat_years_experience": "Years Experience",
 	"stat_projects_built": "Projects Built",
-	"projects_title": "Featured Projects",
-	"projects_filter_all": "All",
+	"projects_title": "Projects",
+	"projects_filter_featured": "Featured",
 	"projects_filter_mobile": "Mobile Apps",
 	"projects_filter_webapp": "Web Apps",
 	"projects_filter_website": "Websites",
@@ -219,5 +219,13 @@
 	"doomwalk_feature4_title": "Private by design",
 	"doomwalk_feature4_desc": "No personal data is collected and nothing ever leaves your phone.",
 	"doomwalk_overview_prefix": "DoomWalk is an Android app that makes you walk before you can doomscroll. It measures your scrolling in metres and blocks addictive apps (Instagram, TikTok...) once you've scrolled further than you've walked. Private by design, no personal data is collected. Winning project at ",
-	"doomwalk_overview_suffix": "."
+	"doomwalk_overview_suffix": ".",
+	"project_ajdahozjan_desc": "Modern website for Ajda Hozjan, a personal trainer from Kranj, Slovenia, with a program catalogue and an online application form.",
+	"ajdahozjan_overview_p1": "Website for Ajda Hozjan, a personal trainer from Kranj, Slovenia. Bold black and gold design built around her offering. The site tells her story, how she works, what she offers and which programs available. Visitors fill in a short questionnaire and the application lands straight in her inbox.",
+	"ajdahozjan_feature1_title": "Program catalogue",
+	"ajdahozjan_feature1_desc": "Detailed pages for every APEX program, with pricing and what's included.",
+	"ajdahozjan_feature2_title": "Application questionnaire",
+	"ajdahozjan_feature2_desc": "A step-by-step form that sends each application straight to Telegram.",
+	"ajdahozjan_feature3_title": "Built for search",
+	"ajdahozjan_feature3_desc": "Prerendered pages, structured data and social cards for every program."
 }

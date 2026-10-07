@@ -265,6 +265,37 @@
 			</ul>
 		{/snippet}
 
+		{#snippet ctaBlock()}
+			<section use:reveal={{ offset: '6%', delay: 0.15 }} class="border-t border-zinc-800 pt-12">
+				<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+					<div>
+						<h2 use:shine={{ hitTest: true }} class="title-shimmer text-2xl font-bold text-white">
+							{ctaTitles[cta]()}
+						</h2>
+						<p class="mt-2 max-w-xl leading-7 text-zinc-400">{m.project_cta_desc()}</p>
+					</div>
+					<a
+						use:shine
+						href="/#contact"
+						class={`${actionButtonClass} shrink-0 self-start sm:self-auto`}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="18"
+							height="18"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg
+						>
+						{m.project_cta_button()}
+					</a>
+				</div>
+			</section>
+		{/snippet}
+
 		{#if mediaAside && media.length > 0}
 			<div
 				class="mb-12 grid gap-10 sm:mb-16 lg:grid-cols-[minmax(0,22rem)_1fr] lg:items-start lg:gap-12"
@@ -297,34 +328,7 @@
 			</section>
 		{/if}
 
-		<section use:reveal class="border-t border-zinc-800 pt-12">
-			<div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-				<div>
-					<h2 use:shine={{ hitTest: true }} class="title-shimmer text-2xl font-bold text-white">
-						{ctaTitles[cta]()}
-					</h2>
-					<p class="mt-2 max-w-xl leading-7 text-zinc-400">{m.project_cta_desc()}</p>
-				</div>
-				<a
-					use:shine
-					href="/#contact"
-					class={`${actionButtonClass} shrink-0 self-start sm:self-auto`}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="18"
-						height="18"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg
-					>
-					{m.project_cta_button()}
-				</a>
-			</div>
-		</section>
+		{@render ctaBlock()}
 	</div>
 </div>
 

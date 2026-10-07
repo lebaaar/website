@@ -67,6 +67,13 @@ const projects = [
 		bare: true
 	},
 	{
+		slug: 'ajdahozjan',
+		title: 'Ajda Hozjan',
+		desc: 'project_ajdahozjan_desc',
+		icon: 'ajdahozjan.webp',
+		radius: '4px'
+	},
+	{
 		slug: 'kavarna',
 		title: 'Kavarna & Cukrarija',
 		desc: 'project_kavarna_cukrarija_desc',

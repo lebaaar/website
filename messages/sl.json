@@ -24,8 +24,8 @@
 	"skill_tools_platforms": "Orodja in platforme",
 	"stat_years_experience": "let izkušenj",
 	"stat_projects_built": "projektov",
-	"projects_title": "Izpostavljeni projekti",
-	"projects_filter_all": "Vsi",
+	"projects_title": "Projekti",
+	"projects_filter_featured": "Izpostavljeni",
 	"projects_filter_mobile": "Mobilne aplikacije",
 	"projects_filter_webapp": "Spletne aplikacije",
 	"projects_filter_website": "Spletne strani",
@@ -219,5 +219,13 @@
 	"doomwalk_feature4_title": "Zasebnost že v zasnovi",
 	"doomwalk_feature4_desc": "Osebni podatki se ne zbirajo in nič ne zapusti tvojega telefona.",
 	"doomwalk_overview_prefix": "DoomWalk je Android aplikacija, ki te prisili k hoji, preden lahko skrolaš. Skrolanje meri v metrih in blokira zasvojljive aplikacije (Instagram, TikTok...), ko skrolaš dlje, kot si prehodil. Aplikacija ne zbira nobenih osebnih podatkov. Zmagovalni projekt na ",
-	"doomwalk_overview_suffix": "."
+	"doomwalk_overview_suffix": ".",
+	"project_ajdahozjan_desc": "Moderna spletna stran za Ajdo Hozjan, osebno trenerko iz Kranja, s katalogom programov in spletno prijavo.",
+	"ajdahozjan_overview_p1": "Spletna stran za Ajdo Hozjan, osebno trenerko iz Kranja. Modern črn-zlat dizajn, zgrajen okoli njene ponudbe. Stran vsebuje Ajdino zgodbo, njen pristop do dela in ponudbo programov. Obiskovalci lahko izpolnijo tudi kratek vprašalnik, prijava pa se pošlje neposredno v njen inbox.",
+	"ajdahozjan_feature1_title": "Katalog programov",
+	"ajdahozjan_feature1_desc": "Podrobne strani za vsak APEX program, s ceno in vsebino.",
+	"ajdahozjan_feature2_title": "Vprašalnik za prijavo",
+	"ajdahozjan_feature2_desc": "Postopen obrazec, ki vsako prijavo pošlje neposredno na Telegram.",
+	"ajdahozjan_feature3_title": "Pripravljeno za iskalnike",
+	"ajdahozjan_feature3_desc": "Vnaprej generirane strani, strukturirani podatki in družbene kartice za vsak program."
 }
