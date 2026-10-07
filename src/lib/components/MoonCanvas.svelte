@@ -9,6 +9,7 @@
 		poseAt,
 		type Pose
 	} from '$lib/moon/choreo';
+	import type { MoonState } from '$lib/moon/scene';
 	import { moonStage } from '$lib/moon/stage.svelte';
 	import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
 
@@ -23,6 +24,10 @@
 	const SCROLL_SPIN = 0.0007;
 	// Seconds the moon takes to glide to its new pose after a navigation.
 	const HANDOFF = 1.4;
+	// How fast a flicked moon loses its spin, per second.
+	const DRAG_FRICTION = 2.5;
+	// The moon sits under the page, so it only takes drags that start on nothing clickable.
+	const INTERACTIVE = 'a, button, input, textarea, select, label, [role="button"]';
 
 	let canvas = $state<HTMLCanvasElement>();
 	let shade = $state<HTMLDivElement>();
@@ -42,7 +47,27 @@
 	let lastTime = 0;
 	let scrollVelocity = 0;
 
-	function getState() {
+	// Pixels dragged since the last frame, and the turn rate in rad/s that carries on after release.
+	const drag = { active: false, x: 0, y: 0, dx: 0, dy: 0, vx: 0, vy: 0 };
+	let lastState: MoonState | null = null;
+
+	function turn(dt: number, r: number) {
+		if (drag.active) {
+			const turnX = drag.dx / r;
+			const turnY = drag.dy / r;
+			drag.dx = drag.dy = 0;
+			const k = Math.min(dt * 20, 1);
+			drag.vx += (turnX / dt - drag.vx) * k;
+			drag.vy += (turnY / dt - drag.vy) * k;
+			return { turnX, turnY };
+		}
+		const decay = Math.exp(-dt * DRAG_FRICTION);
+		drag.vx = Math.abs(drag.vx) < 1e-3 ? 0 : drag.vx * decay;
+		drag.vy = Math.abs(drag.vy) < 1e-3 ? 0 : drag.vy * decay;
+		return { turnX: drag.vx * dt, turnY: drag.vy * dt };
+	}
+
+	function getState(): MoonState {
 		const now = performance.now();
 		const dt = Math.max((now - lastTime) / 1000, 1 / 240);
 		lastTime = now;
@@ -66,7 +91,64 @@
 		const current = blend.from && blend.t < 1 ? mixPose(blend.from, target, blend.t) : target;
 		// Only a pose taken from a page is worth blending from, never the hidden placeholder.
 		if (track) lastPose = current;
-		return { ...introState(current, intro), spinRate: scrollVelocity * SCROLL_SPIN };
+		const state = introState(current, intro);
+		lastState = {
+			...state,
+			spinRate: scrollVelocity * SCROLL_SPIN,
+			...turn(dt, Math.max(state.r, 1))
+		};
+		return lastState;
+	}
+
+	function overMoon(e: PointerEvent) {
+		if (!lastState || e.pointerType !== 'mouse') return false;
+		if (e.target instanceof Element && e.target.closest(INTERACTIVE)) return false;
+		return Math.hypot(e.clientX - lastState.x, e.clientY - lastState.y) < lastState.r;
+	}
+
+	function setCursor(cursor: string) {
+		const root = document.documentElement;
+		if (root.style.cursor !== cursor) root.style.cursor = cursor;
+	}
+
+	function listenForDrags() {
+		const onDown = (e: PointerEvent) => {
+			if (e.button !== 0 || !overMoon(e)) return;
+			// Keeps the drag from selecting the text above the moon.
+			e.preventDefault();
+			if (e.target instanceof Element) e.target.setPointerCapture(e.pointerId);
+			Object.assign(drag, { active: true, x: e.clientX, y: e.clientY, dx: 0, dy: 0, vx: 0, vy: 0 });
+			setCursor('grabbing');
+		};
+		const onMove = (e: PointerEvent) => {
+			if (!drag.active) return setCursor(overMoon(e) ? 'grab' : '');
+			drag.dx += e.clientX - drag.x;
+			drag.dy += e.clientY - drag.y;
+			drag.x = e.clientX;
+			drag.y = e.clientY;
+		};
+		const onUp = (e: PointerEvent) => {
+			if (!drag.active) return;
+			drag.active = false;
+			setCursor(overMoon(e) ? 'grab' : '');
+		};
+		const onBlur = () => {
+			drag.active = false;
+			setCursor('');
+		};
+		window.addEventListener('pointerdown', onDown);
+		window.addEventListener('pointermove', onMove);
+		window.addEventListener('pointerup', onUp);
+		window.addEventListener('pointercancel', onUp);
+		window.addEventListener('blur', onBlur);
+		return () => {
+			window.removeEventListener('pointerdown', onDown);
+			window.removeEventListener('pointermove', onMove);
+			window.removeEventListener('pointerup', onUp);
+			window.removeEventListener('pointercancel', onUp);
+			window.removeEventListener('blur', onBlur);
+			onBlur();
+		};
 	}
 
 	function settle() {
@@ -112,6 +194,7 @@
 
 		let disposed = false;
 		let dispose = () => {};
+		let stopDrags = () => {};
 		let resizeScene = () => {};
 		const onResize = () => resizeScene();
 		window.addEventListener('resize', onResize);
@@ -122,6 +205,7 @@
 				if (disposed) return scene.dispose();
 				dispose = scene.dispose;
 				resizeScene = scene.resize;
+				stopDrags = listenForDrags();
 				live = true;
 				const k = mode === 'home' ? 1 : 0.5;
 				const sweep = 4.4 * k;
@@ -147,6 +231,7 @@
 			window.removeEventListener('resize', onResize);
 			gsap.killTweensOf(intro);
 			gsap.killTweensOf(blend);
+			stopDrags();
 			dispose();
 		};
 	});

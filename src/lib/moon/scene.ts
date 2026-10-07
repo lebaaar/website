@@ -13,6 +13,9 @@ export interface MoonState {
 	idle: number;
 	/** Extra spin in rad/s, from scrolling. */
 	spinRate: number;
+	/** Radians to turn the moon this frame about the screen's vertical and horizontal axes, from dragging. */
+	turnX: number;
+	turnY: number;
 	stars: number;
 	/** Multiplier on the faint light that shows craters on the dark side. */
 	earthshine: number;
@@ -150,11 +153,19 @@ export async function createMoonScene(
 		metalness: 0
 	});
 	const moon = new THREE.Mesh(new THREE.SphereGeometry(1, 128, 64), moonMaterial);
+	const tilt = new THREE.Group();
+	tilt.rotation.x = 0.12;
+	tilt.rotation.z = -0.08;
+	tilt.add(moon);
+	// Dragging turns `grab` about screen axes, which only holds while `pivot` itself never rotates.
+	const grab = new THREE.Group();
+	grab.add(tilt);
 	const pivot = new THREE.Group();
-	pivot.rotation.x = 0.12;
-	pivot.rotation.z = -0.08;
-	pivot.add(moon);
+	pivot.add(grab);
 	scene.add(pivot);
+	const AXIS_X = new THREE.Vector3(1, 0, 0);
+	const AXIS_Y = new THREE.Vector3(0, 1, 0);
+	const turn = new THREE.Quaternion();
 
 	const sun = new THREE.DirectionalLight(0xfff4e6, 3.2);
 	scene.add(sun, sun.target);
@@ -267,6 +278,11 @@ export async function createMoonScene(
 		pivot.visible = s.r > 0.5;
 		idleAngle += dt * (IDLE_SPEED * s.idle + s.spinRate);
 		moon.rotation.y = -Math.PI / 2 + idleAngle + s.spin;
+		if (s.turnX || s.turnY) {
+			grab.quaternion.premultiply(turn.setFromAxisAngle(AXIS_Y, s.turnX));
+			grab.quaternion.premultiply(turn.setFromAxisAngle(AXIS_X, s.turnY));
+			grab.quaternion.normalize();
+		}
 
 		// Phase swings the sun from behind the upper-left limb round to the camera.
 		const a =
