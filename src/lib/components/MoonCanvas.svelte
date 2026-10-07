@@ -1,77 +1,120 @@
-<script lang="ts" module>
-	let introPlayed = false;
-</script>
-
 <script lang="ts">
 	import {
 		buildDetailKeyframes,
 		buildKeyframes,
 		introStart,
 		introState,
-		poseAt
+		mixPose,
+		pose,
+		poseAt,
+		type Pose
 	} from '$lib/moon/choreo';
+	import { moonStage } from '$lib/moon/stage.svelte';
 	import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
 
 	interface Props {
-		/** `detail` follows the window scroll and plays a shorter intro. */
-		mode?: 'home' | 'detail';
-		container?: HTMLElement;
+		/** `home` follows the home scroll container, `detail` the window. */
+		mode: 'home' | 'detail';
 	}
 
-	let { mode = 'home', container }: Props = $props();
+	let { mode }: Props = $props();
 
 	// Extra spin per px/s of scroll velocity.
 	const SCROLL_SPIN = 0.0007;
+	// Seconds the moon takes to glide to its new pose after a navigation.
+	const HANDOFF = 1.4;
 
 	let canvas = $state<HTMLCanvasElement>();
 	let shade = $state<HTMLDivElement>();
 	let live = $state(false);
 	let failed = $state(false);
 
-	// An effect, not onMount, because the parent binds `container` after this mounts.
-	$effect(() => {
-		const home = mode === 'home';
-		const scroller = home ? container : document.documentElement;
-		if (!scroller || !canvas || prefersReducedMotion()) return;
-		const canvasEl = canvas;
-		const build = home ? buildKeyframes : buildDetailKeyframes;
+	type Frames = ReturnType<typeof buildKeyframes>;
 
-		let frames = build(scroller);
-		const intro = introStart();
-		const shadeEl = shade;
-		let lastScroll = scroller.scrollTop;
-		let lastTime = performance.now();
-		let scrollVelocity = 0;
-		const getState = () => {
+	// Mounted once in the layout, so the scene survives navigation. Only `track` is swapped
+	// between pages; the moon blends from wherever it was to the new page's pose.
+	let track: { scroller: HTMLElement; frames: Frames; home: boolean } | null = null;
+	let lastPose: Pose | null = null;
+	const blend: { from: Pose | null; t: number } = { from: null, t: 1 };
+	const intro = introStart();
+
+	let lastScroll = 0;
+	let lastTime = 0;
+	let scrollVelocity = 0;
+
+	function getState() {
+		const now = performance.now();
+		const dt = Math.max((now - lastTime) / 1000, 1 / 240);
+		lastTime = now;
+
+		let target = lastPose ?? pose({ x: 0, y: 0, r: 0 });
+		let velocity = 0;
+		if (track) {
+			const { scroller, frames, home } = track;
 			const scroll = scroller.scrollTop;
-			if (shadeEl) {
+			if (home && shade) {
 				const left = scroller.scrollHeight - scroller.clientHeight - scroll;
 				const t = 1 - left / (scroller.clientHeight * 1.2);
-				shadeEl.style.opacity = String(Math.min(Math.max(t, 0), 1));
+				shade.style.opacity = String(Math.min(Math.max(t, 0), 1));
 			}
-			const now = performance.now();
-			const dt = Math.max((now - lastTime) / 1000, 1 / 240);
-			const velocity = Math.max(Math.min((scroll - lastScroll) / dt, 6000), -6000);
-			scrollVelocity += (velocity - scrollVelocity) * Math.min(dt * 6, 1);
+			velocity = Math.max(Math.min((scroll - lastScroll) / dt, 6000), -6000);
 			lastScroll = scroll;
-			lastTime = now;
-			return {
-				...introState(poseAt(frames, scroll), intro),
-				spinRate: scrollVelocity * SCROLL_SPIN
-			};
+			target = poseAt(frames, scroll);
+		}
+		scrollVelocity += (velocity - scrollVelocity) * Math.min(dt * 6, 1);
+
+		const current = blend.from && blend.t < 1 ? mixPose(blend.from, target, blend.t) : target;
+		// Only a pose taken from a page is worth blending from, never the hidden placeholder.
+		if (track) lastPose = current;
+		return { ...introState(current, intro), spinRate: scrollVelocity * SCROLL_SPIN };
+	}
+
+	function settle() {
+		moonStage.settled = true;
+		window.dispatchEvent(new Event('moon:settled'));
+	}
+
+	// What the moon follows. Reruns on navigation, and when the home page hands over its container.
+	$effect(() => {
+		const home = mode === 'home';
+		const scroller = home ? moonStage.container : document.documentElement;
+		if (!scroller || prefersReducedMotion()) {
+			track = null;
+			return;
+		}
+		const build = home ? buildKeyframes : buildDetailKeyframes;
+		const next = { scroller, frames: build(scroller), home };
+
+		if (lastPose) {
+			blend.from = lastPose;
+			blend.t = 0;
+			gsap.to(blend, { t: 1, duration: HANDOFF, ease: 'power2.inOut', overwrite: true });
+		}
+		track = next;
+		lastScroll = scroller.scrollTop;
+
+		const relayout = () => (next.frames = build(scroller));
+		const observer = new ResizeObserver(relayout);
+		observer.observe(home ? (scroller.firstElementChild ?? scroller) : document.body);
+		window.addEventListener('resize', relayout);
+
+		return () => {
+			observer.disconnect();
+			window.removeEventListener('resize', relayout);
 		};
+	});
+
+	// The scene itself, created once. The intro only plays on the first page load.
+	$effect(() => {
+		if (!canvas || prefersReducedMotion()) return;
+		const canvasEl = canvas;
+		lastTime = performance.now();
 
 		let disposed = false;
 		let dispose = () => {};
 		let resizeScene = () => {};
-
-		const relayout = () => {
-			frames = build(scroller);
-			resizeScene();
-		};
-		const observer = new ResizeObserver(relayout);
-		observer.observe(home ? (scroller.firstElementChild ?? scroller) : document.body);
-		window.addEventListener('resize', relayout);
+		const onResize = () => resizeScene();
+		window.addEventListener('resize', onResize);
 
 		import('$lib/moon/scene')
 			.then(({ createMoonScene }) => createMoonScene(canvasEl, getState))
@@ -80,37 +123,30 @@
 				dispose = scene.dispose;
 				resizeScene = scene.resize;
 				live = true;
-				const k = home ? 1 : 0.5;
+				const k = mode === 'home' ? 1 : 0.5;
 				const sweep = 4.4 * k;
-				const settle = 0.4 + sweep;
-				const timeline = gsap
+				const settleAt = 0.4 + sweep;
+				gsap
 					.timeline()
 					.to(intro, { starAlpha: 1, duration: 1.6 * k, ease: 'power1.out' }, 0)
 					.to(intro, { light: 1, duration: 1 * k, ease: 'power1.in' }, 0.3)
 					.to(intro, { azimuth: 0, duration: sweep, ease: 'power2.inOut' }, 0.4)
 					.to(intro, { spin: 0, duration: sweep + 0.6, ease: 'power2.out' }, 0.4)
 					.to(intro, { scale: 1, duration: sweep + 0.6, ease: 'power3.out' }, 0.4)
-					.to(intro, { idle: 1, duration: 1.5, ease: 'power1.in' }, settle - 1)
-					.to(intro, { corona: 1, duration: 2.4, ease: 'expo.out' }, settle - 0.1)
-					.call(() => window.dispatchEvent(new Event('moon:settled')), [], settle - 1.2 * k);
-
-				// Returning from a project page skips straight to the finished scene.
-				if (home && introPlayed) {
-					timeline.progress(1);
-					window.dispatchEvent(new Event('moon:settled'));
-				}
-				if (home) introPlayed = true;
+					.to(intro, { idle: 1, duration: 1.5, ease: 'power1.in' }, settleAt - 1)
+					.to(intro, { corona: 1, duration: 2.4, ease: 'expo.out' }, settleAt - 0.1)
+					.call(settle, [], settleAt - 1.2 * k);
 			})
 			.catch(() => {
 				failed = true;
-				window.dispatchEvent(new Event('moon:settled'));
+				settle();
 			});
 
 		return () => {
 			disposed = true;
-			observer.disconnect();
-			window.removeEventListener('resize', relayout);
+			window.removeEventListener('resize', onResize);
 			gsap.killTweensOf(intro);
+			gsap.killTweensOf(blend);
 			dispose();
 		};
 	});
@@ -131,6 +167,6 @@
 		class:hidden={mode !== 'home'}
 		src="/moon/eclipse.webp"
 		alt=""
-		class={`absolute inset-0 h-full w-full object-cover motion-reduce:opacity-100 motion-reduce:lg:translate-x-1/5 motion-reduce:lg:[mask-image:linear-gradient(to_right,transparent,black_30%)] ${failed ? 'opacity-100' : 'opacity-0'}`}
+		class={`absolute inset-0 h-full w-full object-cover motion-reduce:opacity-100 motion-reduce:lg:translate-x-1/5 motion-reduce:lg:mask-[linear-gradient(to_right,transparent,black_30%)] ${failed ? 'opacity-100' : 'opacity-0'}`}
 	/>
 </div>

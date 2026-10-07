@@ -3,18 +3,24 @@
 	import About from '$lib/components/About.svelte';
 	import Contact from '$lib/components/Contact.svelte';
 	import LanguagePicker from '$lib/components/LanguagePicker.svelte';
-	import MoonCanvas from '$lib/components/MoonCanvas.svelte';
 	import Projects from '$lib/components/Projects.svelte';
 	import SectionNav from '$lib/components/SectionNav.svelte';
 	import { shine } from '$lib/actions/shine';
 	import { i18n } from '$lib/i18n.svelte';
 	import * as m from '$lib/paraglide/messages';
 	import { gsap, initScroll, prefersReducedMotion, scrollToTarget } from '$lib/motion/scroll';
+	import { moonStage } from '$lib/moon/stage.svelte';
 	import { onMount } from 'svelte';
 
 	let container = $state<HTMLElement>();
 	let content = $state<HTMLElement>();
 	let hero = $state<HTMLElement>();
+
+	// The layout's moon follows this container while the home page is mounted.
+	$effect(() => {
+		moonStage.container = container;
+		return () => (moonStage.container = undefined);
+	});
 
 	onMount(() => {
 		if (!container || !content || !hero) return;
@@ -26,6 +32,11 @@
 		const revealHero = () => {
 			if (revealed) return;
 			revealed = true;
+			// Coming back from a project the moon never left, so the hero is simply there.
+			if (moonStage.settled) {
+				ctx.add(() => gsap.set('.hero-item, .hero-late', { opacity: 1, y: 0, filter: 'none' }));
+				return;
+			}
 			ctx.add(() => {
 				gsap.to('.hero-item', {
 					opacity: 1,
@@ -48,7 +59,8 @@
 				scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
 			});
 		}, hero);
-		window.addEventListener('moon:settled', revealHero);
+		if (moonStage.settled) revealHero();
+		else window.addEventListener('moon:settled', revealHero);
 
 		return () => {
 			window.removeEventListener('moon:settled', revealHero);
@@ -147,8 +159,6 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <SectionNav />
-
-<MoonCanvas {container} />
 
 <div bind:this={container} class="scroll-container relative z-10 h-screen overflow-y-auto">
 	<div bind:this={content}>

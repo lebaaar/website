@@ -3,9 +3,9 @@
 	import { shine } from '$lib/actions/shine';
 	import type { Snippet } from 'svelte';
 	import ProjectGallery from '$lib/components/ProjectGallery.svelte';
-	import MoonCanvas from '$lib/components/MoonCanvas.svelte';
 	import { reveal } from '$lib/actions/reveal';
 	import { gsap, initScroll, prefersReducedMotion } from '$lib/motion/scroll';
+	import { moonStage } from '$lib/moon/stage.svelte';
 	import { onMount } from 'svelte';
 
 	interface Feature {
@@ -80,7 +80,8 @@
 				duration: 1,
 				ease: 'power3.out',
 				stagger: 0.08,
-				delay: 0.25
+				// Arriving from another page the moon is already up, so rise with its glide.
+				delay: moonStage.settled ? 0.1 : 0.25
 			});
 		}, root);
 
@@ -102,8 +103,6 @@
 	<meta name="twitter:title" content={`${title} | Lan Lebar`} />
 	<meta name="twitter:description" content={tagline} />
 </svelte:head>
-
-<MoonCanvas mode="detail" />
 
 <div class="relative z-10" bind:this={root}>
 	<div class="relative mx-auto w-full max-w-4xl px-6 pt-6 pb-12 sm:px-8 sm:pt-8 sm:pb-16">

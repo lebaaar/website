@@ -15,7 +15,7 @@ const smooth = (t: number) => t * t * (3 - 2 * t);
 const late = (t: number) => smooth(t * t);
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-const pose = (p: Partial<Pose> & Pick<Pose, 'x' | 'y' | 'r'>): Pose => ({
+export const pose = (p: Partial<Pose> & Pick<Pose, 'x' | 'y' | 'r'>): Pose => ({
 	phase: 0,
 	corona: 1,
 	light: 1,
