@@ -35,9 +35,9 @@ export function initScroll(wrapper?: HTMLElement, content?: HTMLElement) {
 	};
 }
 
-export function scrollToTarget(target: HTMLElement, instant = false) {
+export function scrollToTarget(target: HTMLElement, instant = false, duration = 1.4) {
 	if (lenis) {
-		lenis.scrollTo(target, { immediate: instant, duration: 1.4 });
+		lenis.scrollTo(target, { immediate: instant, duration });
 		return;
 	}
 	target.scrollIntoView({ behavior: instant ? 'instant' : 'smooth', block: 'start' });

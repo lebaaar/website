@@ -86,7 +86,7 @@
 		const el = document.getElementById(id);
 		if (!el) return;
 		active = id;
-		scrollToTarget(el);
+		scrollToTarget(el, false, 3);
 	}
 </script>
 
