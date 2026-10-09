@@ -7,6 +7,7 @@
 		mixPose,
 		pose,
 		poseAt,
+		sweepEase,
 		type Pose
 	} from '$lib/moon/choreo';
 	import type { MoonState } from '$lib/moon/scene';
@@ -208,18 +209,19 @@
 				stopDrags = listenForDrags();
 				live = true;
 				const k = mode === 'home' ? 1 : 0.5;
-				const sweep = 4.4 * k;
+				const sweep = 5 * k;
 				const settleAt = 0.4 + sweep;
 				gsap
 					.timeline()
 					.to(intro, { starAlpha: 1, duration: 1.6 * k, ease: 'power1.out' }, 0)
 					.to(intro, { light: 1, duration: 1 * k, ease: 'power1.in' }, 0.3)
-					.to(intro, { azimuth: 0, duration: sweep, ease: 'power2.inOut' }, 0.4)
+					.to(intro, { azimuth: 0, duration: sweep, ease: sweepEase }, 0.4)
 					.to(intro, { spin: 0, duration: sweep + 0.6, ease: 'power2.out' }, 0.4)
 					.to(intro, { scale: 1, duration: sweep + 0.6, ease: 'power3.out' }, 0.4)
 					.to(intro, { idle: 1, duration: 1.5, ease: 'power1.in' }, settleAt - 1)
-					.to(intro, { corona: 1, duration: 2.4, ease: 'expo.out' }, settleAt - 0.1)
-					.call(settle, [], settleAt - 1.2 * k);
+					.to(intro, { corona: 1, duration: 2.4, ease: 'power2.inOut' }, settleAt - 0.3)
+					// The hero reveals at its original time, before the longer swing has finished.
+					.call(settle, [], 0.4 + 3.2 * k);
 			})
 			.catch(() => {
 				failed = true;

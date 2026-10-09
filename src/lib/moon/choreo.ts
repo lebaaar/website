@@ -248,17 +248,24 @@ export const introStart = (): Intro => ({
 
 const clamp01 = (t: number) => Math.min(Math.max(t, 0), 1);
 
+// Eases the sun's swing: quick round the front, then a long slow-down so the crescent visibly
+// thins and wraps round the limb before the eclipse. Speed peaks a quarter of the way in.
+export const sweepEase = (p: number) => 1 - (1 - p) ** 4 * (1 + 4 * p);
+
 // The corona follows the sun's angle, not the clock, so it wraps in as the sun slips behind.
 export function introState(target: Pose, intro: Intro): MoonState {
 	// Must match the light angle in scene.ts.
 	const angle = lerp(0.42, Math.PI * 0.97, clamp01(target.phase)) + intro.azimuth;
 	const behind = smooth(clamp01((1.1 - angle) / (1.1 - 0.45)));
 	const settled = intro.corona;
+	// Lambert shading dims a grazing crescent before it thins, so the sun is pushed brighter as it
+	// slips behind, keeping a bright sliver that fades as the corona takes over.
+	const glare = 1 + 2.4 * behind * (1 - settled);
 	return {
 		...target,
 		wrap: Math.max(smooth(clamp01((1.2 - angle) / (1.2 - 0.42))), settled),
 		r: target.r * intro.scale,
-		light: target.light * intro.light,
+		light: target.light * intro.light * glare,
 		azimuth: intro.azimuth,
 		spin: target.spin + intro.spin,
 		corona: target.corona * Math.max(settled, behind * 0.55),

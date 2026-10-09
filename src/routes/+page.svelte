@@ -29,11 +29,13 @@
 
 		// Waits for the moon to land, with a timeout in case it never does.
 		let revealed = false;
+		// Read once: settle() flips the flag right before it fires the event this waits for.
+		const returning = moonStage.settled;
 		const revealHero = () => {
 			if (revealed) return;
 			revealed = true;
 			// Coming back from a project the moon never left, so the hero is simply there.
-			if (moonStage.settled) {
+			if (returning) {
 				ctx.add(() => gsap.set('.hero-item, .hero-late', { opacity: 1, y: 0, filter: 'none' }));
 				return;
 			}
@@ -59,7 +61,7 @@
 				scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true }
 			});
 		}, hero);
-		if (moonStage.settled) revealHero();
+		if (returning) revealHero();
 		else window.addEventListener('moon:settled', revealHero);
 
 		return () => {
