@@ -10,12 +10,12 @@
 	import periodTracker from '$lib/assets/period_tracker.webp';
 	import librelock from '$lib/assets/librelock.svg';
 	import cenko from '$lib/assets/cenko.png';
-	import globalShapers from '$lib/assets/globalshapers.png';
 	import kavarna from '$lib/assets/kavarna.webp';
 	import companies from '$lib/assets/companies.webp';
 	import undefinedIcon from '$lib/assets/undefined.webp';
 	import amadejvidner from '$lib/assets/amadejvidner.webp';
 	import ajdahozjan from '$lib/assets/ajdahozjan.webp';
+	// import globalShapers from '$lib/assets/globalshapers.png';
 	// import domainForSale from '$lib/assets/domain-for-sale.svg';
 
 	const TABS = ['featured', 'webapp', 'website', 'mobile'] as const;
@@ -166,15 +166,15 @@
 			radius: 'rounded-full',
 			iconImage: kavarna
 		},
-		{
-			title: 'Shapers Academy',
-			description: m.project_globalshapers_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			tabs: ['website'],
-			slug: 'shapers',
-			link: 'https://academy.globalshapers.si',
-			iconImage: globalShapers
-		}
+		// {
+		// 	title: 'Shapers Academy',
+		// 	description: m.project_globalshapers_desc(),
+		// 	technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
+		// 	tabs: ['website'],
+		// 	slug: 'shapers',
+		// 	link: 'https://academy.globalshapers.si',
+		// 	iconImage: globalShapers
+		// }
 		// {
 		// 	title: 'Domain for sale',
 		// 	description: m.project_domainforsale_desc(),
