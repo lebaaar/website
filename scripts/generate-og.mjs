@@ -16,6 +16,13 @@ const projects = [
 		icon: 'domacahrana.png',
 		bare: true
 	},
+	{
+		slug: 'hisamarinic',
+		title: 'Hiša Marinič',
+		desc: 'project_hisamarinic_desc',
+		icon: 'hisamarinic.png',
+		bare: true
+	},
 	{ slug: 'cenko', title: 'Cenko', desc: 'project_cenko_desc', icon: 'cenko.png', radius: '22%' },
 	{
 		slug: 'doomwalk',

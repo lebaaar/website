@@ -5,6 +5,7 @@
 	import { reveal } from '$lib/actions/reveal';
 	import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
 	import domacahrana from '$lib/assets/domacahrana.png';
+	import hisamarinic from '$lib/assets/hisamarinic.png';
 	import potegnime from '$lib/assets/potegnime.webp';
 	import doomwalk from '$lib/assets/doomwalk.webp';
 	import periodTracker from '$lib/assets/period_tracker.webp';
@@ -41,6 +42,8 @@
 	let indicator = $state({ x: 0, y: 0, width: 0, height: 0, ready: false });
 
 	const FILTER_KEY = 'projects-filter';
+	/** Scroll distance (px, beyond one viewport) over which the middle column drifts. */
+	const PARALLAX_DISTANCE = 1100;
 
 	function selectFilter(value: ProjectTab) {
 		activeFilter = value;
@@ -60,15 +63,6 @@
 
 	const projects: Project[] = [
 		{
-			title: 'Domača Hrana',
-			description: m.project_domacahrana_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			tabs: ['featured', 'webapp'],
-			slug: 'domacahrana',
-			link: 'https://domacahrana.si',
-			iconImage: domacahrana
-		},
-		{
 			title: 'LibreLock',
 			description: m.project_librelock_desc(),
 			technologies: ['Vue', 'Go', 'SQLite', 'Docker'],
@@ -78,7 +72,25 @@
 			iconImage: librelock
 		},
 		{
-			title: 'Amadej Vidner Portfolio',
+			title: 'Hiša Marinič',
+			description: m.project_hisamarinic_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare', 'Stripe'],
+			tabs: ['featured', 'webapp'],
+			slug: 'hisamarinic',
+			link: 'https://hisamarinic.si',
+			iconImage: hisamarinic
+		},
+		{
+			title: 'Domača Hrana',
+			description: m.project_domacahrana_desc(),
+			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
+			tabs: ['featured', 'webapp'],
+			slug: 'domacahrana',
+			link: 'https://domacahrana.si',
+			iconImage: domacahrana
+		},
+		{
+			title: 'Amadej Vidner',
 			description: m.project_amadejvidner_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
 			tabs: ['featured', 'website'],
@@ -97,16 +109,7 @@
 			iconImage: doomwalk
 		},
 		{
-			title: 'Cenko',
-			description: m.project_cenko_desc(),
-			technologies: ['Flutter', 'Supabase', 'Play Store'],
-			tabs: ['featured', 'mobile'],
-			slug: 'cenko',
-			link: 'https://cenko.app',
-			iconImage: cenko
-		},
-		{
-			title: 'Ajda Hozjan Portfolio',
+			title: 'Ajda Hozjan',
 			description: m.project_ajdahozjan_desc(),
 			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
 			tabs: ['featured', 'website'],
@@ -135,10 +138,19 @@
 			iconImage: undefinedIcon
 		},
 		{
+			title: 'Cenko',
+			description: m.project_cenko_desc(),
+			technologies: ['Flutter', 'Supabase', 'Play Store'],
+			tabs: ['featured', 'mobile'],
+			slug: 'cenko',
+			link: 'https://cenko.app',
+			iconImage: cenko
+		},
+		{
 			title: 'potegni.me',
 			description: m.project_potegnime_desc(),
 			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL'],
-			tabs: ['featured', 'webapp'],
+			tabs: ['webapp'],
 			slug: 'potegnime',
 			github: 'https://github.com/potegnime',
 			link: 'https://potegni.me',
@@ -165,7 +177,7 @@
 			link: 'https://torta-bo.si',
 			radius: 'rounded-full',
 			iconImage: kavarna
-		},
+		}
 		// {
 		// 	title: 'Shapers Academy',
 		// 	description: m.project_globalshapers_desc(),
@@ -280,10 +292,13 @@
 								{
 									y: -90,
 									ease: 'none',
+									// Fixed distance rather than 'bottom top': the list's height differs per tab, and
+									// tying the range to it would shift the column whenever the tab changes.
 									scrollTrigger: {
 										trigger: list,
 										start: 'top bottom',
-										end: 'bottom top',
+										end: () => `+=${window.innerHeight + PARALLAX_DISTANCE}`,
+										invalidateOnRefresh: true,
 										scrub: true
 									}
 								}
@@ -391,6 +406,7 @@
 
 						<p class="mb-6 flex-1 leading-7 text-zinc-300">{project.description}</p>
 
+						<!-- Tech stack pills, hidden for now
 						<div class="relative z-10 mb-5 flex flex-wrap gap-2">
 							{#each project.technologies as tech (tech)}
 								<span
@@ -401,6 +417,7 @@
 								</span>
 							{/each}
 						</div>
+						-->
 
 						<div class="@container relative z-10 mt-auto flex flex-nowrap gap-2">
 							{#if project.slug}
