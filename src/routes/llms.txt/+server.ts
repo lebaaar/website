@@ -17,8 +17,8 @@ function project(p: (typeof PROJECTS)[number]): string {
 	const links = [p.link && `[website](${p.link})`, p.github && `[source](${p.github})`]
 		.filter(Boolean)
 		.join(', ');
-	const tech = p.technologies.filter((t) => t !== 'Play Store').join(', ');
-	return `- **${p.title}**: ${p.description({}, en)} Built with ${tech}.${links ? ` Links: ${links}.` : ''}`;
+	const tech = (p.technologies ?? []).filter((t) => t !== 'Play Store').join(', ');
+	return `- **${p.title}**: ${p.description({}, en)}${tech ? ` Built with ${tech}.` : ''}${links ? ` Links: ${links}.` : ''}`;
 }
 
 export function GET() {
