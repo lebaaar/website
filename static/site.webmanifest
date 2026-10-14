@@ -1,6 +1,8 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "Lan Lebar",
+  "short_name": "Lan Lebar",
+  "description": "Full-stack software developer from Slovenia.",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

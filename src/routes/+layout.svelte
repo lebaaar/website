@@ -7,8 +7,9 @@
 
 	let { children } = $props();
 
+	// Only the home page is indexed. Project pages stay noindex but keep their link previews.
 	const isIndexable = $derived(page.url.pathname === '/');
-	const canonical = $derived(isIndexable ? SITE_URL : undefined);
+	const url = $derived(SITE_URL + page.url.pathname.replace(/\/$/, ''));
 
 	// One moon for the whole site, so it glides between pages instead of restarting on each.
 	const moonMode = $derived(
@@ -19,7 +20,7 @@
 				: undefined
 	);
 
-	const image = $derived(isIndexable ? ogImage(page.url.pathname) : undefined);
+	const image = $derived(ogImage(page.url.pathname));
 
 	$effect(() => {
 		document.documentElement.lang = i18n.locale;
@@ -28,15 +29,16 @@
 
 <svelte:head>
 	{#if isIndexable}
-		<link rel="canonical" href={canonical} />
-		<meta property="og:url" content={canonical} />
-		<meta property="og:image" content={image} />
-		<meta property="og:image:width" content="1200" />
-		<meta property="og:image:height" content="630" />
-		<meta name="twitter:image" content={image} />
+		<link rel="canonical" href={url} />
 	{:else}
 		<meta name="robots" content="noindex, nofollow" />
 	{/if}
+	<meta property="og:url" content={url} />
+	<meta property="og:image" content={image} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="Lan Lebar" />
+	<meta name="twitter:image" content={image} />
 </svelte:head>
 
 <div

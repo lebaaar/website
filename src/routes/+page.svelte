@@ -11,6 +11,7 @@
 	import { gsap, initScroll, prefersReducedMotion, scrollToTarget } from '$lib/motion/scroll';
 	import { moonStage } from '$lib/moon/stage.svelte';
 	import { onMount } from 'svelte';
+	import { EMAIL, PROFILES, SITE_DESCRIPTION, SITE_NAME, homeJsonLd } from '$lib/seo';
 
 	let container = $state<HTMLElement>();
 	let content = $state<HTMLElement>();
@@ -133,29 +134,21 @@
 		scrollToTarget(next);
 	}
 
-	const personSchema = {
-		'@context': 'https://schema.org',
-		'@type': 'Person',
-		name: 'Lan Lebar',
-		url: 'https://lan.si',
-		jobTitle: 'Software Developer',
-		image: 'https://lan.si/og-image.png',
-		sameAs: ['https://github.com/lebaaar', 'https://linkedin.com/in/lan-lebar']
-	};
+	const title = `${SITE_NAME} – Full-Stack Software Developer`;
 
 	const socialLinkClass =
 		'btn-shine inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-3.5 py-2.5 text-sm font-medium text-zinc-200 sm:px-5 sm:py-3 shadow-sm transition-colors hover:border-zinc-500 hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
 </script>
 
 <svelte:head>
-	<title>Lan Lebar</title>
-	<meta name="description" content="Lan Lebar - Software Developer" />
-	<meta property="og:title" content="Lan Lebar" />
-	<meta property="og:description" content="Lan Lebar - Software Developer" />
-	<meta name="twitter:title" content="Lan Lebar" />
-	<meta name="twitter:description" content="Lan Lebar - Software Developer" />
+	<title>{title}</title>
+	<meta name="description" content={SITE_DESCRIPTION} />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={SITE_DESCRIPTION} />
+	<meta name="twitter:title" content={title} />
+	<meta name="twitter:description" content={SITE_DESCRIPTION} />
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html `<script type="application/ld+json">${JSON.stringify(personSchema)}</` + `script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(homeJsonLd())}</` + `script>`}
 </svelte:head>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -197,7 +190,7 @@
 					<div class="hero-item flex flex-wrap gap-2 sm:gap-3" id="links-container">
 						<a
 							use:shine
-							href="https://github.com/lebaaar"
+							href={PROFILES.github}
 							target="_blank"
 							rel="noopener noreferrer"
 							class={socialLinkClass}
@@ -217,7 +210,7 @@
 						</a>
 						<a
 							use:shine
-							href="https://linkedin.com/in/lan-lebar"
+							href={PROFILES.linkedin}
 							target="_blank"
 							rel="noopener noreferrer"
 							class={socialLinkClass}
@@ -237,7 +230,7 @@
 						</a>
 						<a
 							use:shine
-							href="mailto:hello@lan.si"
+							href={`mailto:${EMAIL}`}
 							target="_blank"
 							rel="noopener noreferrer"
 							class={socialLinkClass}

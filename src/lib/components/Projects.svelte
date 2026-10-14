@@ -4,36 +4,7 @@
 	import { shine } from '$lib/actions/shine';
 	import { reveal } from '$lib/actions/reveal';
 	import { gsap, prefersReducedMotion } from '$lib/motion/scroll';
-	import domacahrana from '$lib/assets/domacahrana.png';
-	import hisamarinic from '$lib/assets/hisamarinic.png';
-	import potegnime from '$lib/assets/potegnime.webp';
-	import doomwalk from '$lib/assets/doomwalk.webp';
-	import periodTracker from '$lib/assets/period_tracker.webp';
-	import librelock from '$lib/assets/librelock.svg';
-	import cenko from '$lib/assets/cenko.png';
-	import kavarna from '$lib/assets/kavarna.webp';
-	import companies from '$lib/assets/companies.webp';
-	import undefinedIcon from '$lib/assets/undefined.webp';
-	import amadejvidner from '$lib/assets/amadejvidner.webp';
-	import ajdahozjan from '$lib/assets/ajdahozjan.webp';
-	// import globalShapers from '$lib/assets/globalshapers.png';
-	// import domainForSale from '$lib/assets/domain-for-sale.svg';
-
-	const TABS = ['featured', 'webapp', 'website', 'mobile'] as const;
-	type ProjectTab = (typeof TABS)[number];
-
-	interface Project {
-		title: string;
-		description: string;
-		technologies: string[];
-		/** Tabs this project is listed under; include 'featured' to show it on the default tab. */
-		tabs: ProjectTab[];
-		slug?: string;
-		link?: string;
-		github?: string;
-		radius?: string;
-		iconImage?: string;
-	}
+	import { PROJECTS as projects, TABS, type Project, type ProjectTab } from '$lib/projects';
 
 	let listEl = $state<HTMLElement>();
 	let activeFilter = $state<ProjectTab>('featured');
@@ -60,144 +31,6 @@
 			activeFilter = saved as ProjectTab;
 		}
 	});
-
-	const projects: Project[] = [
-		{
-			title: 'LibreLock',
-			description: m.project_librelock_desc(),
-			technologies: ['Vue', 'Go', 'SQLite', 'Docker'],
-			tabs: ['featured', 'webapp'],
-			slug: 'librelock',
-			github: 'https://github.com/LibreLock',
-			iconImage: librelock
-		},
-		{
-			title: 'Hiša Marinič',
-			description: m.project_hisamarinic_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare', 'Stripe'],
-			tabs: ['featured', 'webapp'],
-			slug: 'hisamarinic',
-			link: 'https://hisamarinic.si',
-			iconImage: hisamarinic
-		},
-		{
-			title: 'Domača Hrana',
-			description: m.project_domacahrana_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			tabs: ['featured', 'webapp'],
-			slug: 'domacahrana',
-			link: 'https://domacahrana.si',
-			iconImage: domacahrana
-		},
-		{
-			title: 'Amadej Vidner',
-			description: m.project_amadejvidner_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			tabs: ['featured', 'website'],
-			slug: 'amadejvidner',
-			link: 'https://amadejvidner.com',
-			radius: 'rounded-sm',
-			iconImage: amadejvidner
-		},
-		{
-			title: 'DoomWalk',
-			description: m.project_doomwalk_desc(),
-			technologies: ['Flutter', 'Kotlin', 'Play Store'],
-			tabs: ['featured', 'mobile'],
-			slug: 'doomwalk',
-			github: 'https://github.com/lebaaar/doomwalk',
-			iconImage: doomwalk
-		},
-		{
-			title: 'Ajda Hozjan',
-			description: m.project_ajdahozjan_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			tabs: ['featured', 'website'],
-			slug: 'ajdahozjan',
-			link: 'https://ajdahozjan.eu',
-			radius: 'rounded-sm',
-			iconImage: ajdahozjan
-		},
-		{
-			title: 'companies.si',
-			description: m.project_companies_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			tabs: ['featured', 'webapp'],
-			slug: 'companies',
-			link: 'https://companies.si',
-			radius: 'rounded-lg',
-			iconImage: companies
-		},
-		{
-			title: 'undefined',
-			description: m.project_undefined_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'three.js'],
-			tabs: ['featured', 'webapp'],
-			slug: 'undefined',
-			github: 'https://github.com/undefined-application',
-			iconImage: undefinedIcon
-		},
-		{
-			title: 'Cenko',
-			description: m.project_cenko_desc(),
-			technologies: ['Flutter', 'Supabase', 'Play Store'],
-			tabs: ['featured', 'mobile'],
-			slug: 'cenko',
-			link: 'https://cenko.app',
-			iconImage: cenko
-		},
-		{
-			title: 'potegni.me',
-			description: m.project_potegnime_desc(),
-			technologies: ['.NET', 'Angular', 'Express.js', 'PostgreSQL'],
-			tabs: ['webapp'],
-			slug: 'potegnime',
-			github: 'https://github.com/potegnime',
-			link: 'https://potegni.me',
-			iconImage: potegnime,
-			radius: 'rounded-full'
-		},
-		{
-			title: 'Period Tracker',
-			description: m.project_period_tracker_desc(),
-			technologies: ['Flutter', 'SQLite', 'Play Store'],
-			tabs: ['mobile'],
-			slug: 'periodtracker',
-			link: 'https://play.google.com/store/apps/details?id=com.lebaaar.period_tracker',
-			github: 'https://github.com/lebaaar/period_tracker',
-			iconImage: periodTracker,
-			radius: 'rounded-full'
-		},
-		{
-			title: 'Kavarna & Cukrarija',
-			description: m.project_kavarna_cukrarija_desc(),
-			technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-			tabs: ['website'],
-			slug: 'kavarna',
-			link: 'https://torta-bo.si',
-			radius: 'rounded-full',
-			iconImage: kavarna
-		}
-		// {
-		// 	title: 'Shapers Academy',
-		// 	description: m.project_globalshapers_desc(),
-		// 	technologies: ['SvelteKit', 'Tailwind CSS', 'Cloudflare'],
-		// 	tabs: ['website'],
-		// 	slug: 'shapers',
-		// 	link: 'https://academy.globalshapers.si',
-		// 	iconImage: globalShapers
-		// }
-		// {
-		// 	title: 'Domain for sale',
-		// 	description: m.project_domainforsale_desc(),
-		// 	technologies: ['SvelteKit', 'Tailwind CSS'],
-		// 	category: 'website',
-		// 	slug: 'domain-for-sale',
-		// 	github: 'https://github.com/lebaaar/domain-for-sale',
-		// 	link: 'https://ll.si',
-		// 	iconImage: domainForSale
-		// }
-	];
 
 	const filters: { value: ProjectTab; label: () => string; short?: () => string }[] = [
 		{ value: 'featured', label: m.projects_filter_featured },
@@ -404,7 +237,7 @@
 							</h3>
 						</div>
 
-						<p class="mb-6 flex-1 leading-7 text-zinc-300">{project.description}</p>
+						<p class="mb-6 flex-1 leading-7 text-zinc-300">{project.description()}</p>
 
 						<!-- Tech stack pills, hidden for now
 						<div class="relative z-10 mb-5 flex flex-wrap gap-2">
