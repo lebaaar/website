@@ -42,7 +42,7 @@
 </svelte:head>
 
 <div
-	class="relative min-h-screen overflow-x-hidden bg-zinc-950 font-sans text-zinc-100 antialiased"
+	class="relative min-h-screen overflow-x-clip bg-zinc-950 font-sans text-zinc-100 antialiased"
 >
 	{#if moonMode}
 		<MoonCanvas mode={moonMode} />
