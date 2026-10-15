@@ -4,6 +4,8 @@
 	import { i18n } from '$lib/i18n.svelte';
 	import { scrollToTarget } from '$lib/motion/scroll';
 
+	let { visible = true }: { visible?: boolean } = $props();
+
 	const items = $derived.by(() => {
 		void i18n.locale;
 		return [
@@ -92,7 +94,7 @@
 
 <nav
 	aria-label={m.nav_label()}
-	class={`section-nav fixed top-1/2 right-5 z-40 hidden -translate-y-1/2 flex-col items-stretch py-2 pl-2 lg:flex ${mounted ? 'opacity-100' : 'opacity-0'}`}
+	class={`section-nav fixed top-1/2 right-5 z-40 hidden -translate-y-1/2 flex-col items-stretch py-2 pl-2 lg:flex ${mounted && visible ? 'opacity-100' : 'opacity-0'}`}
 >
 	{#each items as item, i (item.id)}
 		{@const isActive = active === item.id}
@@ -127,7 +129,7 @@
 <style>
 	.section-nav {
 		--nav-ease: cubic-bezier(0.22, 1, 0.36, 1);
-		transition: opacity 700ms ease-out;
+		transition: opacity 1000ms cubic-bezier(0.5, 1, 0.89, 1);
 	}
 
 	.dot {

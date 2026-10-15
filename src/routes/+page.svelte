@@ -16,6 +16,8 @@
 	let container = $state<HTMLElement>();
 	let content = $state<HTMLElement>();
 	let hero = $state<HTMLElement>();
+	// The section nav appears together with the language picker.
+	let navVisible = $state(false);
 
 	// The layout's moon follows this container while the home page is mounted.
 	$effect(() => {
@@ -50,6 +52,7 @@
 					stagger: 0.12
 				});
 				gsap.to('.hero-late', { opacity: 1, duration: 1, ease: 'power2.out', delay: 1.4 });
+					gsap.delayedCall(1.4, () => (navVisible = true));
 			});
 		};
 
@@ -153,7 +156,7 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<SectionNav />
+<SectionNav visible={navVisible} />
 
 <div bind:this={container} class="scroll-container relative z-10 h-screen overflow-y-auto">
 	<div bind:this={content}>
