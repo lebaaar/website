@@ -134,7 +134,7 @@
 		scrollToTarget(next);
 	}
 
-	const title = `${SITE_NAME} – Full-Stack Software Developer`;
+	const title = SITE_NAME;
 
 	const socialLinkClass =
 		'btn-shine inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-3.5 py-2.5 text-sm font-medium text-zinc-200 sm:px-5 sm:py-3 shadow-sm transition-colors hover:border-zinc-500 hover:bg-zinc-800 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
